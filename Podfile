@@ -11,9 +11,4 @@ target 'MySocialApp' do
   pod 'RxBlocking', '~> 3.0.1'
   pod 'Alamofire', '~> 4.0.1'
 
-  target 'MySocialAppTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
