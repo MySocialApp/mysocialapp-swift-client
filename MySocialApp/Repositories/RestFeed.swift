@@ -3,8 +3,8 @@ import RxSwift
 
 class RestFeed: RestBase<Feed, Feed> {
     
-    func list(_ page: Int, forRider: User? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
-        var params: [String:AnyObject] = ["page": String(page) as AnyObject]
+    func list(_ page: Int, size: Int = 10, forRider: User? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
+        var params: [String:AnyObject] = ["page": String(page) as AnyObject, "size": String(size) as AnyObject]
         if let p = withParams {
             for k in p.keys {
                 params[k] = p[k]

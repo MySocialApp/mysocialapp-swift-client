@@ -16,7 +16,7 @@ Add social features to your existing app, automate actions, scrape contents, ana
 
 # What features are available?
 
-| Feature | Server side API | Java/Kotlin client API
+| Feature | Server side API | Swift client API
 | ------- | ----------- | -------------------------- |
 | Account management | :heavy_check_mark: | Partially
 | Feed | :heavy_check_mark: | Partially
@@ -25,12 +25,12 @@ Add social features to your existing app, automate actions, scrape contents, ana
 | Notification | :heavy_check_mark: | Soon
 | Private messaging | :heavy_check_mark: | Soon
 | Photo | :heavy_check_mark: | Soon
-| User | :heavy_check_mark: | :heavy_check_mark:
-| Friend | :heavy_check_mark: | :heavy_check_mark:
+| User | :hoeavy_check_mark: | Partially
+| Friend | :heavy_check_mark: | Partially
 | URL rewrite | :heavy_check_mark: | :heavy_check_mark:
 | URL preview | :heavy_check_mark: | :heavy_check_mark:
-| User mention | :heavy_check_mark: | :heavy_check_mark:
-| Hash tag| :heavy_check_mark: | :heavy_check_mark:
+| User mention | :heavy_check_mark: | Partially
+| Hash tag | :heavy_check_mark: | :heavy_check_mark:
 | Search | :heavy_check_mark: | Soon
 | Group [optional module] | :heavy_check_mark: | Partially
 | Event [optional module] | :heavy_check_mark: | Partially
