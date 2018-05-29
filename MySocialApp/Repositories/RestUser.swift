@@ -35,7 +35,7 @@ class RestUser: RestBase<User, User> {
     func listActive() -> Observable<JSONableArray<User>> {
         return super.list("/user/active")
     }
-
+    
     func noMoreFriend(_ rider: User) -> Observable<Bool> {
         if let id = rider.id {
             return super.delete("/user/\(id)/friend")
@@ -43,7 +43,7 @@ class RestUser: RestBase<User, User> {
             return super.boolEmpty()
         }
     }
-
+    
     func get(_ id: Int64) -> Observable<User> {
         return super.get("/user/\(id)")
     }

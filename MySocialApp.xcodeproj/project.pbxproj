@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D8D148120A98B6900AC9659 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148020A98B6800AC9659 /* Feed.swift */; };
-		0D8D148320A98B7B00AC9659 /* WallActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148220A98B7A00AC9659 /* WallActivity.swift */; };
-		0D8D148720A98DAD00AC9659 /* TextWallMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148620A98DAD00AC9659 /* TextWallMessage.swift */; };
-		0D8D148920A98DEA00AC9659 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148820A98DEA00AC9659 /* ActivityType.swift */; };
-		0D8D148B20A98E7100AC9659 /* BaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148A20A98E7000AC9659 /* BaseType.swift */; };
-		0D8D148D20A9B02D00AC9659 /* RestTextWallMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148C20A9B02D00AC9659 /* RestTextWallMessage.swift */; };
-		0D8D148F20A9B3D200AC9659 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8D148E20A9B3D200AC9659 /* FriendRequest.swift */; };
+		0D620D3820ACF15800165A43 /* FluentAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3720ACF15800165A43 /* FluentAccount.swift */; };
+		0D620D3A20ACF4C400165A43 /* FluentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3920ACF4C400165A43 /* FluentFeed.swift */; };
+		0D620D3C20AD529F00165A43 /* FluentFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3B20AD529F00165A43 /* FluentFriend.swift */; };
 		0D97D17620A57A6A008A82FF /* MySocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D97D16C20A57A6A008A82FF /* MySocialApp.framework */; };
 		0D97D17B20A57A6A008A82FF /* MySocialAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D17A20A57A6A008A82FF /* MySocialAppTests.swift */; };
 		0D97D17D20A57A6A008A82FF /* MySocialApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D97D16F20A57A6A008A82FF /* MySocialApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -22,45 +18,130 @@
 		0D97D18C20A57C4F008A82FF /* ConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D18B20A57C4F008A82FF /* ConnectionPool.swift */; };
 		0D97D18E20A57EF5008A82FF /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D18D20A57EF5008A82FF /* Configuration.swift */; };
 		0D97D19020A5813E008A82FF /* JSONable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D18F20A5813E008A82FF /* JSONable.swift */; };
-		0D97D19420A5827C008A82FF /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D19320A5827C008A82FF /* UserSettings.swift */; };
 		0D97D19620A58499008A82FF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D19520A58499008A82FF /* Session.swift */; };
-		0D97D19820A5853C008A82FF /* AuthenticationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D19720A5853C008A82FF /* AuthenticationToken.swift */; };
 		0DE867FA20A87D3E00CA9B9F /* ClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867F920A87D3E00CA9B9F /* ClientService.swift */; };
-		0DE8680720A884A000CA9B9F /* RestLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867FB20A8849F00CA9B9F /* RestLogin.swift */; };
-		0DE8680820A884A000CA9B9F /* RestFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867FC20A8849F00CA9B9F /* RestFriendRequest.swift */; };
-		0DE8680920A884A000CA9B9F /* RestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867FD20A8849F00CA9B9F /* RestAccount.swift */; };
-		0DE8680A20A884A000CA9B9F /* RestCommentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867FE20A8849F00CA9B9F /* RestCommentable.swift */; };
-		0DE8680C20A884A000CA9B9F /* RestLikeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680020A8849F00CA9B9F /* RestLikeable.swift */; };
-		0DE8680D20A884A000CA9B9F /* RestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680120A884A000CA9B9F /* RestBase.swift */; };
-		0DE8680E20A884A000CA9B9F /* RestPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680220A884A000CA9B9F /* RestPhoto.swift */; };
-		0DE8680F20A884A000CA9B9F /* RestReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680320A884A000CA9B9F /* RestReset.swift */; };
-		0DE8681020A884A000CA9B9F /* RestUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680420A884A000CA9B9F /* RestUser.swift */; };
-		0DE8681120A884A000CA9B9F /* RestFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680520A884A000CA9B9F /* RestFeed.swift */; };
-		0DE8681220A884A000CA9B9F /* RestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE8680620A884A000CA9B9F /* RestStatus.swift */; };
 		0DE86AD120A89DEB00CA9B9F /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */; };
 		0DE86AD320A8A10E00CA9B9F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD220A8A10E00CA9B9F /* DateUtils.swift */; };
-		0DE86AD520A8C72A00CA9B9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD420A8C72A00CA9B9F /* Login.swift */; };
-		0DE86AD720A8C74800CA9B9F /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD620A8C74800CA9B9F /* Base.swift */; };
-		0DE86AD920A8C9B500CA9B9F /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD820A8C9B500CA9B9F /* Reset.swift */; };
-		0DE86ADB20A8C9E000CA9B9F /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86ADA20A8C9E000CA9B9F /* Status.swift */; };
-		0DE86ADD20A8CA5600CA9B9F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86ADC20A8CA5600CA9B9F /* User.swift */; };
-		0DE86ADF20A8CAB100CA9B9F /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86ADE20A8CAB100CA9B9F /* Photo.swift */; };
-		0DE86AE320A8CAFE00CA9B9F /* TagEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AE020A8CAFE00CA9B9F /* TagEntity.swift */; };
-		0DE86AE420A8CAFE00CA9B9F /* TagEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AE120A8CAFE00CA9B9F /* TagEntities.swift */; };
-		0DE86AE520A8CAFE00CA9B9F /* Taggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AE220A8CAFE00CA9B9F /* Taggable.swift */; };
-		0DE86AE720A8CB2300CA9B9F /* URLTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AE620A8CB2300CA9B9F /* URLTag.swift */; };
-		0DE86AE920A8CBB600CA9B9F /* UserMentionTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AE820A8CBB600CA9B9F /* UserMentionTag.swift */; };
-		0DE86AEB20A8CBCA00CA9B9F /* HashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AEA20A8CBCA00CA9B9F /* HashTag.swift */; };
-		0DE86AED20A8CC7A00CA9B9F /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AEC20A8CC7A00CA9B9F /* EntityType.swift */; };
-		0DE86AEF20A8CCDC00CA9B9F /* AccessControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AEE20A8CCDC00CA9B9F /* AccessControl.swift */; };
-		0DE86AF120A8CD2300CA9B9F /* CommentBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AF020A8CD2300CA9B9F /* CommentBlob.swift */; };
-		0DE86AF320A8CD2A00CA9B9F /* LikeBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AF220A8CD2A00CA9B9F /* LikeBlob.swift */; };
-		0DE86AF520A8CD2F00CA9B9F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AF420A8CD2F00CA9B9F /* Comment.swift */; };
-		0DE86AF720A8CD3500CA9B9F /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AF620A8CD3500CA9B9F /* Like.swift */; };
-		0DE86AF920A8CD4D00CA9B9F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AF820A8CD4D00CA9B9F /* Location.swift */; };
-		0DE86AFB20A8CD7F00CA9B9F /* BaseLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AFA20A8CD7F00CA9B9F /* BaseLocation.swift */; };
 		0DE86AFD20A8CDC200CA9B9F /* LocationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AFC20A8CDC200CA9B9F /* LocationUtils.swift */; };
-		0DE86AFF20A8D51800CA9B9F /* UserStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AFE20A8D51800CA9B9F /* UserStat.swift */; };
+		0DEADF7820BCA96D00EDE0DC /* TextWallMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2A20BCA95200EDE0DC /* TextWallMessage.swift */; };
+		0DEADF7920BCA96D00EDE0DC /* TagEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2B20BCA95200EDE0DC /* TagEntities.swift */; };
+		0DEADF7A20BCA96D00EDE0DC /* UserDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2C20BCA95300EDE0DC /* UserDistance.swift */; };
+		0DEADF7B20BCA96D00EDE0DC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2D20BCA95300EDE0DC /* Location.swift */; };
+		0DEADF7C20BCA96D00EDE0DC /* RideShareRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2E20BCA95300EDE0DC /* RideShareRide.swift */; };
+		0DEADF7D20BCA96D00EDE0DC /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF2F20BCA95300EDE0DC /* FriendRequest.swift */; };
+		0DEADF7E20BCA96D00EDE0DC /* RideShareFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3020BCA95300EDE0DC /* RideShareFlag.swift */; };
+		0DEADF7F20BCA96D00EDE0DC /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3120BCA95300EDE0DC /* Photo.swift */; };
+		0DEADF8020BCA96D00EDE0DC /* RideShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3220BCA95400EDE0DC /* RideShareData.swift */; };
+		0DEADF8120BCA96D00EDE0DC /* HasCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */; };
+		0DEADF8220BCA96D00EDE0DC /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3420BCA95400EDE0DC /* Status.swift */; };
+		0DEADF8320BCA96D00EDE0DC /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3520BCA95400EDE0DC /* Gender.swift */; };
+		0DEADF8420BCA96D00EDE0DC /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3620BCA95400EDE0DC /* Group.swift */; };
+		0DEADF8520BCA96D00EDE0DC /* EventStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3720BCA95500EDE0DC /* EventStatus.swift */; };
+		0DEADF8620BCA96D00EDE0DC /* RideRoadType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3820BCA95500EDE0DC /* RideRoadType.swift */; };
+		0DEADF8720BCA96D00EDE0DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3920BCA95500EDE0DC /* Notification.swift */; };
+		0DEADF8820BCA96D00EDE0DC /* UserStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3A20BCA95600EDE0DC /* UserStat.swift */; };
+		0DEADF8920BCA96D00EDE0DC /* FieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3B20BCA95600EDE0DC /* FieldType.swift */; };
+		0DEADF8A20BCA96D00EDE0DC /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3C20BCA95600EDE0DC /* Device.swift */; };
+		0DEADF8B20BCA96D00EDE0DC /* MemberAccessControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3D20BCA95700EDE0DC /* MemberAccessControl.swift */; };
+		0DEADF8C20BCA96D00EDE0DC /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3E20BCA95700EDE0DC /* Field.swift */; };
+		0DEADF8D20BCA96D00EDE0DC /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3F20BCA95700EDE0DC /* Event.swift */; };
+		0DEADF8E20BCA96D00EDE0DC /* RideLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4020BCA95800EDE0DC /* RideLocation.swift */; };
+		0DEADF8F20BCA96D00EDE0DC /* RideLocationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4120BCA95800EDE0DC /* RideLocationType.swift */; };
+		0DEADF9020BCA96D00EDE0DC /* RideShareMeetSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4220BCA95800EDE0DC /* RideShareMeetSetting.swift */; };
+		0DEADF9120BCA96D00EDE0DC /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4320BCA95800EDE0DC /* Base.swift */; };
+		0DEADF9220BCA96D00EDE0DC /* HashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4420BCA95900EDE0DC /* HashTag.swift */; };
+		0DEADF9320BCA96D00EDE0DC /* HasRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4520BCA95900EDE0DC /* HasRide.swift */; };
+		0DEADF9420BCA96D00EDE0DC /* UserStatStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4620BCA95900EDE0DC /* UserStatStatus.swift */; };
+		0DEADF9520BCA96D00EDE0DC /* RideIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4720BCA95A00EDE0DC /* RideIdGenerator.swift */; };
+		0DEADF9620BCA96D00EDE0DC /* CustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4820BCA95A00EDE0DC /* CustomField.swift */; };
+		0DEADF9720BCA96D00EDE0DC /* LikeBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4920BCA95A00EDE0DC /* LikeBlob.swift */; };
+		0DEADF9820BCA96D00EDE0DC /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4A20BCA95B00EDE0DC /* ActivityType.swift */; };
+		0DEADF9920BCA96D00EDE0DC /* Taggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4B20BCA95B00EDE0DC /* Taggable.swift */; };
+		0DEADF9A20BCA96D00EDE0DC /* UserMentionTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4C20BCA95C00EDE0DC /* UserMentionTag.swift */; };
+		0DEADF9B20BCA96D00EDE0DC /* PhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4D20BCA95C00EDE0DC /* PhotoAlbum.swift */; };
+		0DEADF9C20BCA96D00EDE0DC /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4E20BCA95D00EDE0DC /* Login.swift */; };
+		0DEADF9D20BCA96D00EDE0DC /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF4F20BCA95D00EDE0DC /* Like.swift */; };
+		0DEADF9E20BCA96D00EDE0DC /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5020BCA95D00EDE0DC /* PointOfInterest.swift */; };
+		0DEADF9F20BCA96D00EDE0DC /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5120BCA95E00EDE0DC /* Track.swift */; };
+		0DEADFA020BCA96D00EDE0DC /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5220BCA95E00EDE0DC /* Feed.swift */; };
+		0DEADFA120BCA96D00EDE0DC /* PreviewPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5320BCA95F00EDE0DC /* PreviewPhotos.swift */; };
+		0DEADFA220BCA96D00EDE0DC /* AccessControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5420BCA95F00EDE0DC /* AccessControl.swift */; };
+		0DEADFA320BCA96D00EDE0DC /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5520BCA95F00EDE0DC /* Image.swift */; };
+		0DEADFA420BCA96D00EDE0DC /* Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5620BCA95F00EDE0DC /* Ride.swift */; };
+		0DEADFA520BCA96D00EDE0DC /* SimpleURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5720BCA96000EDE0DC /* SimpleURL.swift */; };
+		0DEADFA620BCA96D00EDE0DC /* NotificationAck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5820BCA96000EDE0DC /* NotificationAck.swift */; };
+		0DEADFA720BCA96D00EDE0DC /* HasRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5920BCA96000EDE0DC /* HasRate.swift */; };
+		0DEADFA820BCA96D00EDE0DC /* WallActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5A20BCA96100EDE0DC /* WallActivity.swift */; };
+		0DEADFA920BCA96D00EDE0DC /* RideShareFuzz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5B20BCA96100EDE0DC /* RideShareFuzz.swift */; };
+		0DEADFAA20BCA96D00EDE0DC /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5C20BCA96200EDE0DC /* Display.swift */; };
+		0DEADFAB20BCA96D00EDE0DC /* FieldData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5D20BCA96200EDE0DC /* FieldData.swift */; };
+		0DEADFAC20BCA96D00EDE0DC /* Motivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5E20BCA96200EDE0DC /* Motivate.swift */; };
+		0DEADFAD20BCA96D00EDE0DC /* GroupStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF5F20BCA96300EDE0DC /* GroupStatus.swift */; };
+		0DEADFAE20BCA96D00EDE0DC /* CommentBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6020BCA96400EDE0DC /* CommentBlob.swift */; };
+		0DEADFAF20BCA96D00EDE0DC /* URLTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6120BCA96400EDE0DC /* URLTag.swift */; };
+		0DEADFB020BCA96D00EDE0DC /* UserFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6220BCA96500EDE0DC /* UserFlag.swift */; };
+		0DEADFB120BCA96D00EDE0DC /* RideType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6320BCA96500EDE0DC /* RideType.swift */; };
+		0DEADFB220BCA96D00EDE0DC /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6420BCA96500EDE0DC /* Feature.swift */; };
+		0DEADFB320BCA96D00EDE0DC /* BaseLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6520BCA96600EDE0DC /* BaseLocation.swift */; };
+		0DEADFB420BCA96D00EDE0DC /* BaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6620BCA96600EDE0DC /* BaseType.swift */; };
+		0DEADFB520BCA96D00EDE0DC /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6720BCA96600EDE0DC /* Conversation.swift */; };
+		0DEADFB620BCA96D00EDE0DC /* PointOfInterestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6820BCA96700EDE0DC /* PointOfInterestReview.swift */; };
+		0DEADFB720BCA96D00EDE0DC /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6920BCA96700EDE0DC /* Reset.swift */; };
+		0DEADFB820BCA96D00EDE0DC /* RideShareMeet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6A20BCA96700EDE0DC /* RideShareMeet.swift */; };
+		0DEADFBA20BCA96D00EDE0DC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6C20BCA96900EDE0DC /* Comment.swift */; };
+		0DEADFBB20BCA96D00EDE0DC /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6D20BCA96900EDE0DC /* Member.swift */; };
+		0DEADFBC20BCA96D00EDE0DC /* ConversationMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6E20BCA96A00EDE0DC /* ConversationMessages.swift */; };
+		0DEADFBD20BCA96D00EDE0DC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF6F20BCA96A00EDE0DC /* User.swift */; };
+		0DEADFBE20BCA96D00EDE0DC /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7020BCA96A00EDE0DC /* Badge.swift */; };
+		0DEADFBF20BCA96D00EDE0DC /* ConversationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7120BCA96B00EDE0DC /* ConversationMessage.swift */; };
+		0DEADFC020BCA96D00EDE0DC /* AccountEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7220BCA96B00EDE0DC /* AccountEvent.swift */; };
+		0DEADFC120BCA96D00EDE0DC /* RideDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7320BCA96B00EDE0DC /* RideDirection.swift */; };
+		0DEADFC220BCA96D00EDE0DC /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7420BCA96C00EDE0DC /* EntityType.swift */; };
+		0DEADFC320BCA96D00EDE0DC /* PreviewNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7520BCA96C00EDE0DC /* PreviewNotification.swift */; };
+		0DEADFC420BCA96D00EDE0DC /* TagEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7620BCA96D00EDE0DC /* TagEntity.swift */; };
+		0DEADFC520BCA96D00EDE0DC /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF7720BCA96D00EDE0DC /* UserSettings.swift */; };
+		0DEAE0A120BCB2DA00EDE0DC /* RestCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07420BCB2D600EDE0DC /* RestCustomField.swift */; };
+		0DEAE0A220BCB2DA00EDE0DC /* RestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07520BCB2D600EDE0DC /* RestAccount.swift */; };
+		0DEAE0A320BCB2DA00EDE0DC /* RestHashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07620BCB2D600EDE0DC /* RestHashTag.swift */; };
+		0DEAE0A720BCB2DA00EDE0DC /* RestReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07A20BCB2D600EDE0DC /* RestReport.swift */; };
+		0DEAE0A820BCB2DA00EDE0DC /* RestGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07B20BCB2D600EDE0DC /* RestGroup.swift */; };
+		0DEAE0A920BCB2DA00EDE0DC /* RestRideShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07C20BCB2D600EDE0DC /* RestRideShareData.swift */; };
+		0DEAE0AB20BCB2DA00EDE0DC /* RestRideShareMeetSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE07E20BCB2D600EDE0DC /* RestRideShareMeetSetting.swift */; };
+		0DEAE0AD20BCB2DA00EDE0DC /* RestTextWallMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08020BCB2D700EDE0DC /* RestTextWallMessage.swift */; };
+		0DEAE0AE20BCB2DA00EDE0DC /* RestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08120BCB2D700EDE0DC /* RestStatus.swift */; };
+		0DEAE0AF20BCB2DA00EDE0DC /* RestPointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08220BCB2D700EDE0DC /* RestPointOfInterest.swift */; };
+		0DEAE0B020BCB2DA00EDE0DC /* RestUserDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08320BCB2D700EDE0DC /* RestUserDistance.swift */; };
+		0DEAE0B120BCB2DA00EDE0DC /* RestPublicRideDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08420BCB2D700EDE0DC /* RestPublicRideDirection.swift */; };
+		0DEAE0B220BCB2DA00EDE0DC /* RestConversationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08520BCB2D700EDE0DC /* RestConversationMessage.swift */; };
+		0DEAE0B320BCB2DA00EDE0DC /* RestNotificationAck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08620BCB2D700EDE0DC /* RestNotificationAck.swift */; };
+		0DEAE0B420BCB2DA00EDE0DC /* RestPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08720BCB2D700EDE0DC /* RestPhotoAlbum.swift */; };
+		0DEAE0B520BCB2DA00EDE0DC /* RestURLTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08820BCB2D700EDE0DC /* RestURLTag.swift */; };
+		0DEAE0B620BCB2DA00EDE0DC /* RestDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08920BCB2D700EDE0DC /* RestDevice.swift */; };
+		0DEAE0B720BCB2DA00EDE0DC /* RestPointOfInterestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08A20BCB2D800EDE0DC /* RestPointOfInterestReview.swift */; };
+		0DEAE0B920BCB2DA00EDE0DC /* RestPreviewNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08C20BCB2D800EDE0DC /* RestPreviewNotification.swift */; };
+		0DEAE0BA20BCB2DA00EDE0DC /* RestReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08D20BCB2D800EDE0DC /* RestReset.swift */; };
+		0DEAE0BB20BCB2DA00EDE0DC /* RestRiderStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08E20BCB2D800EDE0DC /* RestRiderStat.swift */; };
+		0DEAE0BC20BCB2DA00EDE0DC /* RestRideShareMeet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE08F20BCB2D800EDE0DC /* RestRideShareMeet.swift */; };
+		0DEAE0BD20BCB2DA00EDE0DC /* RestLikeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09020BCB2D800EDE0DC /* RestLikeable.swift */; };
+		0DEAE0BE20BCB2DA00EDE0DC /* RestFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09120BCB2D800EDE0DC /* RestFeed.swift */; };
+		0DEAE0BF20BCB2DA00EDE0DC /* RestPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09220BCB2D800EDE0DC /* RestPhoto.swift */; };
+		0DEAE0C020BCB2DA00EDE0DC /* RestDeviceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09320BCB2D800EDE0DC /* RestDeviceLocation.swift */; };
+		0DEAE0C120BCB2DA00EDE0DC /* RestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09420BCB2D900EDE0DC /* RestBase.swift */; };
+		0DEAE0C420BCB2DA00EDE0DC /* RestCommentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09720BCB2D900EDE0DC /* RestCommentable.swift */; };
+		0DEAE0C520BCB2DA00EDE0DC /* RestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09820BCB2D900EDE0DC /* RestEvent.swift */; };
+		0DEAE0C620BCB2DA00EDE0DC /* RestRideShareFuzz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09920BCB2D900EDE0DC /* RestRideShareFuzz.swift */; };
+		0DEAE0C720BCB2DA00EDE0DC /* RestConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09A20BCB2D900EDE0DC /* RestConversation.swift */; };
+		0DEAE0C820BCB2DA00EDE0DC /* RestLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09B20BCB2D900EDE0DC /* RestLogin.swift */; };
+		0DEAE0C920BCB2DA00EDE0DC /* RestRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09C20BCB2DA00EDE0DC /* RestRide.swift */; };
+		0DEAE0CA20BCB2DA00EDE0DC /* RestAccountEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09D20BCB2DA00EDE0DC /* RestAccountEvent.swift */; };
+		0DEAE0CB20BCB2DA00EDE0DC /* RestRideIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09E20BCB2DA00EDE0DC /* RestRideIdGenerator.swift */; };
+		0DEAE0CC20BCB2DA00EDE0DC /* RestRideLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE09F20BCB2DA00EDE0DC /* RestRideLocation.swift */; };
+		0DEAE0CD20BCB2DA00EDE0DC /* RestRideShareRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0A020BCB2DA00EDE0DC /* RestRideShareRide.swift */; };
+		0DEAE0D320BE03E700EDE0DC /* FluentConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D220BE03E700EDE0DC /* FluentConversation.swift */; };
+		0DEAE0D520BE04FD00EDE0DC /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D420BE04FD00EDE0DC /* ImageUtils.swift */; };
+		0DEAE0D720BE0CCC00EDE0DC /* RestFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */; };
+		0DEAE0D920BE0D0500EDE0DC /* RestUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */; };
+		0DEAE0DB20BE0D3700EDE0DC /* AuthenticationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */; };
 		3E64C393636547DEA26FAD98 /* Pods_MySocialAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE51C2EAB6FB55114C7FBC2 /* Pods_MySocialAppTests.framework */; };
 		6FED76B700670FE70CBD3C73 /* Pods_MySocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9A9FCFD0908E6DB3C69C19 /* Pods_MySocialApp.framework */; };
 /* End PBXBuildFile section */
@@ -76,13 +157,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D8D148020A98B6800AC9659 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		0D8D148220A98B7A00AC9659 /* WallActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallActivity.swift; sourceTree = "<group>"; };
-		0D8D148620A98DAD00AC9659 /* TextWallMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWallMessage.swift; sourceTree = "<group>"; };
-		0D8D148820A98DEA00AC9659 /* ActivityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
-		0D8D148A20A98E7000AC9659 /* BaseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseType.swift; sourceTree = "<group>"; };
-		0D8D148C20A9B02D00AC9659 /* RestTextWallMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestTextWallMessage.swift; sourceTree = "<group>"; };
-		0D8D148E20A9B3D200AC9659 /* FriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
+		0D620D3720ACF15800165A43 /* FluentAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentAccount.swift; sourceTree = "<group>"; };
+		0D620D3920ACF4C400165A43 /* FluentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentFeed.swift; sourceTree = "<group>"; };
+		0D620D3B20AD529F00165A43 /* FluentFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentFriend.swift; sourceTree = "<group>"; };
 		0D97D16C20A57A6A008A82FF /* MySocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MySocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D97D16F20A57A6A008A82FF /* MySocialApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySocialApp.h; sourceTree = "<group>"; };
 		0D97D17020A57A6A008A82FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,46 +171,131 @@
 		0D97D18B20A57C4F008A82FF /* ConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPool.swift; sourceTree = "<group>"; };
 		0D97D18D20A57EF5008A82FF /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		0D97D18F20A5813E008A82FF /* JSONable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONable.swift; sourceTree = "<group>"; };
-		0D97D19320A5827C008A82FF /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		0D97D19520A58499008A82FF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		0D97D19720A5853C008A82FF /* AuthenticationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationToken.swift; sourceTree = "<group>"; };
 		0D9A9FCFD0908E6DB3C69C19 /* Pods_MySocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DE867F920A87D3E00CA9B9F /* ClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientService.swift; sourceTree = "<group>"; };
-		0DE867FB20A8849F00CA9B9F /* RestLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestLogin.swift; sourceTree = "<group>"; };
-		0DE867FC20A8849F00CA9B9F /* RestFriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestFriendRequest.swift; sourceTree = "<group>"; };
-		0DE867FD20A8849F00CA9B9F /* RestAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAccount.swift; sourceTree = "<group>"; };
-		0DE867FE20A8849F00CA9B9F /* RestCommentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestCommentable.swift; sourceTree = "<group>"; };
-		0DE8680020A8849F00CA9B9F /* RestLikeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestLikeable.swift; sourceTree = "<group>"; };
-		0DE8680120A884A000CA9B9F /* RestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestBase.swift; sourceTree = "<group>"; };
-		0DE8680220A884A000CA9B9F /* RestPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPhoto.swift; sourceTree = "<group>"; };
-		0DE8680320A884A000CA9B9F /* RestReset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestReset.swift; sourceTree = "<group>"; };
-		0DE8680420A884A000CA9B9F /* RestUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestUser.swift; sourceTree = "<group>"; };
-		0DE8680520A884A000CA9B9F /* RestFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestFeed.swift; sourceTree = "<group>"; };
-		0DE8680620A884A000CA9B9F /* RestStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestStatus.swift; sourceTree = "<group>"; };
 		0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		0DE86AD220A8A10E00CA9B9F /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
-		0DE86AD420A8C72A00CA9B9F /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
-		0DE86AD620A8C74800CA9B9F /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
-		0DE86AD820A8C9B500CA9B9F /* Reset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
-		0DE86ADA20A8C9E000CA9B9F /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
-		0DE86ADC20A8CA5600CA9B9F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		0DE86ADE20A8CAB100CA9B9F /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		0DE86AE020A8CAFE00CA9B9F /* TagEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
-		0DE86AE120A8CAFE00CA9B9F /* TagEntities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagEntities.swift; sourceTree = "<group>"; };
-		0DE86AE220A8CAFE00CA9B9F /* Taggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Taggable.swift; sourceTree = "<group>"; };
-		0DE86AE620A8CB2300CA9B9F /* URLTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTag.swift; sourceTree = "<group>"; };
-		0DE86AE820A8CBB600CA9B9F /* UserMentionTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMentionTag.swift; sourceTree = "<group>"; };
-		0DE86AEA20A8CBCA00CA9B9F /* HashTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashTag.swift; sourceTree = "<group>"; };
-		0DE86AEC20A8CC7A00CA9B9F /* EntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
-		0DE86AEE20A8CCDC00CA9B9F /* AccessControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessControl.swift; sourceTree = "<group>"; };
-		0DE86AF020A8CD2300CA9B9F /* CommentBlob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentBlob.swift; sourceTree = "<group>"; };
-		0DE86AF220A8CD2A00CA9B9F /* LikeBlob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeBlob.swift; sourceTree = "<group>"; };
-		0DE86AF420A8CD2F00CA9B9F /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		0DE86AF620A8CD3500CA9B9F /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
-		0DE86AF820A8CD4D00CA9B9F /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		0DE86AFA20A8CD7F00CA9B9F /* BaseLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLocation.swift; sourceTree = "<group>"; };
 		0DE86AFC20A8CDC200CA9B9F /* LocationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUtils.swift; sourceTree = "<group>"; };
-		0DE86AFE20A8D51800CA9B9F /* UserStat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStat.swift; sourceTree = "<group>"; };
+		0DEADF2A20BCA95200EDE0DC /* TextWallMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWallMessage.swift; sourceTree = "<group>"; };
+		0DEADF2B20BCA95200EDE0DC /* TagEntities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagEntities.swift; sourceTree = "<group>"; };
+		0DEADF2C20BCA95300EDE0DC /* UserDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDistance.swift; sourceTree = "<group>"; };
+		0DEADF2D20BCA95300EDE0DC /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		0DEADF2E20BCA95300EDE0DC /* RideShareRide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareRide.swift; sourceTree = "<group>"; };
+		0DEADF2F20BCA95300EDE0DC /* FriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
+		0DEADF3020BCA95300EDE0DC /* RideShareFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareFlag.swift; sourceTree = "<group>"; };
+		0DEADF3120BCA95300EDE0DC /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		0DEADF3220BCA95400EDE0DC /* RideShareData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareData.swift; sourceTree = "<group>"; };
+		0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasCustomField.swift; sourceTree = "<group>"; };
+		0DEADF3420BCA95400EDE0DC /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		0DEADF3520BCA95400EDE0DC /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		0DEADF3620BCA95400EDE0DC /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		0DEADF3720BCA95500EDE0DC /* EventStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
+		0DEADF3820BCA95500EDE0DC /* RideRoadType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRoadType.swift; sourceTree = "<group>"; };
+		0DEADF3920BCA95500EDE0DC /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		0DEADF3A20BCA95600EDE0DC /* UserStat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStat.swift; sourceTree = "<group>"; };
+		0DEADF3B20BCA95600EDE0DC /* FieldType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldType.swift; sourceTree = "<group>"; };
+		0DEADF3C20BCA95600EDE0DC /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		0DEADF3D20BCA95700EDE0DC /* MemberAccessControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberAccessControl.swift; sourceTree = "<group>"; };
+		0DEADF3E20BCA95700EDE0DC /* Field.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		0DEADF3F20BCA95700EDE0DC /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		0DEADF4020BCA95800EDE0DC /* RideLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideLocation.swift; sourceTree = "<group>"; };
+		0DEADF4120BCA95800EDE0DC /* RideLocationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideLocationType.swift; sourceTree = "<group>"; };
+		0DEADF4220BCA95800EDE0DC /* RideShareMeetSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareMeetSetting.swift; sourceTree = "<group>"; };
+		0DEADF4320BCA95800EDE0DC /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
+		0DEADF4420BCA95900EDE0DC /* HashTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashTag.swift; sourceTree = "<group>"; };
+		0DEADF4520BCA95900EDE0DC /* HasRide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasRide.swift; sourceTree = "<group>"; };
+		0DEADF4620BCA95900EDE0DC /* UserStatStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStatStatus.swift; sourceTree = "<group>"; };
+		0DEADF4720BCA95A00EDE0DC /* RideIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideIdGenerator.swift; sourceTree = "<group>"; };
+		0DEADF4820BCA95A00EDE0DC /* CustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomField.swift; sourceTree = "<group>"; };
+		0DEADF4920BCA95A00EDE0DC /* LikeBlob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeBlob.swift; sourceTree = "<group>"; };
+		0DEADF4A20BCA95B00EDE0DC /* ActivityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
+		0DEADF4B20BCA95B00EDE0DC /* Taggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Taggable.swift; sourceTree = "<group>"; };
+		0DEADF4C20BCA95C00EDE0DC /* UserMentionTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMentionTag.swift; sourceTree = "<group>"; };
+		0DEADF4D20BCA95C00EDE0DC /* PhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbum.swift; sourceTree = "<group>"; };
+		0DEADF4E20BCA95D00EDE0DC /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		0DEADF4F20BCA95D00EDE0DC /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
+		0DEADF5020BCA95D00EDE0DC /* PointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterest.swift; sourceTree = "<group>"; };
+		0DEADF5120BCA95E00EDE0DC /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		0DEADF5220BCA95E00EDE0DC /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		0DEADF5320BCA95F00EDE0DC /* PreviewPhotos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewPhotos.swift; sourceTree = "<group>"; };
+		0DEADF5420BCA95F00EDE0DC /* AccessControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessControl.swift; sourceTree = "<group>"; };
+		0DEADF5520BCA95F00EDE0DC /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		0DEADF5620BCA95F00EDE0DC /* Ride.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ride.swift; sourceTree = "<group>"; };
+		0DEADF5720BCA96000EDE0DC /* SimpleURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleURL.swift; sourceTree = "<group>"; };
+		0DEADF5820BCA96000EDE0DC /* NotificationAck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationAck.swift; sourceTree = "<group>"; };
+		0DEADF5920BCA96000EDE0DC /* HasRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasRate.swift; sourceTree = "<group>"; };
+		0DEADF5A20BCA96100EDE0DC /* WallActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallActivity.swift; sourceTree = "<group>"; };
+		0DEADF5B20BCA96100EDE0DC /* RideShareFuzz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareFuzz.swift; sourceTree = "<group>"; };
+		0DEADF5C20BCA96200EDE0DC /* Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
+		0DEADF5D20BCA96200EDE0DC /* FieldData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldData.swift; sourceTree = "<group>"; };
+		0DEADF5E20BCA96200EDE0DC /* Motivate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motivate.swift; sourceTree = "<group>"; };
+		0DEADF5F20BCA96300EDE0DC /* GroupStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupStatus.swift; sourceTree = "<group>"; };
+		0DEADF6020BCA96400EDE0DC /* CommentBlob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentBlob.swift; sourceTree = "<group>"; };
+		0DEADF6120BCA96400EDE0DC /* URLTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTag.swift; sourceTree = "<group>"; };
+		0DEADF6220BCA96500EDE0DC /* UserFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFlag.swift; sourceTree = "<group>"; };
+		0DEADF6320BCA96500EDE0DC /* RideType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideType.swift; sourceTree = "<group>"; };
+		0DEADF6420BCA96500EDE0DC /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		0DEADF6520BCA96600EDE0DC /* BaseLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLocation.swift; sourceTree = "<group>"; };
+		0DEADF6620BCA96600EDE0DC /* BaseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseType.swift; sourceTree = "<group>"; };
+		0DEADF6720BCA96600EDE0DC /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		0DEADF6820BCA96700EDE0DC /* PointOfInterestReview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterestReview.swift; sourceTree = "<group>"; };
+		0DEADF6920BCA96700EDE0DC /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
+		0DEADF6A20BCA96700EDE0DC /* RideShareMeet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareMeet.swift; sourceTree = "<group>"; };
+		0DEADF6C20BCA96900EDE0DC /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		0DEADF6D20BCA96900EDE0DC /* Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		0DEADF6E20BCA96A00EDE0DC /* ConversationMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMessages.swift; sourceTree = "<group>"; };
+		0DEADF6F20BCA96A00EDE0DC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0DEADF7020BCA96A00EDE0DC /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		0DEADF7120BCA96B00EDE0DC /* ConversationMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMessage.swift; sourceTree = "<group>"; };
+		0DEADF7220BCA96B00EDE0DC /* AccountEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountEvent.swift; sourceTree = "<group>"; };
+		0DEADF7320BCA96B00EDE0DC /* RideDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDirection.swift; sourceTree = "<group>"; };
+		0DEADF7420BCA96C00EDE0DC /* EntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
+		0DEADF7520BCA96C00EDE0DC /* PreviewNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewNotification.swift; sourceTree = "<group>"; };
+		0DEADF7620BCA96D00EDE0DC /* TagEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
+		0DEADF7720BCA96D00EDE0DC /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		0DEAE07420BCB2D600EDE0DC /* RestCustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestCustomField.swift; sourceTree = "<group>"; };
+		0DEAE07520BCB2D600EDE0DC /* RestAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAccount.swift; sourceTree = "<group>"; };
+		0DEAE07620BCB2D600EDE0DC /* RestHashTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestHashTag.swift; sourceTree = "<group>"; };
+		0DEAE07A20BCB2D600EDE0DC /* RestReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestReport.swift; sourceTree = "<group>"; };
+		0DEAE07B20BCB2D600EDE0DC /* RestGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestGroup.swift; sourceTree = "<group>"; };
+		0DEAE07C20BCB2D600EDE0DC /* RestRideShareData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideShareData.swift; sourceTree = "<group>"; };
+		0DEAE07E20BCB2D600EDE0DC /* RestRideShareMeetSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideShareMeetSetting.swift; sourceTree = "<group>"; };
+		0DEAE08020BCB2D700EDE0DC /* RestTextWallMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestTextWallMessage.swift; sourceTree = "<group>"; };
+		0DEAE08120BCB2D700EDE0DC /* RestStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestStatus.swift; sourceTree = "<group>"; };
+		0DEAE08220BCB2D700EDE0DC /* RestPointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPointOfInterest.swift; sourceTree = "<group>"; };
+		0DEAE08320BCB2D700EDE0DC /* RestUserDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestUserDistance.swift; sourceTree = "<group>"; };
+		0DEAE08420BCB2D700EDE0DC /* RestPublicRideDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPublicRideDirection.swift; sourceTree = "<group>"; };
+		0DEAE08520BCB2D700EDE0DC /* RestConversationMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestConversationMessage.swift; sourceTree = "<group>"; };
+		0DEAE08620BCB2D700EDE0DC /* RestNotificationAck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestNotificationAck.swift; sourceTree = "<group>"; };
+		0DEAE08720BCB2D700EDE0DC /* RestPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPhotoAlbum.swift; sourceTree = "<group>"; };
+		0DEAE08820BCB2D700EDE0DC /* RestURLTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestURLTag.swift; sourceTree = "<group>"; };
+		0DEAE08920BCB2D700EDE0DC /* RestDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestDevice.swift; sourceTree = "<group>"; };
+		0DEAE08A20BCB2D800EDE0DC /* RestPointOfInterestReview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPointOfInterestReview.swift; sourceTree = "<group>"; };
+		0DEAE08C20BCB2D800EDE0DC /* RestPreviewNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPreviewNotification.swift; sourceTree = "<group>"; };
+		0DEAE08D20BCB2D800EDE0DC /* RestReset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestReset.swift; sourceTree = "<group>"; };
+		0DEAE08E20BCB2D800EDE0DC /* RestRiderStat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRiderStat.swift; sourceTree = "<group>"; };
+		0DEAE08F20BCB2D800EDE0DC /* RestRideShareMeet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideShareMeet.swift; sourceTree = "<group>"; };
+		0DEAE09020BCB2D800EDE0DC /* RestLikeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestLikeable.swift; sourceTree = "<group>"; };
+		0DEAE09120BCB2D800EDE0DC /* RestFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestFeed.swift; sourceTree = "<group>"; };
+		0DEAE09220BCB2D800EDE0DC /* RestPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestPhoto.swift; sourceTree = "<group>"; };
+		0DEAE09320BCB2D800EDE0DC /* RestDeviceLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestDeviceLocation.swift; sourceTree = "<group>"; };
+		0DEAE09420BCB2D900EDE0DC /* RestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestBase.swift; sourceTree = "<group>"; };
+		0DEAE09720BCB2D900EDE0DC /* RestCommentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestCommentable.swift; sourceTree = "<group>"; };
+		0DEAE09820BCB2D900EDE0DC /* RestEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestEvent.swift; sourceTree = "<group>"; };
+		0DEAE09920BCB2D900EDE0DC /* RestRideShareFuzz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideShareFuzz.swift; sourceTree = "<group>"; };
+		0DEAE09A20BCB2D900EDE0DC /* RestConversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestConversation.swift; sourceTree = "<group>"; };
+		0DEAE09B20BCB2D900EDE0DC /* RestLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestLogin.swift; sourceTree = "<group>"; };
+		0DEAE09C20BCB2DA00EDE0DC /* RestRide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRide.swift; sourceTree = "<group>"; };
+		0DEAE09D20BCB2DA00EDE0DC /* RestAccountEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAccountEvent.swift; sourceTree = "<group>"; };
+		0DEAE09E20BCB2DA00EDE0DC /* RestRideIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideIdGenerator.swift; sourceTree = "<group>"; };
+		0DEAE09F20BCB2DA00EDE0DC /* RestRideLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideLocation.swift; sourceTree = "<group>"; };
+		0DEAE0A020BCB2DA00EDE0DC /* RestRideShareRide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRideShareRide.swift; sourceTree = "<group>"; };
+		0DEAE0D220BE03E700EDE0DC /* FluentConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentConversation.swift; sourceTree = "<group>"; };
+		0DEAE0D420BE04FD00EDE0DC /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
+		0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestFriendRequest.swift; sourceTree = "<group>"; };
+		0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUser.swift; sourceTree = "<group>"; };
+		0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationToken.swift; sourceTree = "<group>"; };
 		2613CB9AF6D5CC4DC9524CAD /* Pods-MySocialAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81E338D563EB786089658685 /* Pods-MySocialApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9F8DDAE25C765459E154BC9F /* Pods-MySocialApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +327,10 @@
 		0D14521320A58915004D136B /* Fluent */ = {
 			isa = PBXGroup;
 			children = (
+				0D620D3720ACF15800165A43 /* FluentAccount.swift */,
+				0DEAE0D220BE03E700EDE0DC /* FluentConversation.swift */,
+				0D620D3920ACF4C400165A43 /* FluentFeed.swift */,
+				0D620D3B20AD529F00165A43 /* FluentFriend.swift */,
 			);
 			path = Fluent;
 			sourceTree = "<group>";
@@ -228,9 +394,10 @@
 		0D97D19120A58217008A82FF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */,
 				0DE86AD220A8A10E00CA9B9F /* DateUtils.swift */,
+				0DEAE0D420BE04FD00EDE0DC /* ImageUtils.swift */,
 				0DE86AFC20A8CDC200CA9B9F /* LocationUtils.swift */,
+				0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -238,36 +405,85 @@
 		0D97D19220A58260008A82FF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0DE86AE120A8CAFE00CA9B9F /* TagEntities.swift */,
-				0DE86AE020A8CAFE00CA9B9F /* TagEntity.swift */,
-				0DE86AE220A8CAFE00CA9B9F /* Taggable.swift */,
-				0DE86AE620A8CB2300CA9B9F /* URLTag.swift */,
-				0DE86AE820A8CBB600CA9B9F /* UserMentionTag.swift */,
-				0DE86AEA20A8CBCA00CA9B9F /* HashTag.swift */,
-				0DE86AEC20A8CC7A00CA9B9F /* EntityType.swift */,
-				0DE86AEE20A8CCDC00CA9B9F /* AccessControl.swift */,
-				0DE86AF820A8CD4D00CA9B9F /* Location.swift */,
-				0DE86AFA20A8CD7F00CA9B9F /* BaseLocation.swift */,
-				0DE86AF020A8CD2300CA9B9F /* CommentBlob.swift */,
-				0DE86AF420A8CD2F00CA9B9F /* Comment.swift */,
-				0DE86AF220A8CD2A00CA9B9F /* LikeBlob.swift */,
-				0DE86AF620A8CD3500CA9B9F /* Like.swift */,
-				0D8D148E20A9B3D200AC9659 /* FriendRequest.swift */,
+				0DEADF5420BCA95F00EDE0DC /* AccessControl.swift */,
+				0DEADF7220BCA96B00EDE0DC /* AccountEvent.swift */,
+				0DEADF4A20BCA95B00EDE0DC /* ActivityType.swift */,
+				0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */,
+				0DEADF7020BCA96A00EDE0DC /* Badge.swift */,
+				0DEADF4320BCA95800EDE0DC /* Base.swift */,
+				0DEADF6520BCA96600EDE0DC /* BaseLocation.swift */,
+				0DEADF6620BCA96600EDE0DC /* BaseType.swift */,
+				0DEADF6C20BCA96900EDE0DC /* Comment.swift */,
+				0DEADF6020BCA96400EDE0DC /* CommentBlob.swift */,
+				0DEADF6720BCA96600EDE0DC /* Conversation.swift */,
+				0DEADF7120BCA96B00EDE0DC /* ConversationMessage.swift */,
+				0DEADF6E20BCA96A00EDE0DC /* ConversationMessages.swift */,
+				0DEADF4820BCA95A00EDE0DC /* CustomField.swift */,
+				0DEADF3C20BCA95600EDE0DC /* Device.swift */,
+				0DEADF5C20BCA96200EDE0DC /* Display.swift */,
+				0DEADF7420BCA96C00EDE0DC /* EntityType.swift */,
+				0DEADF3F20BCA95700EDE0DC /* Event.swift */,
+				0DEADF3720BCA95500EDE0DC /* EventStatus.swift */,
+				0DEADF6420BCA96500EDE0DC /* Feature.swift */,
+				0DEADF5220BCA95E00EDE0DC /* Feed.swift */,
+				0DEADF3E20BCA95700EDE0DC /* Field.swift */,
+				0DEADF5D20BCA96200EDE0DC /* FieldData.swift */,
+				0DEADF3B20BCA95600EDE0DC /* FieldType.swift */,
+				0DEADF2F20BCA95300EDE0DC /* FriendRequest.swift */,
+				0DEADF3520BCA95400EDE0DC /* Gender.swift */,
+				0DEADF3620BCA95400EDE0DC /* Group.swift */,
+				0DEADF5F20BCA96300EDE0DC /* GroupStatus.swift */,
+				0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */,
+				0DEADF4420BCA95900EDE0DC /* HashTag.swift */,
+				0DEADF5920BCA96000EDE0DC /* HasRate.swift */,
+				0DEADF4520BCA95900EDE0DC /* HasRide.swift */,
+				0DEADF5520BCA95F00EDE0DC /* Image.swift */,
+				0DEADF4F20BCA95D00EDE0DC /* Like.swift */,
+				0DEADF4920BCA95A00EDE0DC /* LikeBlob.swift */,
+				0DEADF2D20BCA95300EDE0DC /* Location.swift */,
+				0DEADF4E20BCA95D00EDE0DC /* Login.swift */,
+				0DEADF6D20BCA96900EDE0DC /* Member.swift */,
+				0DEADF3D20BCA95700EDE0DC /* MemberAccessControl.swift */,
+				0DEADF5E20BCA96200EDE0DC /* Motivate.swift */,
+				0DEADF3920BCA95500EDE0DC /* Notification.swift */,
+				0DEADF5820BCA96000EDE0DC /* NotificationAck.swift */,
+				0DEADF3120BCA95300EDE0DC /* Photo.swift */,
+				0DEADF4D20BCA95C00EDE0DC /* PhotoAlbum.swift */,
+				0DEADF5020BCA95D00EDE0DC /* PointOfInterest.swift */,
+				0DEADF6820BCA96700EDE0DC /* PointOfInterestReview.swift */,
+				0DEADF7520BCA96C00EDE0DC /* PreviewNotification.swift */,
+				0DEADF5320BCA95F00EDE0DC /* PreviewPhotos.swift */,
+				0DEADF6920BCA96700EDE0DC /* Reset.swift */,
+				0DEADF5620BCA95F00EDE0DC /* Ride.swift */,
+				0DEADF7320BCA96B00EDE0DC /* RideDirection.swift */,
+				0DEADF4720BCA95A00EDE0DC /* RideIdGenerator.swift */,
+				0DEADF4020BCA95800EDE0DC /* RideLocation.swift */,
+				0DEADF4120BCA95800EDE0DC /* RideLocationType.swift */,
+				0DEADF3820BCA95500EDE0DC /* RideRoadType.swift */,
+				0DEADF3220BCA95400EDE0DC /* RideShareData.swift */,
+				0DEADF3020BCA95300EDE0DC /* RideShareFlag.swift */,
+				0DEADF5B20BCA96100EDE0DC /* RideShareFuzz.swift */,
+				0DEADF6A20BCA96700EDE0DC /* RideShareMeet.swift */,
+				0DEADF4220BCA95800EDE0DC /* RideShareMeetSetting.swift */,
+				0DEADF2E20BCA95300EDE0DC /* RideShareRide.swift */,
+				0DEADF6320BCA96500EDE0DC /* RideType.swift */,
+				0DEADF5720BCA96000EDE0DC /* SimpleURL.swift */,
+				0DEADF3420BCA95400EDE0DC /* Status.swift */,
+				0DEADF2B20BCA95200EDE0DC /* TagEntities.swift */,
+				0DEADF7620BCA96D00EDE0DC /* TagEntity.swift */,
+				0DEADF4B20BCA95B00EDE0DC /* Taggable.swift */,
+				0DEADF2A20BCA95200EDE0DC /* TextWallMessage.swift */,
+				0DEADF5120BCA95E00EDE0DC /* Track.swift */,
+				0DEADF6120BCA96400EDE0DC /* URLTag.swift */,
+				0DEADF6F20BCA96A00EDE0DC /* User.swift */,
+				0DEADF2C20BCA95300EDE0DC /* UserDistance.swift */,
+				0DEADF6220BCA96500EDE0DC /* UserFlag.swift */,
+				0DEADF4C20BCA95C00EDE0DC /* UserMentionTag.swift */,
+				0DEADF7720BCA96D00EDE0DC /* UserSettings.swift */,
+				0DEADF3A20BCA95600EDE0DC /* UserStat.swift */,
+				0DEADF4620BCA95900EDE0DC /* UserStatStatus.swift */,
+				0DEADF5A20BCA96100EDE0DC /* WallActivity.swift */,
 				0D14521320A58915004D136B /* Fluent */,
-				0D97D19320A5827C008A82FF /* UserSettings.swift */,
-				0D97D19720A5853C008A82FF /* AuthenticationToken.swift */,
-				0DE86AD420A8C72A00CA9B9F /* Login.swift */,
-				0DE86AD620A8C74800CA9B9F /* Base.swift */,
-				0D8D148A20A98E7000AC9659 /* BaseType.swift */,
-				0DE86AD820A8C9B500CA9B9F /* Reset.swift */,
-				0DE86ADA20A8C9E000CA9B9F /* Status.swift */,
-				0DE86ADC20A8CA5600CA9B9F /* User.swift */,
-				0DE86AFE20A8D51800CA9B9F /* UserStat.swift */,
-				0DE86ADE20A8CAB100CA9B9F /* Photo.swift */,
-				0D8D148020A98B6800AC9659 /* Feed.swift */,
-				0D8D148220A98B7A00AC9659 /* WallActivity.swift */,
-				0D8D148620A98DAD00AC9659 /* TextWallMessage.swift */,
-				0D8D148820A98DEA00AC9659 /* ActivityType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -275,18 +491,45 @@
 		0DE867F820A87A3300CA9B9F /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				0DE867FD20A8849F00CA9B9F /* RestAccount.swift */,
-				0DE8680120A884A000CA9B9F /* RestBase.swift */,
-				0DE867FE20A8849F00CA9B9F /* RestCommentable.swift */,
-				0DE8680520A884A000CA9B9F /* RestFeed.swift */,
-				0DE867FC20A8849F00CA9B9F /* RestFriendRequest.swift */,
-				0DE8680020A8849F00CA9B9F /* RestLikeable.swift */,
-				0DE867FB20A8849F00CA9B9F /* RestLogin.swift */,
-				0DE8680220A884A000CA9B9F /* RestPhoto.swift */,
-				0DE8680320A884A000CA9B9F /* RestReset.swift */,
-				0DE8680420A884A000CA9B9F /* RestUser.swift */,
-				0DE8680620A884A000CA9B9F /* RestStatus.swift */,
-				0D8D148C20A9B02D00AC9659 /* RestTextWallMessage.swift */,
+				0DEAE07520BCB2D600EDE0DC /* RestAccount.swift */,
+				0DEAE09D20BCB2DA00EDE0DC /* RestAccountEvent.swift */,
+				0DEAE09420BCB2D900EDE0DC /* RestBase.swift */,
+				0DEAE09720BCB2D900EDE0DC /* RestCommentable.swift */,
+				0DEAE09A20BCB2D900EDE0DC /* RestConversation.swift */,
+				0DEAE08520BCB2D700EDE0DC /* RestConversationMessage.swift */,
+				0DEAE07420BCB2D600EDE0DC /* RestCustomField.swift */,
+				0DEAE08920BCB2D700EDE0DC /* RestDevice.swift */,
+				0DEAE09320BCB2D800EDE0DC /* RestDeviceLocation.swift */,
+				0DEAE09820BCB2D900EDE0DC /* RestEvent.swift */,
+				0DEAE09120BCB2D800EDE0DC /* RestFeed.swift */,
+				0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */,
+				0DEAE07B20BCB2D600EDE0DC /* RestGroup.swift */,
+				0DEAE07620BCB2D600EDE0DC /* RestHashTag.swift */,
+				0DEAE09020BCB2D800EDE0DC /* RestLikeable.swift */,
+				0DEAE09B20BCB2D900EDE0DC /* RestLogin.swift */,
+				0DEAE08620BCB2D700EDE0DC /* RestNotificationAck.swift */,
+				0DEAE09220BCB2D800EDE0DC /* RestPhoto.swift */,
+				0DEAE08720BCB2D700EDE0DC /* RestPhotoAlbum.swift */,
+				0DEAE08220BCB2D700EDE0DC /* RestPointOfInterest.swift */,
+				0DEAE08A20BCB2D800EDE0DC /* RestPointOfInterestReview.swift */,
+				0DEAE08C20BCB2D800EDE0DC /* RestPreviewNotification.swift */,
+				0DEAE08420BCB2D700EDE0DC /* RestPublicRideDirection.swift */,
+				0DEAE07A20BCB2D600EDE0DC /* RestReport.swift */,
+				0DEAE08D20BCB2D800EDE0DC /* RestReset.swift */,
+				0DEAE09C20BCB2DA00EDE0DC /* RestRide.swift */,
+				0DEAE09E20BCB2DA00EDE0DC /* RestRideIdGenerator.swift */,
+				0DEAE09F20BCB2DA00EDE0DC /* RestRideLocation.swift */,
+				0DEAE08E20BCB2D800EDE0DC /* RestRiderStat.swift */,
+				0DEAE07C20BCB2D600EDE0DC /* RestRideShareData.swift */,
+				0DEAE09920BCB2D900EDE0DC /* RestRideShareFuzz.swift */,
+				0DEAE08F20BCB2D800EDE0DC /* RestRideShareMeet.swift */,
+				0DEAE07E20BCB2D600EDE0DC /* RestRideShareMeetSetting.swift */,
+				0DEAE0A020BCB2DA00EDE0DC /* RestRideShareRide.swift */,
+				0DEAE08120BCB2D700EDE0DC /* RestStatus.swift */,
+				0DEAE08020BCB2D700EDE0DC /* RestTextWallMessage.swift */,
+				0DEAE08820BCB2D700EDE0DC /* RestURLTag.swift */,
+				0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */,
+				0DEAE08320BCB2D700EDE0DC /* RestUserDistance.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -486,57 +729,138 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D8D148B20A98E7100AC9659 /* BaseType.swift in Sources */,
-				0DE86AE520A8CAFE00CA9B9F /* Taggable.swift in Sources */,
-				0D8D148120A98B6900AC9659 /* Feed.swift in Sources */,
-				0DE86ADF20A8CAB100CA9B9F /* Photo.swift in Sources */,
-				0DE86AD720A8C74800CA9B9F /* Base.swift in Sources */,
-				0DE86AF320A8CD2A00CA9B9F /* LikeBlob.swift in Sources */,
-				0DE86AE320A8CAFE00CA9B9F /* TagEntity.swift in Sources */,
 				0D97D19620A58499008A82FF /* Session.swift in Sources */,
-				0D8D148D20A9B02D00AC9659 /* RestTextWallMessage.swift in Sources */,
+				0DEAE0AE20BCB2DA00EDE0DC /* RestStatus.swift in Sources */,
+				0DEADF7920BCA96D00EDE0DC /* TagEntities.swift in Sources */,
+				0DEADF9C20BCA96D00EDE0DC /* Login.swift in Sources */,
 				0DE86AFD20A8CDC200CA9B9F /* LocationUtils.swift in Sources */,
-				0DE8681220A884A000CA9B9F /* RestStatus.swift in Sources */,
-				0DE8680F20A884A000CA9B9F /* RestReset.swift in Sources */,
+				0DEADF7820BCA96D00EDE0DC /* TextWallMessage.swift in Sources */,
+				0DEADF7B20BCA96D00EDE0DC /* Location.swift in Sources */,
+				0DEAE0AF20BCB2DA00EDE0DC /* RestPointOfInterest.swift in Sources */,
+				0DEAE0C520BCB2DA00EDE0DC /* RestEvent.swift in Sources */,
+				0DEADF7A20BCA96D00EDE0DC /* UserDistance.swift in Sources */,
+				0DEADF8920BCA96D00EDE0DC /* FieldType.swift in Sources */,
+				0DEADF9420BCA96D00EDE0DC /* UserStatStatus.swift in Sources */,
+				0DEADF8620BCA96D00EDE0DC /* RideRoadType.swift in Sources */,
+				0DEADFA420BCA96D00EDE0DC /* Ride.swift in Sources */,
+				0DEADFB420BCA96D00EDE0DC /* BaseType.swift in Sources */,
+				0DEADF8A20BCA96D00EDE0DC /* Device.swift in Sources */,
 				0D97D19020A5813E008A82FF /* JSONable.swift in Sources */,
-				0DE86ADD20A8CA5600CA9B9F /* User.swift in Sources */,
-				0DE8680D20A884A000CA9B9F /* RestBase.swift in Sources */,
+				0DEADF9D20BCA96D00EDE0DC /* Like.swift in Sources */,
+				0DEADFBD20BCA96D00EDE0DC /* User.swift in Sources */,
+				0DEAE0C020BCB2DA00EDE0DC /* RestDeviceLocation.swift in Sources */,
 				0DE867FA20A87D3E00CA9B9F /* ClientService.swift in Sources */,
+				0DEADF8B20BCA96D00EDE0DC /* MemberAccessControl.swift in Sources */,
+				0DEAE0AD20BCB2DA00EDE0DC /* RestTextWallMessage.swift in Sources */,
+				0D620D3A20ACF4C400165A43 /* FluentFeed.swift in Sources */,
+				0DEADFB120BCA96D00EDE0DC /* RideType.swift in Sources */,
+				0DEADF8020BCA96D00EDE0DC /* RideShareData.swift in Sources */,
+				0DEAE0A120BCB2DA00EDE0DC /* RestCustomField.swift in Sources */,
+				0DEAE0B420BCB2DA00EDE0DC /* RestPhotoAlbum.swift in Sources */,
+				0DEADFBE20BCA96D00EDE0DC /* Badge.swift in Sources */,
+				0DEADFA120BCA96D00EDE0DC /* PreviewPhotos.swift in Sources */,
 				0DE86AD120A89DEB00CA9B9F /* StringUtils.swift in Sources */,
-				0D8D148F20A9B3D200AC9659 /* FriendRequest.swift in Sources */,
-				0DE8681020A884A000CA9B9F /* RestUser.swift in Sources */,
-				0DE86ADB20A8C9E000CA9B9F /* Status.swift in Sources */,
-				0DE8681120A884A000CA9B9F /* RestFeed.swift in Sources */,
-				0D97D19420A5827C008A82FF /* UserSettings.swift in Sources */,
+				0DEAE0C620BCB2DA00EDE0DC /* RestRideShareFuzz.swift in Sources */,
+				0DEAE0AB20BCB2DA00EDE0DC /* RestRideShareMeetSetting.swift in Sources */,
+				0DEADF8820BCA96D00EDE0DC /* UserStat.swift in Sources */,
+				0D620D3820ACF15800165A43 /* FluentAccount.swift in Sources */,
+				0DEAE0B020BCB2DA00EDE0DC /* RestUserDistance.swift in Sources */,
+				0DEAE0DB20BE0D3700EDE0DC /* AuthenticationToken.swift in Sources */,
+				0DEADFA320BCA96D00EDE0DC /* Image.swift in Sources */,
+				0DEAE0C820BCB2DA00EDE0DC /* RestLogin.swift in Sources */,
+				0DEADFB620BCA96D00EDE0DC /* PointOfInterestReview.swift in Sources */,
+				0DEADF8C20BCA96D00EDE0DC /* Field.swift in Sources */,
+				0DEAE0B120BCB2DA00EDE0DC /* RestPublicRideDirection.swift in Sources */,
+				0DEAE0B520BCB2DA00EDE0DC /* RestURLTag.swift in Sources */,
+				0DEAE0C420BCB2DA00EDE0DC /* RestCommentable.swift in Sources */,
+				0DEAE0A820BCB2DA00EDE0DC /* RestGroup.swift in Sources */,
+				0DEADFAE20BCA96D00EDE0DC /* CommentBlob.swift in Sources */,
+				0DEAE0BD20BCB2DA00EDE0DC /* RestLikeable.swift in Sources */,
+				0DEAE0A220BCB2DA00EDE0DC /* RestAccount.swift in Sources */,
+				0DEADF9220BCA96D00EDE0DC /* HashTag.swift in Sources */,
+				0DEAE0BA20BCB2DA00EDE0DC /* RestReset.swift in Sources */,
+				0DEAE0D720BE0CCC00EDE0DC /* RestFriendRequest.swift in Sources */,
+				0DEADFAD20BCA96D00EDE0DC /* GroupStatus.swift in Sources */,
+				0DEADFA220BCA96D00EDE0DC /* AccessControl.swift in Sources */,
 				0D97D18C20A57C4F008A82FF /* ConnectionPool.swift in Sources */,
-				0DE86AEF20A8CCDC00CA9B9F /* AccessControl.swift in Sources */,
-				0DE86AFF20A8D51800CA9B9F /* UserStat.swift in Sources */,
-				0DE86AFB20A8CD7F00CA9B9F /* BaseLocation.swift in Sources */,
+				0DEADFB220BCA96D00EDE0DC /* Feature.swift in Sources */,
+				0DEADF9020BCA96D00EDE0DC /* RideShareMeetSetting.swift in Sources */,
+				0DEAE0CD20BCB2DA00EDE0DC /* RestRideShareRide.swift in Sources */,
+				0DEADFAA20BCA96D00EDE0DC /* Display.swift in Sources */,
+				0DEADF9A20BCA96D00EDE0DC /* UserMentionTag.swift in Sources */,
+				0DEADF7F20BCA96D00EDE0DC /* Photo.swift in Sources */,
+				0DEADF8E20BCA96D00EDE0DC /* RideLocation.swift in Sources */,
+				0DEADFB020BCA96D00EDE0DC /* UserFlag.swift in Sources */,
+				0DEADF8D20BCA96D00EDE0DC /* Event.swift in Sources */,
+				0DEAE0BE20BCB2DA00EDE0DC /* RestFeed.swift in Sources */,
+				0DEADFBA20BCA96D00EDE0DC /* Comment.swift in Sources */,
 				0DE86AD320A8A10E00CA9B9F /* DateUtils.swift in Sources */,
-				0DE8680A20A884A000CA9B9F /* RestCommentable.swift in Sources */,
-				0DE86AE920A8CBB600CA9B9F /* UserMentionTag.swift in Sources */,
-				0DE86AED20A8CC7A00CA9B9F /* EntityType.swift in Sources */,
+				0DEADFA720BCA96D00EDE0DC /* HasRate.swift in Sources */,
+				0DEADF9F20BCA96D00EDE0DC /* Track.swift in Sources */,
+				0DEAE0D920BE0D0500EDE0DC /* RestUser.swift in Sources */,
+				0DEADFA820BCA96D00EDE0DC /* WallActivity.swift in Sources */,
+				0DEADFA020BCA96D00EDE0DC /* Feed.swift in Sources */,
+				0DEADF8120BCA96D00EDE0DC /* HasCustomField.swift in Sources */,
+				0DEAE0A320BCB2DA00EDE0DC /* RestHashTag.swift in Sources */,
+				0DEADF8320BCA96D00EDE0DC /* Gender.swift in Sources */,
+				0DEADF9B20BCA96D00EDE0DC /* PhotoAlbum.swift in Sources */,
+				0DEADF8220BCA96D00EDE0DC /* Status.swift in Sources */,
+				0DEADF8420BCA96D00EDE0DC /* Group.swift in Sources */,
+				0DEADFAC20BCA96D00EDE0DC /* Motivate.swift in Sources */,
 				0D97D18820A57AD4008A82FF /* MySocialApp.swift in Sources */,
-				0D8D148920A98DEA00AC9659 /* ActivityType.swift in Sources */,
-				0DE86AE420A8CAFE00CA9B9F /* TagEntities.swift in Sources */,
-				0DE8680E20A884A000CA9B9F /* RestPhoto.swift in Sources */,
-				0DE86AE720A8CB2300CA9B9F /* URLTag.swift in Sources */,
-				0D97D19820A5853C008A82FF /* AuthenticationToken.swift in Sources */,
-				0DE8680820A884A000CA9B9F /* RestFriendRequest.swift in Sources */,
-				0DE86AD520A8C72A00CA9B9F /* Login.swift in Sources */,
-				0DE86AF120A8CD2300CA9B9F /* CommentBlob.swift in Sources */,
-				0DE86AD920A8C9B500CA9B9F /* Reset.swift in Sources */,
-				0DE86AEB20A8CBCA00CA9B9F /* HashTag.swift in Sources */,
+				0DEAE0BF20BCB2DA00EDE0DC /* RestPhoto.swift in Sources */,
+				0DEADFC320BCA96D00EDE0DC /* PreviewNotification.swift in Sources */,
+				0DEADFB520BCA96D00EDE0DC /* Conversation.swift in Sources */,
+				0DEADFBF20BCA96D00EDE0DC /* ConversationMessage.swift in Sources */,
+				0DEADFB720BCA96D00EDE0DC /* Reset.swift in Sources */,
+				0DEADFC020BCA96D00EDE0DC /* AccountEvent.swift in Sources */,
+				0DEAE0CB20BCB2DA00EDE0DC /* RestRideIdGenerator.swift in Sources */,
+				0DEADF9820BCA96D00EDE0DC /* ActivityType.swift in Sources */,
+				0DEAE0C920BCB2DA00EDE0DC /* RestRide.swift in Sources */,
+				0D620D3C20AD529F00165A43 /* FluentFriend.swift in Sources */,
+				0DEAE0BC20BCB2DA00EDE0DC /* RestRideShareMeet.swift in Sources */,
+				0DEAE0CA20BCB2DA00EDE0DC /* RestAccountEvent.swift in Sources */,
+				0DEAE0BB20BCB2DA00EDE0DC /* RestRiderStat.swift in Sources */,
+				0DEADFA520BCA96D00EDE0DC /* SimpleURL.swift in Sources */,
+				0DEADF9720BCA96D00EDE0DC /* LikeBlob.swift in Sources */,
+				0DEADFA620BCA96D00EDE0DC /* NotificationAck.swift in Sources */,
+				0DEADFC420BCA96D00EDE0DC /* TagEntity.swift in Sources */,
+				0DEAE0B620BCB2DA00EDE0DC /* RestDevice.swift in Sources */,
+				0DEAE0B220BCB2DA00EDE0DC /* RestConversationMessage.swift in Sources */,
 				0D97D18E20A57EF5008A82FF /* Configuration.swift in Sources */,
-				0DE86AF720A8CD3500CA9B9F /* Like.swift in Sources */,
-				0DE86AF520A8CD2F00CA9B9F /* Comment.swift in Sources */,
-				0D8D148320A98B7B00AC9659 /* WallActivity.swift in Sources */,
-				0D8D148720A98DAD00AC9659 /* TextWallMessage.swift in Sources */,
+				0DEAE0A920BCB2DA00EDE0DC /* RestRideShareData.swift in Sources */,
+				0DEAE0C120BCB2DA00EDE0DC /* RestBase.swift in Sources */,
+				0DEADFC520BCA96D00EDE0DC /* UserSettings.swift in Sources */,
 				0D97D18A20A57B74008A82FF /* ClientConfiguration.swift in Sources */,
-				0DE86AF920A8CD4D00CA9B9F /* Location.swift in Sources */,
-				0DE8680720A884A000CA9B9F /* RestLogin.swift in Sources */,
-				0DE8680920A884A000CA9B9F /* RestAccount.swift in Sources */,
-				0DE8680C20A884A000CA9B9F /* RestLikeable.swift in Sources */,
+				0DEADF8720BCA96D00EDE0DC /* Notification.swift in Sources */,
+				0DEADF9120BCA96D00EDE0DC /* Base.swift in Sources */,
+				0DEAE0D320BE03E700EDE0DC /* FluentConversation.swift in Sources */,
+				0DEADFAF20BCA96D00EDE0DC /* URLTag.swift in Sources */,
+				0DEADF8520BCA96D00EDE0DC /* EventStatus.swift in Sources */,
+				0DEADFAB20BCA96D00EDE0DC /* FieldData.swift in Sources */,
+				0DEADFA920BCA96D00EDE0DC /* RideShareFuzz.swift in Sources */,
+				0DEAE0D520BE04FD00EDE0DC /* ImageUtils.swift in Sources */,
+				0DEAE0B320BCB2DA00EDE0DC /* RestNotificationAck.swift in Sources */,
+				0DEADF7D20BCA96D00EDE0DC /* FriendRequest.swift in Sources */,
+				0DEADFB320BCA96D00EDE0DC /* BaseLocation.swift in Sources */,
+				0DEAE0A720BCB2DA00EDE0DC /* RestReport.swift in Sources */,
+				0DEADF7C20BCA96D00EDE0DC /* RideShareRide.swift in Sources */,
+				0DEADFBC20BCA96D00EDE0DC /* ConversationMessages.swift in Sources */,
+				0DEADFB820BCA96D00EDE0DC /* RideShareMeet.swift in Sources */,
+				0DEADFC220BCA96D00EDE0DC /* EntityType.swift in Sources */,
+				0DEADFBB20BCA96D00EDE0DC /* Member.swift in Sources */,
+				0DEADF9920BCA96D00EDE0DC /* Taggable.swift in Sources */,
+				0DEADF9620BCA96D00EDE0DC /* CustomField.swift in Sources */,
+				0DEAE0B920BCB2DA00EDE0DC /* RestPreviewNotification.swift in Sources */,
+				0DEADF9520BCA96D00EDE0DC /* RideIdGenerator.swift in Sources */,
+				0DEADF9320BCA96D00EDE0DC /* HasRide.swift in Sources */,
+				0DEADF9E20BCA96D00EDE0DC /* PointOfInterest.swift in Sources */,
+				0DEAE0CC20BCB2DA00EDE0DC /* RestRideLocation.swift in Sources */,
+				0DEADF8F20BCA96D00EDE0DC /* RideLocationType.swift in Sources */,
+				0DEADFC120BCA96D00EDE0DC /* RideDirection.swift in Sources */,
+				0DEADF7E20BCA96D00EDE0DC /* RideShareFlag.swift in Sources */,
+				0DEAE0C720BCB2DA00EDE0DC /* RestConversation.swift in Sources */,
+				0DEAE0B720BCB2DA00EDE0DC /* RestPointOfInterestReview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

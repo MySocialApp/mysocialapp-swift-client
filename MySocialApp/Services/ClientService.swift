@@ -6,6 +6,8 @@ class ClientService {
     
     lazy var reset = RestReset(self.session)
     lazy var account = RestAccount(self.session)
+    lazy var login = RestLogin(self.session)
+    lazy var conversation = RestConversation(self.session)
     lazy var feed = RestFeed(self.session)
     lazy var commentable = RestCommentable(self.session)
     lazy var likeable = RestLikeable(self.session)

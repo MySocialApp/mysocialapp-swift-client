@@ -2,7 +2,7 @@ import Foundation
 
 internal class JSONable: NSObject {
     internal static var currentSession: Session?
-    private var session: Session?
+    internal var session: Session?
     private var jsonString: String?
     private var jsonRange: Range<String.Index>?
     private var jsonAttributes: [String:JSONPart] = [:]

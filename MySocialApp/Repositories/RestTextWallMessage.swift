@@ -1,15 +1,41 @@
+//
+//  RestTextWallMessage.swift
+//  nousmotards-ios
+//
+//  Created by Aurelien Bocquet on 24/12/2016.
+//  Copyright © 2016 Nousmotards. All rights reserved.
+//
+
 import Foundation
 import RxSwift
 
 class RestTextWallMessage: RestBase<TextWallMessage, Base> {
     
     private func getBaseUrl(_ baseModel: Base, profile: Bool? = nil) -> String? {
-        if let id = baseModel.id {
+        if let id = baseModel.getIdStr() {
+            if baseModel is Event {
+                return "/event/\(id)"
+            }
+            if baseModel is Group {
+                if let _ = profile {
+                    return "/group/\(id)/profile"
+                }
+                return "/group/\(id)"
+            }
+            if baseModel is Ride {
+                return "/ride/\(id)"
+            }
             if baseModel is User {
-                if let p = profile, p {
+                if let _ = profile {
                     return "/account/profile"
                 }
                 return "/user/\(id)"
+            }
+            if baseModel is PhotoAlbum {
+                return "/photo/album/\(id)"
+            }
+            if baseModel is PointOfInterest {
+                return "/poi/\(id)"
             }
         }
         return nil
@@ -22,7 +48,7 @@ class RestTextWallMessage: RestBase<TextWallMessage, Base> {
         return super.getEmpty()
     }
     
-    func post(forTarget target: Base, message: TextWallMessage?, album: String = "mes photos", profile: Bool? = nil, _ image: Data, withMimeType mimeType: String = "image/jpeg", onComplete: @escaping (Base?)->Void) {
+    func post(forTarget target: Base, message: TextWallMessage?, album: String = "mes photos", profile: Bool? = nil, image: UIImage, onComplete: @escaping (Base?)->Void) {
         if let base = self.getBaseUrl(target, profile: profile) {
             var data: [DataToUpload] = []
             var url = "\(base)/photo"
@@ -32,7 +58,9 @@ class RestTextWallMessage: RestBase<TextWallMessage, Base> {
             if let p = profile, !p {
                 url = "\(base)/cover"
             }
-            data.append(DataToUpload(data: image, name: "file", fileName: "image", mimeType: mimeType))
+            if let d = ImageUtils.toData(image) {
+                data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+            }
             if let d = album.data(using: .utf8) {
                 data.append(DataToUpload(data: d, name: "album", fileName: nil, mimeType: "multipart/form-data"))
             }

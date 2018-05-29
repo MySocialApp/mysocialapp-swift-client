@@ -83,9 +83,4 @@ class Location: BaseLocation {
             return super.getAttributeCreationMethod(name: name)
         }
     }
-
-    required init() {
-        super.init()
-    }
-
 }

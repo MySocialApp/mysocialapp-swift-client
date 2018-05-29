@@ -1,5 +1,4 @@
 import Foundation
-import CoreLocation
 
 class BaseLocation: Base {
     var latitude: Double? {

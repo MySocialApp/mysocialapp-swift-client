@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 class TextWallMessage: Base, Taggable {
 

@@ -41,6 +41,12 @@ class WallActivity: Base {
                 r = TextWallMessage()
             case .Photo:
                 r = Photo()
+            case .Event:
+                r = Event()
+            case .Ride:
+                r = Ride()
+            case .Group:
+                r = Group()
             case .Status:
                 r = Status()
             case .User:

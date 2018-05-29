@@ -15,11 +15,17 @@ class RestAccount: RestBase<User, User> {
         return super.update("/account", input: user)
     }
     
-    func postPhoto(_ image: Data, withMimeType mimeType: String = "image/jpeg", onComplete: @escaping (Base?)->Void) {
+    func postPhoto(_ image: UIImage, onComplete: @escaping (Base?)->Void) {
         var data: [DataToUpload] = []
         let url = "/account/profile/photo"
-        data.append(DataToUpload(data: image, name: "file", fileName: "image", mimeType: mimeType))
-        super.uploadRequest(url, data: data, completionHandler: onComplete)
+        if let d = ImageUtils.toData(image) {
+            data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+        }
+        if data.count > 0 {
+            super.uploadRequest(url, data: data, completionHandler: onComplete)
+        } else {
+            onComplete(nil)
+        }
     }
 
 

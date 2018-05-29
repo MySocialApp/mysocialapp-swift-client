@@ -3,7 +3,10 @@ import RxSwift
 
 class RestPhoto: RestBase<Photo, Photo> {
 
-    func list(_ page: Int) -> Observable<JSONableArray<Photo>> {
+    func list(_ page: Int, forPhotoAlbum: PhotoAlbum? = nil) -> Observable<JSONableArray<Photo>> {
+        if let a = forPhotoAlbum, let id = a.id {
+            return super.list("/photo/album/\(id)/photo", params: ["page": page as AnyObject])
+        }
         return super.list("/photo", params: ["page": page as AnyObject])
     }
 
@@ -23,12 +26,17 @@ class RestPhoto: RestBase<Photo, Photo> {
         return super.delete("/photo/\(id)")
     }
     
-    func postPhoto(_ image: Data, withMimeType mimeType: String = "image/jpeg", forModel model: Base?, forCover cover: Bool = false, withTagEntities tagEntities: TagEntities? = nil, onComplete: @escaping (Photo?)->Void) {
+    func postPhoto(_ image: UIImage, forModel model: Base?, forCover cover: Bool = false, withTagEntities tagEntities: TagEntities? = nil, onComplete: @escaping (Photo?)->Void) {
         var data: [DataToUpload] = []
         var url: String?
-        let appendPhoto = true
+        var appendPhoto = true
         if let _ = model as? User {
             url = "/account/profile"
+        } else if let c = model as? Group, let id = c.id {
+            url = "/group/\(id)/profile"
+        } else if let e = model as? Event, let id = e.id {
+            url = "/event/\(id)/profile"
+            //appendPhoto = false
         }
         if cover, let u = url {
             url = "\(u)/cover"
@@ -36,7 +44,9 @@ class RestPhoto: RestBase<Photo, Photo> {
         if let u = url, appendPhoto {
             url = "\(u)/photo"
         }
-        data.append(DataToUpload(data: image, name: "file", fileName: "image", mimeType: mimeType))
+        if let d = ImageUtils.toData(image) {
+            data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+        }
         if let t = tagEntities?.getJSON()?.data(using: String.Encoding.utf8) {
             data.append(DataToUpload(data: t, name: "tag_entities", fileName: nil, mimeType: "multipart/form-data"))
         }

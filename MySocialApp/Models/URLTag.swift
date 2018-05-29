@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 class URLTag: TagEntity {
 
@@ -30,7 +31,7 @@ class URLTag: TagEntity {
         get { return (super.getAttributeInstance("preview_url") as! JSONableString?)?.string }
         set(previewURL) { super.setStringAttribute(withName: "preview_url", previewURL) }
     }
-
+    
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
         case "original_url", "original_url_to_display", "original_host_url", "short_url", "title", "description", "preview_url":
@@ -40,8 +41,7 @@ class URLTag: TagEntity {
         }
     }
 
-    override func getText() -> String? {
-        return originalURL
+    override func getBodyImageURL() -> String? {
+        return previewURL
     }
-
 }

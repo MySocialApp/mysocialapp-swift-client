@@ -68,8 +68,4 @@ class TagEntity: Base {
             return super.getAttributeCreationMethod(name: name)
         }
     }
-
-    func getText() -> String? {
-        return text
-    }
 }

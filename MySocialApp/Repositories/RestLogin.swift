@@ -14,4 +14,8 @@ class RestLogin: RestBase<Login, Login> {
     func postFacebook(_ loginModel: Login) -> Observable<Login> {
         return super.post("/facebook/login", input: loginModel)
     }
+    
+    func deleteAccount(_ loginModel: Login) -> Observable<Bool> {
+        return super.delete("/account", input: loginModel)
+    }
 }

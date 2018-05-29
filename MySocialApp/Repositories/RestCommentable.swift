@@ -5,7 +5,10 @@ import RxSwift
 class RestCommentable: RestBase<Comment, Comment> {
     
     private func getBaseUrl(_ commentable: Base) -> String? {
-        if let id = commentable.id {
+        if let id = commentable.getIdStr() {
+            if commentable is Display {
+                return "/display/\(id)"
+            }
             if commentable is Photo {
                 return "/photo/\(id)"
             }
@@ -25,13 +28,15 @@ class RestCommentable: RestBase<Comment, Comment> {
         }
     }
     
-    func post(_ commentable: Base, comment: Comment? = nil, image: Data?, withMimeType mimeType: String = "image/jpeg", onComplete: @escaping (Comment?)->Void) {
+    func post(_ commentable: Base, comment: Comment? = nil, image: UIImage? = nil, onComplete: @escaping (Comment?)->Void) {
         if let base = self.getBaseUrl(commentable) {
             var url = "\(base)/comment"
             if let i = image {
                 var data: [DataToUpload] = []
-                data.append(DataToUpload(data: i, name: "file", fileName: "image", mimeType: mimeType))
-                url += "/photo"
+                if let d = ImageUtils.toData(i) {
+                    data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+                    url += "/photo"
+                }
                 if let d = comment?.message?.data(using: .utf8) {
                     data.append(DataToUpload(data: d, name: "name", fileName: nil, mimeType: "multipart/form-data"))
                 }

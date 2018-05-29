@@ -1,8 +1,3 @@
-//
-// Created by Romaric Philogène on 17/03/16.
-// Copyright (c) 2016 Nousmotards. All rights reserved.
-//
-
 import Foundation
 
 enum BaseType: String {

@@ -108,8 +108,14 @@ class Base: JSONable {
     static func getClassFromType(_ type: String) -> Base.Type? {
         if let t = BaseType(rawValue: type) {
             switch t {
+            case .Group:
+                return Group.self
             case .Comment, .PhotoTextComment, .StatusTextComment, .NodeToRelationshipTextComment:
                 return Comment.self
+            case .Display:
+                return Display.self
+            case .Event:
+                return Event.self
             case .Feed:
                 return Feed.self
             case .User:
@@ -118,6 +124,10 @@ class Base: JSONable {
                 return TextWallMessage.self
             case .Photo:
                 return Photo.self
+            case .PhotoAlbum:
+                return PhotoAlbum.self
+            case .Ride:
+                return Ride.self
             case .Location:
                 return Location.self
             case .Status:
@@ -135,7 +145,7 @@ class Base: JSONable {
         return nil
     }
     
-    static func getBaseModelCreationMethodFromType(_ type: String) -> CreationMethod {
+    static internal func getBaseModelCreationMethodFromType(_ type: String) -> CreationMethod {
         if let c = Base.getClassFromType(type) {
             return c.init().initAttributes
         } else {
@@ -143,11 +153,47 @@ class Base: JSONable {
         }
     }
     
-    static func instantiateBaseModelFromType(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable? {
+    static internal func instantiateBaseModelFromType(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable? {
         if let type = JSONable.getAttributeStringValue("entity_type", &jsonString, jsonRange, jsonAttributes, anyDict) {
             return Base.getBaseModelCreationMethodFromType(type)(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
         }
         return Base().initAttributes(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
+    }
+    
+    func getTypeEnum() -> BaseType? {
+        if let t = type {
+            return BaseType(rawValue: t)
+        }
+        
+        return nil
+    }
+    
+    func getType() -> String? {
+        return self.type
+    }
+    
+    func getId() -> Int64? {
+        return self.id
+    }
+    
+    func getIdStr() -> String? {
+        return self.idStr
+    }
+    
+    func getCreatedDate() -> Date? {
+        return self.createdDate
+    }
+    
+    func getDisplayedName() -> String? {
+        return self.displayedName
+    }
+    
+    func getDisplayedPhoto() -> Photo? {
+        return self.displayedPhoto
+    }
+    
+    func getBodyImageURL() -> String? {
+        return nil
     }
     
     override func isEqual(_ object: Any?) -> Bool {

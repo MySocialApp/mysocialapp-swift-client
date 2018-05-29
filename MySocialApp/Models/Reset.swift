@@ -1,19 +1,19 @@
 import Foundation
 
 class Reset: Base {
-    
-    var login: String?{
-        get { return (super.getAttributeInstance("login") as! JSONableString?)?.string }
-        set(login) { super.setStringAttribute(withName: "login", login) }
+
+    var username: String?{
+        get { return (super.getAttributeInstance("username") as! JSONableString?)?.string }
+        set(login) { super.setStringAttribute(withName: "username", login) }
     }
     var response: String?{
         get { return (super.getAttributeInstance("response") as! JSONableString?)?.string }
         set(response) { super.setStringAttribute(withName: "response", response) }
     }
     
-    public override func getAttributeCreationMethod(name: String) -> CreationMethod {
+    internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
-        case "login", "response":
+        case "username", "response":
             return JSONableString().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
@@ -23,10 +23,10 @@ class Reset: Base {
     public required init() {
         super.init()
     }
-    
-    init(login: String) {
+
+    init(username: String) {
         super.init()
-        self.login = login
+        self.username = username
     }
-    
+
 }

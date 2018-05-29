@@ -3,7 +3,7 @@ import RxSwift
 
 class RestFeed: RestBase<Feed, Feed> {
     
-    func list(_ page: Int, size: Int = 10, forRider: User? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
+    func list(_ page: Int, size: Int = 10, forRider: User? = nil, forGroup: Group? = nil, forEvent: Event? = nil, forRide: Ride? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
         var params: [String:AnyObject] = ["page": String(page) as AnyObject, "size": String(size) as AnyObject]
         if let p = withParams {
             for k in p.keys {
@@ -12,6 +12,12 @@ class RestFeed: RestBase<Feed, Feed> {
         }
         if let id = forRider?.id {
             return super.list("/user/\(id)/wall", params: params)
+        } else if let id = forGroup?.id {
+            return super.list("/group/\(id)/wall", params: params)
+        } else if let id = forEvent?.id {
+            return super.list("/event/\(id)/wall", params: params)
+        } else if let id = forRide?.id {
+            return super.list("/ride/\(id)/wall", params: params)
         }
         return super.list("/feed", params: params)
     }
@@ -48,5 +54,43 @@ class RestFeed: RestBase<Feed, Feed> {
             return super.delete("rider/\(rider)/wall/message/\(id)")
         }
         return super.delete("/feed/\(id)")
+    }
+    
+    func post(_ group: Group, image: UIImage, forCover cover: Bool, onComplete: @escaping (Feed?)->Void) {
+        if let id = group.id {
+            var data: [DataToUpload] = []
+            var url = "/group/\(id)/profile/"
+            if cover {
+                url += "cover"
+            }
+            url += "photo"
+            if let d = ImageUtils.toData(image) {
+                data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+            }
+            if data.count > 0 {
+                super.uploadRequest(url, data: data, completionHandler: onComplete)
+            } else {
+                onComplete(nil)
+            }
+        } else {
+            onComplete(nil)
+        }
+    }
+    
+    func post(_ event: Event, image: UIImage, onComplete: @escaping (Feed?)->Void) {
+        if let id = event.id {
+            var data: [DataToUpload] = []
+            let url = "/event/\(id)/cover"
+            if let d = ImageUtils.toData(image) {
+                data.append(DataToUpload(data: d, name: "file", fileName: "image", mimeType: "image/jpeg"))
+            }
+            if data.count > 0 {
+                super.uploadRequest(url, data: data, completionHandler: onComplete)
+            } else {
+                onComplete(nil)
+            }
+        } else {
+            onComplete(nil)
+        }
     }
 }

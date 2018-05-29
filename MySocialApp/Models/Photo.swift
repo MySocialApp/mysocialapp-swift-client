@@ -1,7 +1,8 @@
 import Foundation
+import RxSwift
 
 class Photo: Base, Taggable {
-    
+
     var message: String?{
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
         set(message) { super.setStringAttribute(withName: "message", message) }

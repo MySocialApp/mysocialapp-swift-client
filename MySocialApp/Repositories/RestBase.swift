@@ -36,13 +36,15 @@ class RestBase<I:JSONable, O:JSONable> {
             }
             self.postRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: dict, parameters: params).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(O())
                 } else {
                     obs.onCompleted()
                 }
@@ -69,6 +71,9 @@ class RestBase<I:JSONable, O:JSONable> {
                     } else {
                         obs.onNext()
                     }
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext()
                 } else {
                     obs.onCompleted()
                 }
@@ -85,13 +90,15 @@ class RestBase<I:JSONable, O:JSONable> {
             obs in
             self.postDataRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), data: data, contentType: contentType, parameters: params).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(O())
                 } else {
                     obs.onCompleted()
                 }
@@ -105,8 +112,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func getEmpty() -> Observable<O> {
         return Observable.create {
-            obs in
-            obs.onNext(O())
+            $0.onNext(O())
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
             .subscribeOn(MainScheduler.instance)
@@ -114,8 +120,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func listEmpty() -> Observable<JSONableArray<O>> {
         return Observable.create {
-            obs in
-            obs.onNext(JSONableArray<O>([]))
+            $0.onNext(JSONableArray<O>([]))
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
             .subscribeOn(MainScheduler.instance)
@@ -123,8 +128,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func boolEmpty() -> Observable<Bool> {
         return Observable.create {
-            obs in
-            obs.onNext(false)
+            $0.onNext(false)
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
             .subscribeOn(MainScheduler.instance)
@@ -135,14 +139,16 @@ class RestBase<I:JSONable, O:JSONable> {
             obs in
             self.getRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: params).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
-                }  else {
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(O())
+                } else {
                     obs.onCompleted()
                 }
             }
@@ -164,7 +170,10 @@ class RestBase<I:JSONable, O:JSONable> {
                     } else {
                         obs.onNext()
                     }
-                }  else {
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext()
+                } else {
                     obs.onCompleted()
                 }
             }
@@ -180,15 +189,16 @@ class RestBase<I:JSONable, O:JSONable> {
             obs in
             self.getRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: params).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
-                        let a = JSONableArray<O>([O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O])
-                        obs.onNext(a)
+                        obs.onNext(JSONableArray<O>([O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O]))
                     }
-                }  else {
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(JSONableArray<O>())
+                } else {
                     obs.onCompleted()
                 }
             }
@@ -200,19 +210,20 @@ class RestBase<I:JSONable, O:JSONable> {
     }
 
     func list(_ resourceURL: String, params: [String: AnyObject] = [:]) -> Observable<JSONableArray<O>> {
-        print("Envoi de requête liste")
         return Observable.create {
             obs in
             self.getRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: params).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext(JSONableArray<O>().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json))
                     }
-                }  else {
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(JSONableArray<O>())
+                } else {
                     obs.onCompleted()
                 }
             }
@@ -228,13 +239,15 @@ class RestBase<I:JSONable, O:JSONable> {
             obs in
             self.updateRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: input.getDict()!).responseJSON {
                 res in
-                JSONable.currentSession = self.session
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    obs.onNext(O())
                 } else {
                     obs.onCompleted()
                 }
@@ -314,9 +327,9 @@ class RestBase<I:JSONable, O:JSONable> {
         }
         return s
     }
-    
+
     func uploadRequest(_ resourceURL: String, data: [DataToUpload], completionHandler: @escaping (O?)->Void) {
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        Alamofire.upload(multipartFormData: { multipartFormData in
             let format = "ATTACHMENT%04d"
             for d in 0 ..< data.count {
                 let name = (data[d].name != nil) ? data[d].name! : String(format: format, d)
@@ -362,6 +375,7 @@ class RestBase<I:JSONable, O:JSONable> {
         request.httpMethod = "POST"
         let _ = self.getHeaders().map { request.setValue($0.value, forHTTPHeaderField: $0.key) }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
             if let d = dict {
                 do {
                     request.httpBody = try JSONSerialization.data(withJSONObject: d)
@@ -432,30 +446,24 @@ struct DataToUpload {
 class RestError: JSONable, Error {
     var timestamp: Date? {
         get { return (super.getAttributeInstance("timestamp") as! JSONableDate?)?.date }
-        set(timestamp) { super.setDateAttribute(withName: "timestamp", timestamp) }
     }
     var status: Int? {
         get { return (super.getAttributeInstance("status") as! JSONableInt?)?.int }
-        set(status) { super.setIntAttribute(withName: "status", status) }
     }
     var error: String? {
         get { return (super.getAttributeInstance("error") as! JSONableString?)?.string }
-        set(error) { super.setStringAttribute(withName: "error", error) }
     }
     var exception: String? {
         get { return (super.getAttributeInstance("exception") as! JSONableString?)?.string }
-        set(exception) { super.setStringAttribute(withName: "exception", exception) }
     }
     var message: String? {
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
-        set(message) { super.setStringAttribute(withName: "message", message) }
     }
     var path: String? {
         get { return (super.getAttributeInstance("path") as! JSONableString?)?.string }
-        set(path) { super.setStringAttribute(withName: "path", path) }
     }
     
-    public override func getAttributeCreationMethod(name: String) -> CreationMethod {
+    internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
         case "error", "exception", "message", "path":
             return JSONableString().initAttributes
@@ -477,7 +485,7 @@ class RestError: JSONable, Error {
             e = e.initAttributes(nil, &s, nil, nil, nil) as! RestError
         }
         if let r = responseCode {
-            e.status = r
+            e.setIntAttribute(withName: "status", r)
         }
         if let e = e.getJSON() {
             NSLog("Erreur reçue : \(e)")

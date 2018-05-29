@@ -10,7 +10,7 @@ class FriendRequest: Base {
         set(incoming) { super.setArrayAttribute(withName: "incoming", outgoing) }
     }
     
-    public override func getAttributeCreationMethod(name: String) -> CreationMethod {
+    internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
         case "outgoing", "incoming":
             return JSONableArray<User>().initAttributes

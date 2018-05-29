@@ -1,23 +1,38 @@
 import Foundation
+import RxSwift
 
 class UserStat: Base {
     
-    var status: Status? {
-        get { return self.getAttributeInstance("status") as? Status }
+    var status: UserStatStatus? {
+        get { return self.getAttributeInstance("status") as? UserStatStatus }
     }
     
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
         case "status":
-            return Status().initAttributes
+            return UserStatStatus().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
         }
     }
 
     var createdRides: Int? { get {
-        if let d = (self.getAttributeInstance("ride")?.getAttributeInstance("total_created", withCreationMethod: JSONableDouble().initAttributes) as? JSONableDouble)?.double {
+        if let d = (self.getAttributeInstance("rides")?.getAttributeInstance("created", withCreationMethod: JSONableDouble().initAttributes) as? JSONableDouble)?.double {
             return Int(d)
+        }
+        return nil
+    } }
+    
+    var doneRides: Int? { get {
+        if let d = (self.getAttributeInstance("rides")?.getAttributeInstance("done", withCreationMethod: JSONableDouble().initAttributes) as? JSONableDouble)?.double {
+            return Int(d)
+        }
+        return nil
+    } }
+    
+    var distanceRides: Int64? { get {
+        if let d = (self.getAttributeInstance("rides")?.getAttributeInstance("distance", withCreationMethod: JSONableDouble().initAttributes) as? JSONableDouble)?.double {
+            return Int64(d)
         }
         return nil
     } }
@@ -28,41 +43,11 @@ class UserStat: Base {
         }
         return nil
     } }
-
-    class Status: Base {
-        
-        var lastConnectionDate: Date? {
-            get { return (super.getAttributeInstance("last_connection_date") as! JSONableDate?)?.date }
-            set(lastConnectionDate) { super.setDateAttribute(withName: "last_connection_date", lastConnectionDate) }
+    
+    var totalPhotos: Int? { get {
+        if let d = (self.getAttributeInstance("photos")?.getAttributeInstance("total", withCreationMethod: JSONableDouble().initAttributes) as? JSONableDouble)?.double {
+            return Int(d)
         }
-        var state: State? {
-            get { if let s = (super.getAttributeInstance("state") as! JSONableString?)?.string { return State(rawValue: s) } else { return nil } }
-            set(state) { if let s = state { self.setStringAttribute(withName: "state", s.rawValue) } else { self.setStringAttribute(withName: "state", nil) } }
-        }
-        
-        internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
-            switch name {
-            case "state":
-                return JSONableString().initAttributes
-            case "last_connection_date":
-                return JSONableDate().initAttributes
-            default:
-                return super.getAttributeCreationMethod(name: name)
-            }
-        }
-        
-        enum State: String {
-            case connected = "CONNECTED"
-            case riding = "RIDING"
-            case away = "AWAY"
-            case unknown = "UNKNOWN"
-            case notConnected = "NOT_CONNECTED"
-            case disabled = "DISABLED"
-        }
-        enum Size: String {
-            case normal = "NORMAL"
-            case medium = "MEDIUM"
-            case small = "SMALL"
-        }
-    }
+        return nil
+    } }
 }

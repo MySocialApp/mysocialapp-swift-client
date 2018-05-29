@@ -38,6 +38,10 @@ class FluentFeed {
         return self.list(page: 0, size: limit)
     }
     
+    public func blockingList(page: Int = 0, size: Int = 10) throws -> [Feed] {
+        return try self.list(page: page, size: size).toBlocking().toArray()
+    }
+
     public func list(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
@@ -47,11 +51,11 @@ class FluentFeed {
         .subscribeOn(MainScheduler.instance)
     }
     
-    public func blockingSendWallPost(textWallMessage: TextWallMessage) throws -> Base? {
-        return try self.sendWallPost(textWallMessage: textWallMessage).toBlocking().last()
+    public func blockingSendWallPost(_ textWallMessage: TextWallMessage) throws -> Base? {
+        return try self.sendWallPost(textWallMessage).toBlocking().last()
     }
     
-    public func sendWallPost(textWallMessage: TextWallMessage) -> Observable<Base> {
+    public func sendWallPost(_ textWallMessage: TextWallMessage) -> Observable<Base> {
         return Observable.create {
             obs in
             let _ = self.session.account.get().subscribe {
@@ -75,17 +79,17 @@ class FluentFeed {
             .subscribeOn(MainScheduler.instance)
     }
     
-    public func blockingSendWallPost(image: Data, mimeType: String = "image/jpeg", textWallMessage: TextWallMessage) throws -> Base? {
-        return try self.sendWallPost(image: image, mimeType: mimeType, textWallMessage: textWallMessage).toBlocking().last()
+    public func blockingSendWallPost(_ textWallMessage: TextWallMessage, withImage image: UIImage) throws -> Base? {
+        return try self.sendWallPost(textWallMessage, withImage: image).toBlocking().last()
     }
     
-    public func sendWallPost(image: Data, mimeType: String = "image/jpeg", textWallMessage: TextWallMessage) -> Observable<Base> {
+    public func sendWallPost(_ textWallMessage: TextWallMessage, withImage image: UIImage) -> Observable<Base> {
         return Observable.create {
             obs in
             let _ = self.session.account.get().subscribe {
                 e in
                 if let e = e.element {
-                    let _ = self.session.clientService.textWallMessage.post(forTarget: e, message: textWallMessage, image, withMimeType: mimeType) {
+                    let _ = self.session.clientService.textWallMessage.post(forTarget: e, message: textWallMessage, image: image) {
                         e in
                         if let e = e {
                             obs.onNext(e)

@@ -1,7 +1,8 @@
 import Foundation
+import RxSwift
 
-class User: Base {
-    
+class User: BaseCustomField {
+
     var firstName: String?{
         get { return (super.getAttributeInstance("first_name") as! JSONableString?)?.string }
         set(firstName) { super.setStringAttribute(withName: "first_name", firstName) }
@@ -70,6 +71,10 @@ class User: Base {
         get { return (super.getAttributeInstance("distance") as! JSONableInt?)?.int }
         set(distance) { super.setIntAttribute(withName: "distance", distance) }
     }
+    var flag: UserFlag?{
+        get { return super.getAttributeInstance("flag") as? UserFlag }
+        set(flag) { super.setAttribute(withName: "flag", flag) }
+    }
     var userStat: UserStat? {
         get { return super.getAttributeInstance("user_stat") as? UserStat }
         set(userStat) { super.setAttribute(withName: "user_stat", userStat) }
@@ -104,6 +109,8 @@ class User: Base {
             return Location().initAttributes
         case "distance":
             return JSONableInt().initAttributes
+        case "flag":
+            return UserFlag().initAttributes
         case "user_stat":
             return UserStat().initAttributes
         case "user_settings":
@@ -114,9 +121,8 @@ class User: Base {
             return super.getAttributeCreationMethod(name: name)
         }
     }
-}
-
-enum Gender: String {
-    case Male = "MALE"
-    case Female = "FEMALE"
+    
+    override func getBodyImageURL() -> String? {
+        return self.displayedPhoto?.getBodyImageURL()
+    }
 }

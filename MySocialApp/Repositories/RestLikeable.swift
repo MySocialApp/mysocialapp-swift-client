@@ -4,7 +4,10 @@ import RxSwift
 class RestLikeable: RestBase<Base, Like> {
     
     private func getBaseUrl(_ likeable: Base) -> String? {
-        if let id = likeable.id {
+        if let id = likeable.getIdStr() {
+            if likeable is Display {
+                return "/display/\(id)"
+            }
             if likeable is Photo {
                 return "/photo/\(id)"
             }
