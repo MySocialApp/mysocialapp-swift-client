@@ -25,7 +25,7 @@ Add social features to your existing app, automate actions, scrape contents, ana
 | Notification | :heavy_check_mark: | Soon
 | Private messaging | :heavy_check_mark: | Soon
 | Photo | :heavy_check_mark: | Soon
-| User | :hoeavy_check_mark: | Partially
+| User | :heavy_check_mark: | Partially
 | Friend | :heavy_check_mark: | Partially
 | URL rewrite | :heavy_check_mark: | :heavy_check_mark:
 | URL preview | :heavy_check_mark: | :heavy_check_mark:
