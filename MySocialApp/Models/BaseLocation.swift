@@ -25,6 +25,12 @@ class BaseLocation: Base {
         }
     }
     
+    convenience init(latitude: Double, longitude: Double) {
+        self.init()
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
     func distance(from: BaseLocation) -> Double? {
         if let l1 = LocationUtils.fromLocation(self),
             let l2 = LocationUtils.fromLocation(from) {

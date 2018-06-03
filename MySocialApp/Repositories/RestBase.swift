@@ -10,8 +10,8 @@ class RestBase<I:JSONable, O:JSONable> {
         get {
             if let u = self.baseURL_ {
                 return u
-            } else if let a = session?.configuration.appId {
-                return "https://\(a)-api.mysocialapp.io/api/v1"
+            } else if let u = session?.configuration.completeAPIEndpointURL {
+                return u
             } else {
                 return "{noRootUrl}"
             }
