@@ -2,6 +2,7 @@ import Foundation
 import RxSwift
 
 class User: BaseCustomField {
+    private static let PAGE_SIZE = 10
 
     var firstName: String?{
         get { return (super.getAttributeInstance("first_name") as! JSONableString?)?.string }
@@ -124,5 +125,354 @@ class User: BaseCustomField {
     
     override func getBodyImageURL() -> String? {
         return self.displayedPhoto?.getBodyImageURL()
+    }
+    
+    func blockingSave() throws -> User? {
+        return try self.save().toBlocking().first()
+    }
+    
+    func save() -> Observable<User> {
+        if let s = self.session {
+            return s.clientService.account.update(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func blockingRequestAsFriend() throws -> User? {
+        return try requestAsFriend().toBlocking().first()
+    }
+    
+    func requestAsFriend() -> Observable<User> {
+        if let s = self.session {
+            return s.clientService.user.requestAsFriend(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func blockingCancelFriendRequest() throws -> Bool? {
+        return try cancelFriendRequest().toBlocking().first()
+    }
+    
+    func cancelFriendRequest() -> Observable<Bool> {
+        if let s = self.session {
+            return s.clientService.user.cancelRequestAsFriend(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func blockingAcceptFriendRequest() throws -> User? {
+        return try acceptFriendRequest().toBlocking().first()
+    }
+    
+    func acceptFriendRequest() -> Observable<User> {
+        if let s = self.session {
+            return s.clientService.user.acceptAsFriend(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func blockingRefuseFriendRequest() throws -> Bool? {
+        return try refuseFriendRequest().toBlocking().first()
+    }
+    
+    func refuseFriendRequest() -> Observable<Bool> {
+        if let s = self.session {
+            return s.clientService.user.refuseAsFriend(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    private func streamFriends(_ page: Int, _ to: Int, _ obs: AnyObserver<User>) {
+        if to > 0, let session = self.session {
+            let _ = session.clientService.user.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), friendsWith: self).subscribe {
+                e in
+                if let e = e.element?.array {
+                    let _ = e.map { obs.onNext($0) }
+                    if e.count < User.PAGE_SIZE {
+                        obs.onCompleted()
+                    } else {
+                        self.streamFriends(page + 1, to - User.PAGE_SIZE, obs)
+                    }
+                } else {
+                    obs.onCompleted()
+                }
+            }
+        } else {
+            obs.onCompleted()
+        }
+    }
+    
+    func blockingListFriends() throws -> [User]? {
+        return try listFriends().toBlocking().toArray()
+    }
+    
+    func listFriends() -> Observable<User> {
+        return Observable.create {
+            obs in
+            self.streamFriends(0, Int.max, obs)
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    private func streamFeed(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>) {
+        if to > 0, let session = self.session {
+            let _ = session.clientService.feed.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), forUser: self).subscribe {
+                e in
+                if let e = e.element?.array {
+                    let _ = e.map { obs.onNext($0) }
+                    if e.count < User.PAGE_SIZE {
+                        obs.onCompleted()
+                    } else {
+                        self.streamFeed(page + 1, to - User.PAGE_SIZE, obs)
+                    }
+                } else {
+                    obs.onCompleted()
+                }
+            }
+        } else {
+            obs.onCompleted()
+        }
+    }
+    
+    func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed]? {
+        return try streamNewsFeed(limit: limit).toBlocking().toArray()
+    }
+    
+    func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
+        return listNewsFeed(page: 0, size: limit)
+    }
+    
+    func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
+        return try listNewsFeed(page: page, size: size).toBlocking().toArray()
+    }
+    
+    func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
+        return Observable.create {
+            obs in
+            self.streamFeed(page, page*User.PAGE_SIZE+size, obs)
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
+        return try sendWallPost(feedPost).toBlocking().first()
+    }
+    
+    func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
+        if let s = self.session {
+            if let p = feedPost.photo {
+                return Observable.create {
+                    obs in
+                    s.clientService.textWallMessage.post(forTarget: self, message: feedPost.textWallMessage, image: p) {
+                        e in
+                        if let e = e as? Feed {
+                            obs.onNext(e)
+                        } else {
+                            obs.onCompleted()
+                        }
+                    }
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            } else if let t = feedPost.textWallMessage {
+                return Observable.create {
+                    obs in
+                    let _ = s.clientService.textWallMessage.post(forTarget: self, message: t).subscribe {
+                        e in
+                        if let e = e.element as? Feed {
+                            obs.onNext(e)
+                        } else if let e = e.error {
+                            obs.onError(e)
+                        } else {
+                            obs.onCompleted()
+                        }
+                    }
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            } else {
+                return Observable.create {
+                    obs in
+                    let e = RestError()
+                    e.setStringAttribute(withName: "message", "At least message or photo is mandatory to post a feed")
+                    obs.onError(e)
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            }
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func blockingSendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) throws -> ConversationMessage? {
+        return try sendPrivateMessage(conversationMessagePost).toBlocking().first()
+    }
+    
+    func sendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) -> Observable<ConversationMessage> {
+        if let s = session {
+            return Observable.create {
+                obs in
+                let conversation = Conversation()
+                conversation.members = [self]
+                let _ = s.clientService.conversation.post(conversation).subscribe {
+                    e in
+                    if let e = e.element {
+                        let _ = e.sendMessage(conversationMessagePost).subscribe {
+                            e in
+                            if let e = e.element {
+                                obs.onNext(e)
+                            } else if let e = e.error {
+                                obs.onError(e)
+                            } else {
+                                obs.onCompleted()
+                            }
+                        }
+                    }
+                }
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    private func streamGroup(_ page: Int, _ to: Int, _ obs: AnyObserver<Group>) {
+        if to > 0, let session = self.session {
+            let _ = session.clientService.group.list(forUser: self, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
+                e in
+                if let e = e.element?.array {
+                    let _ = e.map { obs.onNext($0) }
+                    if e.count < User.PAGE_SIZE {
+                        obs.onCompleted()
+                    } else {
+                        self.streamGroup(page + 1, to - User.PAGE_SIZE, obs)
+                    }
+                } else {
+                    obs.onCompleted()
+                }
+            }
+        } else {
+            obs.onCompleted()
+        }
+    }
+
+    func blockingStreamGroup(limit: Int = Int.max) throws -> [Group] {
+        return try streamGroup(limit: limit).toBlocking().toArray()
+    }
+    
+    func streamGroup(limit: Int = Int.max) -> Observable<Group> {
+        return listGroup(page: 0, size: limit)
+    }
+    
+    func blockingListGroup(page: Int = 0, size: Int = 10) throws -> [Group] {
+        return try listGroup(page: page, size: size).toBlocking().toArray()
+    }
+    
+    func listGroup(page: Int = 0, size: Int = 10) -> Observable<Group> {
+        return Observable.create {
+            obs in
+            self.streamGroup(page, page*User.PAGE_SIZE+size, obs)
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    private func streamEvent(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>) {
+        if to > 0, let session = self.session, let id = self.id {
+            let _ = session.clientService.event.list(forMember: id, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
+                e in
+                if let e = e.element?.array {
+                    let _ = e.map { obs.onNext($0) }
+                    if e.count < User.PAGE_SIZE {
+                        obs.onCompleted()
+                    } else {
+                        self.streamEvent(page + 1, to - User.PAGE_SIZE, obs)
+                    }
+                } else {
+                    obs.onCompleted()
+                }
+            }
+        } else {
+            obs.onCompleted()
+        }
+    }
+
+    func blockingStreamEvent(limit: Int = Int.max) throws -> [Event] {
+        return try streamEvent(limit: limit).toBlocking().toArray()
+    }
+    
+    func streamEvent(limit: Int = Int.max) -> Observable<Event> {
+        return listEvent(page: 0, size: limit)
+    }
+    
+    func blockingListEvent(page: Int = 0, size: Int = 10) throws -> [Event] {
+        return try listEvent(page: page, size: size).toBlocking().toArray()
+    }
+    
+    func listEvent(page: Int = 0, size: Int = 10) -> Observable<Event> {
+        return Observable.create {
+            obs in
+            self.streamEvent(page, page*User.PAGE_SIZE+size, obs)
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
     }
 }

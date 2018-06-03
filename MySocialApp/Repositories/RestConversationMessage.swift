@@ -2,9 +2,13 @@ import Foundation
 import RxSwift
 
 class RestConversationMessage: RestBase<ConversationMessage, ConversationMessage> {
-    func list(_ page: Int, forConversation: Int64?) -> Observable<JSONableArray<ConversationMessage>> {
+    func list(_ page: Int, size: Int = 10, forConversation: Int64?, andConsume: Bool = false) -> Observable<JSONableArray<ConversationMessage>> {
+        var consume = ""
+        if andConsume {
+            consume = "/consume"
+        }
         if let id = forConversation {
-            return super.list("/conversation/\(id)/message/consume", params: ["page": page as AnyObject, "size": 20 as AnyObject])
+            return super.list("/conversation/\(id)/message\(consume)", params: ["page": page as AnyObject, "size": size as AnyObject])
         }
         return super.listEmpty()
     }

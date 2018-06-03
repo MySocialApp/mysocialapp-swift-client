@@ -3,12 +3,13 @@ import RxSwift
 
 class RestGroup: RestBase<Group, Group> {
     
-    func list(_ page: Int, parameters: [String:String] = [:]) -> Observable<JSONableArray<Group>> {
+    func list(_ page: Int, size: Int = 10, parameters: [String:String] = [:]) -> Observable<JSONableArray<Group>> {
         var params: [String:AnyObject] = [:]
         for k in parameters.keys {
             params[k] = parameters[k] as AnyObject
         }
         params["page"] = page as AnyObject
+        params["size"] = size as AnyObject
         return super.list("/group", params: params)
     }
     
@@ -16,9 +17,9 @@ class RestGroup: RestBase<Group, Group> {
         return super.get("/group/\(id)?limited=\(limited)")
     }
 
-    func list(forUser user: User, page: Int = 0) -> Observable<JSONableArray<Group>> {
+    func list(forUser user: User, page: Int = 0, size: Int = 10) -> Observable<JSONableArray<Group>> {
         if let id = user.id {
-            return super.list("/user/\(id)/group", params: ["page":page as AnyObject])
+            return super.list("/user/\(id)/group", params: ["page":page as AnyObject, "size":size as AnyObject])
         } else {
             return self.listEmpty()
         }

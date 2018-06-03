@@ -3,7 +3,7 @@ import RxSwift
 
 class RestEvent: RestBase<Event, Event> {
 
-    func list(_ page: Int, parameters: [String:String]? = nil) -> Observable<JSONableArray<Event>> {
+    func list(_ page: Int, size: Int = 10, parameters: [String:String]? = nil) -> Observable<JSONableArray<Event>> {
         var params: [String:AnyObject] = [:]
         if let p = parameters {
             for k in p.keys {
@@ -13,6 +13,7 @@ class RestEvent: RestBase<Event, Event> {
             }
         }
         params["page"] = page as AnyObject
+        params["size"] = size as AnyObject
         return super.list("/event", params: params)
     }
 
@@ -24,11 +25,11 @@ class RestEvent: RestBase<Event, Event> {
         return super.post("/event", input: event)
     }
     
-    func list(forRide ride: Int64, page: Int = 0) -> Observable<JSONableArray<Event>> {
-        return super.list("/ride/\(ride)/event", params: ["page": page as AnyObject])
+    func list(forRide ride: Int64, page: Int = 0, size: Int = 10) -> Observable<JSONableArray<Event>> {
+        return super.list("/ride/\(ride)/event", params: ["page": page as AnyObject, "size": size as AnyObject])
     }
     
-    func list(forMember rider: Int64, page: Int = 0, parameters: [String:String]? = nil) -> Observable<JSONableArray<Event>> {
+    func list(forMember user: Int64, page: Int = 0, size: Int = 10, parameters: [String:String]? = nil) -> Observable<JSONableArray<Event>> {
         var params: [String:AnyObject] = [:]
         if let p = parameters {
             for k in p.keys {
@@ -38,7 +39,8 @@ class RestEvent: RestBase<Event, Event> {
             }
         }
         params["page"] = page as AnyObject
-        return super.list("/user/\(rider)/event", params: params)
+        params["size"] = size as AnyObject
+        return super.list("/user/\(user)/event", params: params)
     }
     
     func link(_ event: Int64, toRide ride: Int64) -> Observable<Event> {

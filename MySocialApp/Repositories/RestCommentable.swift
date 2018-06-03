@@ -47,12 +47,12 @@ class RestCommentable: RestBase<Comment, Comment> {
             } else if let c = comment {
                 if let id = comment?.id {
                     url += "/\(id)"
-                    super.update(url, input: c).subscribe {
+                    let _ = super.update(url, input: c).subscribe {
                         c in
                         onComplete(c.element)
                     }
                 } else {
-                    super.post(url, input: c).subscribe {
+                    let _ = super.post(url, input: c).subscribe {
                         c in
                         onComplete(c.element)
                     }

@@ -1,9 +1,9 @@
 import Foundation
 import RxSwift
 
-class RestFriendRequest: RestBase<FriendRequest, FriendRequest> {
+class RestFriendRequest: RestBase<FriendRequests, FriendRequests> {
     
-    func list() -> Observable<FriendRequest> {
+    func list() -> Observable<FriendRequests> {
         return super.get("/friend/request")
     }
 }

@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 class Base: JSONable {
     
@@ -64,12 +65,18 @@ class Base: JSONable {
     }
     var isLiked: Bool?{
         get { if let l = self.likes?.hasLike { return l } else { return false } }
-        set(isLiked) {
-            if let l = self.likes {
-                l.hasLike = isLiked
-                self.likes = l
-            }
-        }
+        set(isLiked) { self.likes?.hasLike = isLiked }
+    }
+    var commentsTotal: Int {
+        get { if let t = comments?.total { return t } else { return 0 } }
+        set(total) { comments?.total = total }
+    }
+    var commentsSamples: [Comment] {
+        get { if let s = comments?.samples { return s } else { return [] } }
+    }
+    var likersTotal: Int {
+        get { if let t = likes?.total { return t } else { return 0 } }
+        set(total) { likes?.total = total }
     }
     
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
@@ -202,5 +209,182 @@ class Base: JSONable {
         }
         return super.isEqual(object)
     }
+    
+    // BaseWall specific methods
+    
+    func getBlockingLikes() throws -> [Like] {
+        return try getLikes().toBlocking().toArray()
+    }
+    
+    func getLikes() -> Observable<Like> {
+        if let session = self.session {
+            return Observable.create {
+                obs in
+                let _ = session.clientService.likeable.get(self).subscribe {
+                    e in
+                    if let e = e.element {
+                        e.iterate {
+                            obs.onNext($0)
+                        }
+                    }
+                    obs.onCompleted()
+                }
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        } else {
+            return Observable.create {
+                obs in
+                obs.onCompleted()
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func addBlockingLike() throws -> Like? {
+        return try addLike().toBlocking().first()
+    }
+    
+    func addLike() -> Observable<Like> {
+        if let session = self.session {
+            return session.clientService.likeable.post(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func deleteBlockingLike() throws -> Bool? {
+        return try deleteLike().toBlocking().first()
+    }
+    
+    func deleteLike() -> Observable<Bool> {
+        if let session = self.session {
+            return session.clientService.likeable.delete(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func getBlockingComments() throws -> [Comment] {
+        return try getComments().toBlocking().toArray()
+    }
+    
+    func getComments() -> Observable<Comment> {
+        if let session = self.session {
+            return Observable.create {
+                obs in
+                let _ = session.clientService.commentable.get(self).subscribe {
+                    e in
+                    if let e = e.element {
+                        e.iterate {
+                            obs.onNext($0)
+                        }
+                    }
+                    obs.onCompleted()
+                }
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        } else {
+            return Observable.create {
+                obs in
+                obs.onCompleted()
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func addBlockingComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
+        return try addComment(comment, withPhoto: withPhoto).toBlocking().first()
+    }
+    
+    func addComment(_ comment: Comment, withPhoto: UIImage? = nil) -> Observable<Comment> {
+        if let session = self.session {
+            return Observable.create {
+                obs in
+                session.clientService.commentable.post(self, comment: comment, image: withPhoto) {
+                    e in
+                    if let e = e {
+                        obs.onNext(e)
+                    } else {
+                        obs.onCompleted()
+                    }
+                }
+                return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func ignore() -> Observable<Void> {
+        if let session = self.session, let id = self.id {
+            return session.clientService.feed.stopFollow(id)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func abuse() -> Observable<Void> {
+        if let session = self.session, let id = self.id {
+            return session.clientService.report.post(id)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+    
+    func delete() -> Observable<Bool> {
+        if let session = self.session, let id = self.id {
+            return session.clientService.feed.delete(id)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
+
 }
 

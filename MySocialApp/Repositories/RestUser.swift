@@ -48,6 +48,10 @@ class RestUser: RestBase<User, User> {
         return super.get("/user/\(id)")
     }
     
+    func getByExternalId(_ id: String) -> Observable<User> {
+        return super.get("/user/external/\(id)")
+    }
+    
     func acceptAsFriend(_ rider: User) -> Observable<User> {
         if let id = rider.id {
             return super.post("/user/\(id)/friend", input: nil)

@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 class PreviewNotification: Base {
     var total: Int?{
@@ -18,6 +19,25 @@ class PreviewNotification: Base {
             return Notification().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
+        }
+    }
+
+    func blockingConsume() throws -> PreviewNotification? {
+        return try consume().toBlocking().first()
+    }
+    
+    func consume() -> Observable<PreviewNotification> {
+        if let s = session, let id = self.id {
+            return s.clientService.notification.consume(id)
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
         }
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-class FriendRequest: Base {
+class FriendRequests: Base {
     var outgoing: [User]?{
         get { return (super.getAttributeInstance("outgoing") as! JSONableArray<User>?)?.array }
         set(outgoing) { super.setArrayAttribute(withName: "outgoing", outgoing) }
