@@ -6,9 +6,9 @@ public class MySocialApp {
     
     private var configuration: Configuration
     private var clientConfiguration: ClientConfiguration
-    private lazy var login = { RestLogin(nil, configuration: self.configuration) }
-    private lazy var reset = { RestReset(nil, configuration: self.configuration) }
-    private lazy var account = { RestAccount(nil, configuration: self.configuration) }
+    private lazy var login = RestLogin(nil, configuration: self.configuration)
+    private lazy var reset = RestReset(nil, configuration: self.configuration)
+    private lazy var account = RestAccount(nil, configuration: self.configuration)
     
     internal init(_ builder: Builder) {
         self.configuration = Configuration(appId: builder.mAppId, apiEndpointURL: builder.mAPIEndpointURL)
