@@ -58,7 +58,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', :git => 'https://github.com/MySocialApp/mysocialapp-swift-client.git'
+  pod 'MySocialApp', '~> 1.0.0'
 }
 ```
 
