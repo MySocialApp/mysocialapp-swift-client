@@ -1,27 +1,27 @@
 import Foundation
 
-class Member<T: RawRepresentable where T.RawValue == String>: JSONable {
-    var createdDate: Date? {
+public class Member<T: RawRepresentable where T.RawValue == String>: JSONable {
+    public var createdDate: Date? {
         get { return (super.getAttributeInstance("created_date") as! JSONableDate?)?.date }
         set(createdDate) { super.setDateAttribute(withName: "created_date", createdDate) }
     }
-    var updatedDate: Date? {
+    public var updatedDate: Date? {
         get { return (super.getAttributeInstance("updated_date") as! JSONableDate?)?.date }
         set(updatedDate) { super.setDateAttribute(withName: "updated_date", updatedDate) }
     }
-    var event: Event? {
+    public var event: Event? {
         get { return super.getAttributeInstance("event") as? Event }
         set(event) { super.setAttribute(withName: "event", event) }
     }
-    var group: Group? {
+    public var group: Group? {
         get { return super.getAttributeInstance("group") as? Group }
         set(group) { super.setAttribute(withName: "group", group) }
     }
-    var user: User? {
+    public var user: User? {
         get { return super.getAttributeInstance("user") as? User }
         set(user) { super.setAttribute(withName: "user", user) }
     }
-    var status: T? {
+    public var status: T? {
         get { if let s = (super.getAttributeInstance("status") as! JSONableString?)?.string { return T(rawValue: s) } else { return nil } }
         set(status) { super.setStringAttribute(withName: "status", status?.rawValue) }
     }

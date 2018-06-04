@@ -2,47 +2,47 @@ import Foundation
 import CoreLocation
 import MapKit
 
-class PointOfInterest: BaseCustomField {
-    override var idStr: String? {
+public class PointOfInterest: BaseCustomField {
+    public override var idStr: String? {
         get { return (super.getAttributeInstance("id") as! JSONableString?)?.string }
         set(id) { super.setStringAttribute(withName: "id", id) }
     }
-    override var id: Int64? {
+    public override var id: Int64? {
         get { if let i = self.idStr { return Int64(i) } else { return nil } }
         set(id) { if let i = id { self.idStr = "\(i)" } else { self.idStr = nil } }
     }
-    var title: String? {
+    public var title: String? {
         get { return (super.getAttributeInstance("title") as! JSONableString?)?.string }
         set(title) { super.setStringAttribute(withName: "title", title) }
     }
-    override var displayedName: String? {
+    public override var displayedName: String? {
         get { if let t = self.title { return t } else { return super.displayedName } }
         set(displayedName) {
             self.title = displayedName
             super.displayedName = displayedName
         }
     }
-    var note: String? {
+    public var note: String? {
         get { return (super.getAttributeInstance("note") as! JSONableString?)?.string }
         set(note) { super.setStringAttribute(withName: "note", note) }
     }
-    var photos: [JSONableInt64]? {
-        get { return (super.getAttributeInstance("photos") as! JSONableArray<JSONableInt64>?)?.array }
-        set(photos) { super.setArrayAttribute(withName: "photos", photos) }
+    public var photos: [Int64]? {
+        get { return (super.getAttributeInstance("photos") as! JSONableArray<JSONableInt64>?)?.array.flatMap { $0.int64 } }
+        set(photos) { super.setArrayAttribute(withName: "photos", photos?.map { JSONableInt64($0) }) }
     }
-    var userId: Int64? {
+    public var userId: Int64? {
         get { return (super.getAttributeInstance("user_id") as! JSONableInt64?)?.int64 }
         set(userId) { super.setInt64Attribute(withName: "user_id", userId) }
     }
-    var location: Location? {
+    public var location: Location? {
         get { return super.getAttributeInstance("location") as? Location }
         set(location) { super.setAttribute(withName: "location", location) }
     }
-    var flag: RideShareFlag? {
+    public var flag: RideShareFlag? {
         get { if let f = (super.getAttributeInstance("flag") as! JSONableString?)?.string { return RideShareFlag(rawValue: f) } else { return nil } }
         set(flag) { if let f = flag { super.setStringAttribute(withName: "flag", f.rawValue) } else { super.setStringAttribute(withName: "flag", nil) } }
     }
-    var subtitle: String? {
+    public var subtitle: String? {
         get { return self.note }
     }
     

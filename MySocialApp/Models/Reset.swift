@@ -1,16 +1,16 @@
 import Foundation
 
-class Reset: Base {
+public class Reset: Base {
 
-    var username: String?{
+    public var username: String?{
         get { return (super.getAttributeInstance("username") as! JSONableString?)?.string }
         set(login) { super.setStringAttribute(withName: "username", login) }
     }
-    var email: String?{
+    public var email: String?{
         get { return (super.getAttributeInstance("email") as! JSONableString?)?.string }
         set(email) { super.setStringAttribute(withName: "email", email) }
     }
-    var response: String?{
+    public var response: String?{
         get { return (super.getAttributeInstance("response") as! JSONableString?)?.string }
         set(response) { super.setStringAttribute(withName: "response", response) }
     }
@@ -28,7 +28,7 @@ class Reset: Base {
         super.init()
     }
 
-    init(username: String) {
+    public init(username: String) {
         super.init()
         self.username = username
     }

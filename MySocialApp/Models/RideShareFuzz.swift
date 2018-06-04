@@ -1,7 +1,7 @@
 import Foundation
 
-class RideShareFuzz: Base {
-    var radiusDistance: Int64? {
+public class RideShareFuzz: Base {
+    public var radiusDistance: Int64? {
         get { return (super.getAttributeInstance("radius_distance") as! JSONableInt64?)?.int64 }
         set(radiusDistance) { super.setInt64Attribute(withName: "radius_distance", radiusDistance) }
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-enum RideLocationType: String {
+public enum RideLocationType: String {
     case start = "START"
     case finish = "FINISH"
     case fillTheTank = "FILL_THE_TANK" // faire le plein d'essence

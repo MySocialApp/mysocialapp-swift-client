@@ -1,70 +1,70 @@
 import Foundation
 import RxSwift
 
-class Event: BaseCustomField {
+public class Event: BaseCustomField {
     private static let PAGE_SIZE = 10
 
-    var name: String?{
+    public var name: String?{
         get { return (super.getAttributeInstance("name") as! JSONableString?)?.string }
         set(name) { super.setStringAttribute(withName: "name", name) }
     }
-    var desc: String?{
+    public var desc: String?{
         get { return (super.getAttributeInstance("description") as! JSONableString?)?.string }
         set(description) { super.setStringAttribute(withName: "description", description) }
     }
-    var startDate: Date?{
+    public var startDate: Date?{
         get { return (super.getAttributeInstance("start_date") as! JSONableDate?)?.date }
         set(startDate) { super.setDateAttribute(withName: "start_date", startDate) }
     }
-    var endDate: Date?{
+    public var endDate: Date?{
         get { return (super.getAttributeInstance("end_date") as! JSONableDate?)?.date }
         set(endDate) { super.setDateAttribute(withName: "end_date", endDate) }
     }
-    var location: Location?{
+    public var location: Location?{
         get { return super.getAttributeInstance("location") as? Location }
         set(location) { super.setAttribute(withName: "location", location) }
     }
-    var staticMapsURL: String?{
+    public var staticMapsURL: String?{
         get { return (super.getAttributeInstance("static_maps_url") as! JSONableString?)?.string }
         set(staticMapsURL) { super.setStringAttribute(withName: "static_maps_url", staticMapsURL) }
     }
-    var maxSeats: Int64?{
+    public var maxSeats: Int64?{
         get { return (super.getAttributeInstance("max_seats") as! JSONableInt64?)?.int64 }
         set(maxSeats) { super.setInt64Attribute(withName: "max_seats", maxSeats) }
     }
-    var isCancelled: Bool?{
+    public var isCancelled: Bool?{
         get { return (super.getAttributeInstance("is_cancelled") as! JSONableBool?)?.bool }
         set(isCancelled) { super.setBoolAttribute(withName: "is_cancelled", isCancelled) }
     }
-    var freeSeats: Int?{
+    public var freeSeats: Int?{
         get { return (super.getAttributeInstance("free_seats") as! JSONableInt?)?.int }
         set(freeSeats) { super.setIntAttribute(withName: "free_seats", freeSeats) }
     }
-    var eventMemberAccessControl: MemberAccessControl?{
+    public var eventMemberAccessControl: MemberAccessControl?{
         get { if let c = (super.getAttributeInstance("event_member_access_control") as! JSONableString?)?.string { return MemberAccessControl(rawValue: c) } else { return nil } }
         set(eventMemberAccessControl) { super.setStringAttribute(withName: "event_member_access_control", eventMemberAccessControl?.rawValue) }
     }
-    var members: [Member<EventStatus>]?{
+    public var members: [Member<EventStatus>]?{
         get { return (super.getAttributeInstance("members") as! JSONableArray<Member<EventStatus>>?)?.array }
         set(members) { super.setArrayAttribute(withName: "members", members) }
     }
-    var coverPhoto: Photo?{
+    public var coverPhoto: Photo?{
         get { return super.getAttributeInstance("cover_photo") as? Photo }
         set(coverPhoto) { super.setAttribute(withName: "cover_photo", coverPhoto) }
     }
-    var profileCoverPhoto: Photo?{
+    public var profileCoverPhoto: Photo?{
         get { return super.getAttributeInstance("profile_cover_photo") as? Photo }
         set(profileCoverPhoto) { super.setAttribute(withName: "profile_cover_photo", profileCoverPhoto) }
     }
-    var isMember: Bool?{
+    public var isMember: Bool?{
         get { return (super.getAttributeInstance("is_member") as! JSONableBool?)?.bool }
         set(isMember) { super.setBoolAttribute(withName: "is_member", isMember) }
     }
-    var distanceInMeters: Int?{
+    public var distanceInMeters: Int?{
         get { return (super.getAttributeInstance("distance_in_meters") as! JSONableInt?)?.int }
         set(distanceInMeters) { super.setIntAttribute(withName: "distance_in_meters", distanceInMeters) }
     }
-    var totalMembers: Int64?{
+    public var totalMembers: Int64?{
         get { return (super.getAttributeInstance("total_members") as! JSONableInt64?)?.int64 }
         set(totalMembers) { super.setInt64Attribute(withName: "total_members", totalMembers) }
     }
@@ -95,7 +95,7 @@ class Event: BaseCustomField {
         
     }
 
-    override func getBodyImageURL() -> String? {
+    public override func getBodyImageURL() -> String? {
         return staticMapsURL
     }
     
@@ -119,19 +119,19 @@ class Event: BaseCustomField {
         }
     }
 
-    func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed] {
+    public func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed] {
         return try streamNewsFeed(limit: limit).toBlocking().toArray()
     }
     
-    func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
+    public func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
         return listNewsFeed(page: 0, size: limit)
     }
     
-    func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
+    public func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
         return try listNewsFeed(page: page, size: size).toBlocking().toArray()
     }
     
-    func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
+    public func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
             self.stream(page, size, obs)
@@ -140,11 +140,11 @@ class Event: BaseCustomField {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingSave() throws -> Event? {
+    public func blockingSave() throws -> Event? {
         return try self.save().toBlocking().first()
     }
     
-    func save() -> Observable<Event> {
+    public func save() -> Observable<Event> {
         if let s = session {
             if let _ = self.id {
                 return s.clientService.event.update(self)
@@ -163,11 +163,11 @@ class Event: BaseCustomField {
         }
     }
     
-    func blockingCancel() throws -> Event? {
+    public func blockingCancel() throws -> Event? {
         return try cancel().toBlocking().first()
     }
     
-    func cancel() -> Observable<Event> {
+    public func cancel() -> Observable<Event> {
         if let s = session, let id = self.id {
             return s.clientService.event.cancel(id)
         } else {
@@ -182,11 +182,11 @@ class Event: BaseCustomField {
         }
     }
     
-    func blockingParticipate() throws -> User? {
+    public func blockingParticipate() throws -> User? {
         return try participate().toBlocking().first()
     }
 
-    func participate() -> Observable<User> {
+    public func participate() -> Observable<User> {
         if let s = session {
             return s.clientService.user.join(event: self)
         } else {
@@ -201,11 +201,11 @@ class Event: BaseCustomField {
         }
     }
     
-    func blockingUnParticipate() throws -> Bool? {
+    public func blockingUnParticipate() throws -> Bool? {
         return try unParticipate().toBlocking().first()
     }
 
-    func unParticipate() -> Observable<Bool> {
+    public func unParticipate() -> Observable<Bool> {
         if let s = session {
             return s.clientService.user.unjoin(event: self)
         } else {
@@ -220,7 +220,7 @@ class Event: BaseCustomField {
         }
     }
     
-    class Builder {
+    public class Builder {
         private var mName: String? = nil
         private var mDescription: String? = nil
         private var mStartDate: Date? = nil
@@ -231,52 +231,52 @@ class Event: BaseCustomField {
         private var mImage: UIImage? = nil
         private var mCoverImage: UIImage? = nil
         
-        func setName(_ name: String) -> Builder {
+        public func setName(_ name: String) -> Builder {
             self.mName = name
             return self
         }
         
-        func setDescription(_ description: String) -> Builder {
+        public func setDescription(_ description: String) -> Builder {
             self.mDescription = description
             return self
         }
         
-        func setStartDate(_ date: Date) -> Builder {
+        public func setStartDate(_ date: Date) -> Builder {
             self.mStartDate = date
             return self
         }
         
-        func setEndDate(_ date: Date) -> Builder {
+        public func setEndDate(_ date: Date) -> Builder {
             self.mEndDate = date
             return self
         }
         
-        func setLocation(_ location: Location) -> Builder {
+        public func setLocation(_ location: Location) -> Builder {
             self.mLocation = location
             return self
         }
         
-        func setMaxSeats(_ maxSeats: Int64) -> Builder {
+        public func setMaxSeats(_ maxSeats: Int64) -> Builder {
             self.mMaxSeats = maxSeats
             return self
         }
         
-        func setMemberAccessControl(_ memberAccessControl: MemberAccessControl) -> Builder {
+        public func setMemberAccessControl(_ memberAccessControl: MemberAccessControl) -> Builder {
             self.mMemberAccessControl = memberAccessControl
             return self
         }
         
-        func setImage(_ image: UIImage) -> Builder {
+        public func setImage(_ image: UIImage) -> Builder {
             self.mImage = image
             return self
         }
         
-        func setCoverImage(_ image: UIImage) -> Builder {
+        public func setCoverImage(_ image: UIImage) -> Builder {
             self.mCoverImage = image
             return self
         }
         
-        func build() throws -> Event {
+        public func build() throws -> Event {
             guard mName != nil && mName != "" else {
                 let e = RestError()
                 e.setStringAttribute(withName: "message", "Name cannot be null or empty")

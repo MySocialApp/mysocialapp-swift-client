@@ -1,6 +1,6 @@
 import Foundation
 
-enum EventStatus: String {
+public enum EventStatus: String {
     case WantToParticipate = "WANT_TO_PARTICIPATE"
     case WaitingConfirmation = "WAITING_CONFIRMATION"
     case Confirmed = "CONFIRMED"

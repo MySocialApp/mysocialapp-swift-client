@@ -2,19 +2,19 @@ import Foundation
 import RxSwift
 import RxBlocking
 
-class FluentFriend {
+public class FluentFriend {
     
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
 
-    func blockingListIncomingFriendRequests() throws -> [User] {
+    public func blockingListIncomingFriendRequests() throws -> [User] {
         return try listIncomingFriendRequests().toBlocking().toArray()
     }
     
-    func listIncomingFriendRequests() -> Observable<User> {
+    public func listIncomingFriendRequests() -> Observable<User> {
         return Observable.create {
             obs in
             let _ = self.listFriendRequests().subscribe {
@@ -29,11 +29,11 @@ class FluentFriend {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingListOutgoingFriendRequests() throws -> [User] {
+    public func blockingListOutgoingFriendRequests() throws -> [User] {
         return try listOutgoingFriendRequests().toBlocking().toArray()
     }
     
-    func listOutgoingFriendRequests() -> Observable<User> {
+    public func listOutgoingFriendRequests() -> Observable<User> {
         return Observable.create {
             obs in
             let _ = self.listFriendRequests().subscribe {
@@ -48,19 +48,19 @@ class FluentFriend {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingListFriendRequests() throws -> FriendRequests? {
+    public func blockingListFriendRequests() throws -> FriendRequests? {
         return try listFriendRequests().toBlocking().first()
     }
     
-    func listFriendRequests() -> Observable<FriendRequests> {
+    public func listFriendRequests() -> Observable<FriendRequests> {
         return session.clientService.friendRequest.list()
     }
     
-    func blockingList() throws -> [User] {
+    public func blockingList() throws -> [User] {
         return try list().toBlocking().toArray()
     }
     
-    func list() -> Observable<User> {
+    public func list() -> Observable<User> {
         return Observable.create {
             obs in
             let _ = self.session.account.get().subscribe {

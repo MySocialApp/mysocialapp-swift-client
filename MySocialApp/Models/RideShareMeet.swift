@@ -1,9 +1,9 @@
 import Foundation
 import MapKit
 
-class RideShareMeet: Base, MKAnnotation {
-    var title: String? { get { return self.owner?.displayedName } }
-    var coordinate: CLLocationCoordinate2D {
+public class RideShareMeet: Base, MKAnnotation {
+    public var title: String? { get { return self.owner?.displayedName } }
+    public var coordinate: CLLocationCoordinate2D {
         get {
             if let lat = self.location?.latitude, let lng = self.location?.longitude {
                 return CLLocationCoordinate2D(latitude: lat, longitude: lng)
@@ -11,11 +11,11 @@ class RideShareMeet: Base, MKAnnotation {
             return CLLocationCoordinate2D()
         }
     }
-    var date: Date? { get { return (self.getAttributeInstance("date") as! JSONableDate?)?.date } }
-    var userId: Int64? { get { return (self.getAttributeInstance("user_id") as! JSONableInt64?)?.int64 } }
-    var distance: Double? { get { return (self.getAttributeInstance("distance") as! JSONableDouble?)?.double } }
-    var location: Location? { get { return self.getAttributeInstance("location") as? Location } }
-    var new: Bool? { get { return (self.getAttributeInstance("new") as! JSONableBool?)?.bool } }
+    public var date: Date? { get { return (self.getAttributeInstance("date") as! JSONableDate?)?.date } }
+    public var userId: Int64? { get { return (self.getAttributeInstance("user_id") as! JSONableInt64?)?.int64 } }
+    public var distance: Double? { get { return (self.getAttributeInstance("distance") as! JSONableDouble?)?.double } }
+    public var location: Location? { get { return self.getAttributeInstance("location") as? Location } }
+    public var new: Bool? { get { return (self.getAttributeInstance("new") as! JSONableBool?)?.bool } }
     
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {

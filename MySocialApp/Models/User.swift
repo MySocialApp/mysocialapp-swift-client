@@ -1,94 +1,94 @@
 import Foundation
 import RxSwift
 
-class User: BaseCustomField {
+public class User: BaseCustomField {
     private static let PAGE_SIZE = 10
 
-    var firstName: String?{
+    public var firstName: String?{
         get { return (super.getAttributeInstance("first_name") as! JSONableString?)?.string }
         set(firstName) { super.setStringAttribute(withName: "first_name", firstName) }
     }
-    var lastName: String?{
+    public var lastName: String?{
         get { return (super.getAttributeInstance("last_name") as! JSONableString?)?.string }
         set(lastName) { super.setStringAttribute(withName: "last_name", lastName) }
     }
-    var fullName: String?{
+    public var fullName: String?{
         get { return (super.getAttributeInstance("full_name") as! JSONableString?)?.string }
         set(fullName) { super.setStringAttribute(withName: "full_name", fullName) }
     }
-    var presentation: String?{
+    public var presentation: String?{
         get { return (super.getAttributeInstance("presentation") as! JSONableString?)?.string }
         set(presentation) { super.setStringAttribute(withName: "presentation", presentation) }
     }
-    var dateOfBirth: Date?{
+    public var dateOfBirth: Date?{
         get { return (super.getAttributeInstance("date_of_birth") as! JSONableDate?)?.date }
         set(dateOfBirth) { super.setDateAttribute(withName: "date_of_birth", dateOfBirth) }
     }
-    var gender: Gender?{
+    public var gender: Gender?{
         get { if let g = (super.getAttributeInstance("gender") as! JSONableString?)?.string { return Gender(rawValue: g) } else { return nil } }
         set(gender) { super.setStringAttribute(withName: "gender", gender?.rawValue) }
     }
-    var username: String?{
+    public var username: String?{
         get { return (super.getAttributeInstance("username") as! JSONableString?)?.string }
         set(username) { super.setStringAttribute(withName: "username", username) }
     }
-    var password: String?{
+    public var password: String?{
         get { return (super.getAttributeInstance("password") as! JSONableString?)?.string }
         set(password) { super.setStringAttribute(withName: "password", password) }
     }
-    var profilePhoto: Photo?{
+    public var profilePhoto: Photo?{
         get { return super.getAttributeInstance("profile_photo") as? Photo }
         set(profilePhoto) { super.setAttribute(withName: "profile_photo", profilePhoto) }
     }
-    var profileCoverPhoto: Photo?{
+    public var profileCoverPhoto: Photo?{
         get { return super.getAttributeInstance("profile_cover_photo") as? Photo }
         set(profileCoverPhoto) { super.setAttribute(withName: "profile_cover_photo", profileCoverPhoto) }
     }
-    var email: String?{
+    public var email: String?{
         get { return (super.getAttributeInstance("email") as! JSONableString?)?.string }
         set(email) { super.setStringAttribute(withName: "email", email) }
     }
-    var currentStatus: Status?{
+    public var currentStatus: Status?{
         get { return super.getAttributeInstance("current_status") as? Status }
         set(currentStatus) { super.setAttribute(withName: "current_status", currentStatus) }
     }
-    var commonFriends: [User]?{
+    public var commonFriends: [User]?{
         get { return (super.getAttributeInstance("common_friends") as! JSONableArray<User>?)?.array }
         set(commonFriends) { super.setArrayAttribute(withName: "common_friends", commonFriends) }
     }
-    var isFriend: Bool?{
+    public var isFriend: Bool?{
         get { return (super.getAttributeInstance("is_friend") as! JSONableBool?)?.bool }
         set(isFriend) { super.setBoolAttribute(withName: "is_friend", isFriend) }
     }
-    var isRequestedAsFriend: Bool?{
+    public var isRequestedAsFriend: Bool?{
         get { return (super.getAttributeInstance("is_requested_as_friend") as! JSONableBool?)?.bool }
         set(isRequestedAsFriend) { super.setBoolAttribute(withName: "is_requested_as_friend", isRequestedAsFriend) }
     }
-    var livingLocation: Location?{
+    public var livingLocation: Location?{
         get { return super.getAttributeInstance("living_location") as? Location }
         set(livingLocation) { super.setAttribute(withName: "living_location", livingLocation) }
     }
-    var distance: Int?{
+    public var distance: Int?{
         get { return (super.getAttributeInstance("distance") as! JSONableInt?)?.int }
         set(distance) { super.setIntAttribute(withName: "distance", distance) }
     }
-    var flag: UserFlag?{
+    public var flag: UserFlag?{
         get { return super.getAttributeInstance("flag") as? UserFlag }
         set(flag) { super.setAttribute(withName: "flag", flag) }
     }
-    var userStat: UserStat? {
+    public var userStat: UserStat? {
         get { return super.getAttributeInstance("user_stat") as? UserStat }
         set(userStat) { super.setAttribute(withName: "user_stat", userStat) }
     }
-    var userSettings: UserSettings? {
+    public var userSettings: UserSettings? {
         get { return super.getAttributeInstance("user_settings") as? UserSettings }
         set(userSettings) { super.setAttribute(withName: "user_settings", userSettings) }
     }
-    var spokenLanguage: InterfaceLanguage? {
+    public var spokenLanguage: InterfaceLanguage? {
         get { if let z = (super.getAttributeInstance("spoken_language") as! JSONableString?)?.string { return InterfaceLanguage(rawValue: z) } else { return nil } }
         set(spokenLanguage) { super.setStringAttribute(withName: "spoken_language", spokenLanguage?.rawValue) }
     }
-    var authorities: [String] {
+    public var authorities: [String] {
         get { if let a = super.getAttributeInstance("authorities") as? JSONableArray<JSONableString> { return a.array.flatMap { $0.string } } else { return [] } }
     }
     
@@ -123,15 +123,15 @@ class User: BaseCustomField {
         }
     }
     
-    override func getBodyImageURL() -> String? {
+    public override func getBodyImageURL() -> String? {
         return self.displayedPhoto?.getBodyImageURL()
     }
     
-    func blockingSave() throws -> User? {
+    public func blockingSave() throws -> User? {
         return try self.save().toBlocking().first()
     }
     
-    func save() -> Observable<User> {
+    public func save() -> Observable<User> {
         if let s = self.session {
             return s.clientService.account.update(self)
         } else {
@@ -146,11 +146,11 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingRequestAsFriend() throws -> User? {
+    public func blockingRequestAsFriend() throws -> User? {
         return try requestAsFriend().toBlocking().first()
     }
     
-    func requestAsFriend() -> Observable<User> {
+    public func requestAsFriend() -> Observable<User> {
         if let s = self.session {
             return s.clientService.user.requestAsFriend(self)
         } else {
@@ -165,11 +165,11 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingCancelFriendRequest() throws -> Bool? {
+    public func blockingCancelFriendRequest() throws -> Bool? {
         return try cancelFriendRequest().toBlocking().first()
     }
     
-    func cancelFriendRequest() -> Observable<Bool> {
+    public func cancelFriendRequest() -> Observable<Bool> {
         if let s = self.session {
             return s.clientService.user.cancelRequestAsFriend(self)
         } else {
@@ -184,11 +184,11 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingAcceptFriendRequest() throws -> User? {
+    public func blockingAcceptFriendRequest() throws -> User? {
         return try acceptFriendRequest().toBlocking().first()
     }
     
-    func acceptFriendRequest() -> Observable<User> {
+    public func acceptFriendRequest() -> Observable<User> {
         if let s = self.session {
             return s.clientService.user.acceptAsFriend(self)
         } else {
@@ -203,11 +203,11 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingRefuseFriendRequest() throws -> Bool? {
+    public func blockingRefuseFriendRequest() throws -> Bool? {
         return try refuseFriendRequest().toBlocking().first()
     }
     
-    func refuseFriendRequest() -> Observable<Bool> {
+    public func refuseFriendRequest() -> Observable<Bool> {
         if let s = self.session {
             return s.clientService.user.refuseAsFriend(self)
         } else {
@@ -242,11 +242,11 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingListFriends() throws -> [User]? {
+    public func blockingListFriends() throws -> [User]? {
         return try listFriends().toBlocking().toArray()
     }
     
-    func listFriends() -> Observable<User> {
+    public func listFriends() -> Observable<User> {
         return Observable.create {
             obs in
             self.streamFriends(0, Int.max, obs)
@@ -275,19 +275,19 @@ class User: BaseCustomField {
         }
     }
     
-    func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed]? {
+    public func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed]? {
         return try streamNewsFeed(limit: limit).toBlocking().toArray()
     }
     
-    func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
+    public func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
         return listNewsFeed(page: 0, size: limit)
     }
     
-    func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
+    public func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
         return try listNewsFeed(page: page, size: size).toBlocking().toArray()
     }
     
-    func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
+    public func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
             self.streamFeed(page, page*User.PAGE_SIZE+size, obs)
@@ -296,11 +296,11 @@ class User: BaseCustomField {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingSendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) throws -> ConversationMessage? {
+    public func blockingSendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) throws -> ConversationMessage? {
         return try sendPrivateMessage(conversationMessagePost).toBlocking().first()
     }
     
-    func sendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) -> Observable<ConversationMessage> {
+    public func sendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) -> Observable<ConversationMessage> {
         if let s = session {
             return Observable.create {
                 obs in
@@ -356,19 +356,19 @@ class User: BaseCustomField {
         }
     }
 
-    func blockingStreamGroup(limit: Int = Int.max) throws -> [Group] {
+    public func blockingStreamGroup(limit: Int = Int.max) throws -> [Group] {
         return try streamGroup(limit: limit).toBlocking().toArray()
     }
     
-    func streamGroup(limit: Int = Int.max) -> Observable<Group> {
+    public func streamGroup(limit: Int = Int.max) -> Observable<Group> {
         return listGroup(page: 0, size: limit)
     }
     
-    func blockingListGroup(page: Int = 0, size: Int = 10) throws -> [Group] {
+    public func blockingListGroup(page: Int = 0, size: Int = 10) throws -> [Group] {
         return try listGroup(page: page, size: size).toBlocking().toArray()
     }
     
-    func listGroup(page: Int = 0, size: Int = 10) -> Observable<Group> {
+    public func listGroup(page: Int = 0, size: Int = 10) -> Observable<Group> {
         return Observable.create {
             obs in
             self.streamGroup(page, page*User.PAGE_SIZE+size, obs)
@@ -397,19 +397,19 @@ class User: BaseCustomField {
         }
     }
 
-    func blockingStreamEvent(limit: Int = Int.max) throws -> [Event] {
+    public func blockingStreamEvent(limit: Int = Int.max) throws -> [Event] {
         return try streamEvent(limit: limit).toBlocking().toArray()
     }
     
-    func streamEvent(limit: Int = Int.max) -> Observable<Event> {
+    public func streamEvent(limit: Int = Int.max) -> Observable<Event> {
         return listEvent(page: 0, size: limit)
     }
     
-    func blockingListEvent(page: Int = 0, size: Int = 10) throws -> [Event] {
+    public func blockingListEvent(page: Int = 0, size: Int = 10) throws -> [Event] {
         return try listEvent(page: page, size: size).toBlocking().toArray()
     }
     
-    func listEvent(page: Int = 0, size: Int = 10) -> Observable<Event> {
+    public func listEvent(page: Int = 0, size: Int = 10) -> Observable<Event> {
         return Observable.create {
             obs in
             self.streamEvent(page, page*User.PAGE_SIZE+size, obs)

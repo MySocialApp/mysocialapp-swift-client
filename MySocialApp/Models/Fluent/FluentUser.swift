@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class FluentUser {
+public class FluentUser {
     private static let PAGE_SIZE = 10
     
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
     
@@ -53,27 +53,27 @@ class FluentUser {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingGet(_ id: Int64) throws -> User? {
+    public func blockingGet(_ id: Int64) throws -> User? {
         return try self.get(id).toBlocking().first()
     }
     
-    func get(_ id: Int64) -> Observable<User> {
+    public func get(_ id: Int64) -> Observable<User> {
         return session.clientService.user.get(id)
     }
 
-    func blockingGetByExternalId(_ id: String) throws -> User? {
+    public func blockingGetByExternalId(_ id: String) throws -> User? {
         return try getByExternalId(id).toBlocking().first()
     }
     
-    func getByExternalId(_ id: String) -> Observable<User> {
+    public func getByExternalId(_ id: String) -> Observable<User> {
         return session.clientService.user.getByExternalId(id)
     }
 
-    func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<User>? {
+    public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<User>? {
         return try self.search(search, page: page, size: size).toBlocking().first()
     }
     
-    func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<User>> {
+    public func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<User>> {
         return Observable.create {
             obs in
             if size > 0 {
@@ -99,54 +99,54 @@ class FluentUser {
             .subscribeOn(MainScheduler.instance)
     }
     
-    class Search: ISearch {
+    public class Search: ISearch {
         
-        class Builder {
+        public class Builder {
             private var user = User()
             private var mLocationMaximumDistance: Double? = nil
             private var mSortOrder: SortOrder? = nil
             
-            func setFirstName(_ firstName: String) -> Builder {
+            public func setFirstName(_ firstName: String) -> Builder {
                 self.user.firstName = firstName
                 return self
             }
             
-            func setLastName(_ lastName: String) -> Builder {
+            public func setLastName(_ lastName: String) -> Builder {
                 self.user.lastName = lastName
                 return self
             }
             
-            func setGender(_ gender: Gender) -> Builder {
+            public func setGender(_ gender: Gender) -> Builder {
                 self.user.gender = gender
                 return self
             }
             
-            func setLocation(_ location: Location) -> Builder {
+            public func setLocation(_ location: Location) -> Builder {
                 self.user.livingLocation = location
                 return self
             }
             
-            func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
+            public func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance
                 return self
             }
             
-            func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
+            public func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance * 1000
                 return self
             }
             
-            func setPresentation(_ presentation: String) -> Builder {
+            public func setPresentation(_ presentation: String) -> Builder {
                 self.user.presentation = presentation
                 return self
             }
             
-            func setOrder(_ sortOrder: SortOrder) -> Builder {
+            public func setOrder(_ sortOrder: SortOrder) -> Builder {
                 self.mSortOrder = sortOrder
                 return self
             }
             
-            func build() -> Search {
+            public func build() -> Search {
                 return Search(SearchQuery(user: user, q: nil, name: nil, content: nil, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: nil, endDate: nil, dateField: nil))
             }
         }

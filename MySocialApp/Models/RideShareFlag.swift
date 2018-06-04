@@ -1,6 +1,6 @@
 import Foundation
 
-enum RideShareFlag: String {
+public enum RideShareFlag: String {
     case start = "START"
     case end = "END"
     case pointOfView = "POINT_OF_VIEW"

@@ -1,80 +1,80 @@
 import Foundation
 import RxSwift
 
-class Base: JSONable {
+public class Base: JSONable {
     
-    var id: Int64? {
+    public var id: Int64? {
         get { return (super.getAttributeInstance("id") as! JSONableInt64?)?.int64 }
         set(id) { super.setInt64Attribute(withName: "id", id) }
     }
-    var idStr: String? {
+    public var idStr: String? {
         get { return (super.getAttributeInstance("id_str") as! JSONableString?)?.string }
         set(idStr) { super.setStringAttribute(withName: "id_str", idStr) }
     }
-    var type: String? {
+    public var type: String? {
         get { return (super.getAttributeInstance("type") as! JSONableString?)?.string }
         set(type) { super.setStringAttribute(withName: "type", type) }
     }
-    var createdDate: Date? {
+    public var createdDate: Date? {
         get { return (super.getAttributeInstance("created_date") as! JSONableDate?)?.date }
         set(date) { super.setDateAttribute(withName: "created_date", date) }
     }
-    var updatedDate: Date? {
+    public var updatedDate: Date? {
         get { return (super.getAttributeInstance("updated_date") as! JSONableDate?)?.date }
         set(updatedDate) { super.setDateAttribute(withName: "updated_date", updatedDate) }
     }
-    var displayedName: String? {
+    public var displayedName: String? {
         get { return (super.getAttributeInstance("displayed_name") as! JSONableString?)?.string }
         set(displayedName) { super.setStringAttribute(withName: "displayed_name", displayedName) }
     }
-    var displayedPhoto: Photo? {
+    public var displayedPhoto: Photo? {
         get { return super.getAttributeInstance("displayed_photo") as? Photo }
         set(displayedPhoto) { super.setAttribute(withName: "displayed_photo", displayedPhoto) }
     }
-    var entityType: EntityType? {
+    public var entityType: EntityType? {
         get { if let t = (super.getAttributeInstance("entity_type") as! JSONableString?)?.string { return EntityType(rawValue: t) } else { return nil } }
         set(entityType) { if let t = entityType { super.setStringAttribute(withName: "entity_type", t.rawValue) } else { super.setStringAttribute(withName: "entity_type", nil) } }
     }
-    var accessControl: AccessControl? {
+    public var accessControl: AccessControl? {
         get { if let t = (super.getAttributeInstance("access_control") as! JSONableString?)?.string { return AccessControl(rawValue: t) } else { return nil } }
         set(accessControl) { if let t = accessControl { super.setStringAttribute(withName: "access_control", t.rawValue) } else { super.setStringAttribute(withName: "access_control", nil) } }
     }
-    var owner: User? {
+    public var owner: User? {
         get { return super.getAttributeInstance("owner") as? User }
         set(owner) { super.setAttribute(withName: "owner", owner) }
     }
-    var bodyMessage: String? {
+    public var bodyMessage: String? {
         get { return (super.getAttributeInstance("body_message") as! JSONableString?)?.string }
         set(bodyMessage) { super.setStringAttribute(withName: "body_message", bodyMessage) }
     }
-    var bodyImageURL: String? {
+    public var bodyImageURL: String? {
         get { return (super.getAttributeInstance("body_image_url") as! JSONableString?)?.string }
         set(bodyImageURL) { super.setStringAttribute(withName: "body_image_url", bodyImageURL) }
     }
-    var bodyImageText: String? {
+    public var bodyImageText: String? {
         get { return (super.getAttributeInstance("body_image_text") as! JSONableString?)?.string }
         set(bodyImageText) { super.setStringAttribute(withName: "body_image_text", bodyImageText) }
     }
-    var likes: LikeBlob?{
+    public var likes: LikeBlob?{
         get { return self.getAttributeInstance("likes") as? LikeBlob }
         set(likes) { self.setAttribute(withName: "likes", likes) }
     }
-    var comments: CommentBlob?{
+    public var comments: CommentBlob?{
         get { return self.getAttributeInstance("comments") as? CommentBlob }
         set(comments) { self.setAttribute(withName: "comments", comments) }
     }
-    var isLiked: Bool?{
+    public var isLiked: Bool?{
         get { if let l = self.likes?.hasLike { return l } else { return false } }
         set(isLiked) { self.likes?.hasLike = isLiked }
     }
-    var commentsTotal: Int {
+    public var commentsTotal: Int {
         get { if let t = comments?.total { return t } else { return 0 } }
         set(total) { comments?.total = total }
     }
-    var commentsSamples: [Comment] {
+    public var commentsSamples: [Comment] {
         get { if let s = comments?.samples { return s } else { return [] } }
     }
-    var likersTotal: Int {
+    public var likersTotal: Int {
         get { if let t = likes?.total { return t } else { return 0 } }
         set(total) { likes?.total = total }
     }
@@ -167,7 +167,7 @@ class Base: JSONable {
         return Base().initAttributes(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
     }
     
-    func getTypeEnum() -> BaseType? {
+    public func getTypeEnum() -> BaseType? {
         if let t = type {
             return BaseType(rawValue: t)
         }
@@ -175,35 +175,35 @@ class Base: JSONable {
         return nil
     }
     
-    func getType() -> String? {
+    public func getType() -> String? {
         return self.type
     }
     
-    func getId() -> Int64? {
+    public func getId() -> Int64? {
         return self.id
     }
     
-    func getIdStr() -> String? {
+    public func getIdStr() -> String? {
         return self.idStr
     }
     
-    func getCreatedDate() -> Date? {
+    public func getCreatedDate() -> Date? {
         return self.createdDate
     }
     
-    func getDisplayedName() -> String? {
+    public func getDisplayedName() -> String? {
         return self.displayedName
     }
     
-    func getDisplayedPhoto() -> Photo? {
+    public func getDisplayedPhoto() -> Photo? {
         return self.displayedPhoto
     }
     
-    func getBodyImageURL() -> String? {
+    public func getBodyImageURL() -> String? {
         return nil
     }
     
-    override func isEqual(_ object: Any?) -> Bool {
+    public override func isEqual(_ object: Any?) -> Bool {
         if let m = object as? Base, let thisId = self.id, let thatId = m.id {
             return thisId == thatId
         }
@@ -212,11 +212,11 @@ class Base: JSONable {
     
     // BaseWall specific methods
     
-    func getBlockingLikes() throws -> [Like] {
+    public func getBlockingLikes() throws -> [Like] {
         return try getLikes().toBlocking().toArray()
     }
     
-    func getLikes() -> Observable<Like> {
+    public func getLikes() -> Observable<Like> {
         if let session = self.session {
             return Observable.create {
                 obs in
@@ -242,11 +242,11 @@ class Base: JSONable {
         }
     }
     
-    func addBlockingLike() throws -> Like? {
+    public func addBlockingLike() throws -> Like? {
         return try addLike().toBlocking().first()
     }
     
-    func addLike() -> Observable<Like> {
+    public func addLike() -> Observable<Like> {
         if let session = self.session {
             return session.clientService.likeable.post(self)
         } else {
@@ -261,11 +261,11 @@ class Base: JSONable {
         }
     }
     
-    func deleteBlockingLike() throws -> Bool? {
+    public func deleteBlockingLike() throws -> Bool? {
         return try deleteLike().toBlocking().first()
     }
     
-    func deleteLike() -> Observable<Bool> {
+    public func deleteLike() -> Observable<Bool> {
         if let session = self.session {
             return session.clientService.likeable.delete(self)
         } else {
@@ -280,11 +280,11 @@ class Base: JSONable {
         }
     }
     
-    func getBlockingComments() throws -> [Comment] {
+    public func getBlockingComments() throws -> [Comment] {
         return try getComments().toBlocking().toArray()
     }
     
-    func getComments() -> Observable<Comment> {
+    public func getComments() -> Observable<Comment> {
         if let session = self.session {
             return Observable.create {
                 obs in
@@ -310,11 +310,11 @@ class Base: JSONable {
         }
     }
     
-    func addBlockingComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
+    public func addBlockingComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
         return try addComment(comment, withPhoto: withPhoto).toBlocking().first()
     }
     
-    func addComment(_ comment: Comment, withPhoto: UIImage? = nil) -> Observable<Comment> {
+    public func addComment(_ comment: Comment, withPhoto: UIImage? = nil) -> Observable<Comment> {
         if let session = self.session {
             return Observable.create {
                 obs in
@@ -341,7 +341,7 @@ class Base: JSONable {
         }
     }
     
-    func ignore() -> Observable<Void> {
+    public func ignore() -> Observable<Void> {
         if let session = self.session, let id = self.id {
             return session.clientService.feed.stopFollow(id)
         } else {
@@ -356,7 +356,7 @@ class Base: JSONable {
         }
     }
     
-    func abuse() -> Observable<Void> {
+    public func abuse() -> Observable<Void> {
         if let session = self.session, let id = self.id {
             return session.clientService.report.post(id)
         } else {
@@ -371,7 +371,7 @@ class Base: JSONable {
         }
     }
     
-    func delete() -> Observable<Bool> {
+    public func delete() -> Observable<Bool> {
         if let session = self.session, let id = self.id {
             return session.clientService.feed.delete(id)
         } else {
@@ -386,11 +386,11 @@ class Base: JSONable {
         }
     }
 
-    func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
+    public func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
         return try sendWallPost(feedPost).toBlocking().first()
     }
     
-    func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
+    public func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
         if let s = self.session {
             if let p = feedPost.photo {
                 return Observable.create {

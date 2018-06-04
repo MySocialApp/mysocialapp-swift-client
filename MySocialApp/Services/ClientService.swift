@@ -1,6 +1,6 @@
 import Foundation
 
-class ClientService {
+public class ClientService {
     
     var session: Session
     

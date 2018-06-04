@@ -1,31 +1,31 @@
 import Foundation
 
-class NotificationAck: JSONable {
-    var deviceId: String? {
+public class NotificationAck: JSONable {
+    public var deviceId: String? {
         get { return (super.getAttributeInstance("device_id") as! JSONableString?)?.string }
         set(deviceId) { super.setStringAttribute(withName: "device_id", deviceId) }
     }
-    var advertisingId: String? {
+    public var advertisingId: String? {
         get { return (super.getAttributeInstance("advertising_id") as! JSONableString?)?.string }
         set(advertisingId) { super.setStringAttribute(withName: "advertising_id", advertisingId) }
     }
-    var notificationKey: String? {
+    public var notificationKey: String? {
         get { return (super.getAttributeInstance("notification_key") as! JSONableString?)?.string }
         set(notificationKey) { super.setStringAttribute(withName: "notification_key", notificationKey) }
     }
-    var notificationAction: Action? {
+    public var notificationAction: Action? {
         get { if let s = (super.getAttributeInstance("notification_action") as! JSONableString?)?.string { return Action(rawValue: s) } else { return nil } }
         set(notificationAction) { super.setStringAttribute(withName: "notification_action", notificationAction?.rawValue) }
     }
-    var location: BaseLocation? {
+    public var location: BaseLocation? {
         get { return super.getAttributeInstance("location") as? BaseLocation }
         set(location) { super.setAttribute(withName: "location", location) }
     }
-    var appPlatform: String? {
+    public var appPlatform: String? {
         get { return (super.getAttributeInstance("app_platform") as! JSONableString?)?.string }
         set(appPlatform) { super.setStringAttribute(withName: "app_platform", appPlatform) }
     }
-    var appVersion: String? {
+    public var appVersion: String? {
         get { return (super.getAttributeInstance("app_version") as! JSONableString?)?.string }
         set(appVersion) { super.setStringAttribute(withName: "app_version", appVersion) }
     }
@@ -41,7 +41,7 @@ class NotificationAck: JSONable {
         }
     }
     
-    enum Action: String {
+    public enum Action: String {
         case Received = "RECEIVED"
         case Read = "READ"
         case Opened = "OPENED"

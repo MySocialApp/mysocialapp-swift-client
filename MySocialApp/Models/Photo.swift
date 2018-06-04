@@ -1,32 +1,32 @@
 import Foundation
 
-class Photo: Base, Taggable {
+public class Photo: Base, Taggable {
 
-    var message: String?{
+    public var message: String?{
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
         set(message) { super.setStringAttribute(withName: "message", message) }
     }
-    var url: String?{
+    public var url: String?{
         get { return (super.getAttributeInstance("url") as! JSONableString?)?.string }
         set(url) { super.setStringAttribute(withName: "url", url) }
     }
-    var smallURL: String?{
+    public var smallURL: String?{
         get { return (super.getAttributeInstance("small_url") as! JSONableString?)?.string }
         set(smallURL) { super.setStringAttribute(withName: "small_url", smallURL) }
     }
-    var mediumURL: String?{
+    public var mediumURL: String?{
         get { return (super.getAttributeInstance("medium_url") as! JSONableString?)?.string }
         set(mediumURL) { super.setStringAttribute(withName: "medium_url", mediumURL) }
     }
-    var highURL: String?{
+    public var highURL: String?{
         get { return (super.getAttributeInstance("high_url") as! JSONableString?)?.string }
         set(highURL) { super.setStringAttribute(withName: "high_url", highURL) }
     }
-    var target: Base?{
+    public var target: Base?{
         get { return super.getAttributeInstance("target") as? Base }
         set(target) { super.setAttribute(withName: "target", target) }
     }
-    var tagEntities: TagEntities?{
+    public var tagEntities: TagEntities?{
         get { return super.getAttributeInstance("tag_entities") as? TagEntities }
         set(tagEntities) { super.setAttribute(withName: "tag_entities", tagEntities) }
     }

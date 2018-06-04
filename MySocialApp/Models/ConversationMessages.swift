@@ -1,16 +1,16 @@
 import Foundation
 import RxSwift
 
-class ConversationMessages: JSONable {
+public class ConversationMessages: JSONable {
     private static let PAGE_SIZE = 10
     
     var conversationId: Int64? = nil
 
-    var totalUnreads: Int?{
+    public var totalUnreads: Int?{
         get { return (super.getAttributeInstance("total_unreads") as! JSONableInt?)?.int }
         set(totalUnreads) { super.setIntAttribute(withName: "total_unreads", totalUnreads) }
     }
-    var samples: [ConversationMessage]? {
+    public var samples: [ConversationMessage]? {
         get { return (super.getAttributeInstance("samples") as! JSONableArray<ConversationMessage>?)?.array }
         set(samples) { super.setArrayAttribute(withName: "samples", samples) }
     }
@@ -51,19 +51,19 @@ class ConversationMessages: JSONable {
         }
     }
 
-    func blockingStream(limit: Int = Int.max) throws -> [ConversationMessage] {
+    public func blockingStream(limit: Int = Int.max) throws -> [ConversationMessage] {
         return try stream(limit: limit).toBlocking().toArray()
     }
     
-    func stream(limit: Int = Int.max) -> Observable<ConversationMessage> {
+    public func stream(limit: Int = Int.max) -> Observable<ConversationMessage> {
         return list(page: 0, size: limit)
     }
     
-    func blockingList(page: Int = 0, size: Int = 10) throws -> [ConversationMessage] {
+    public func blockingList(page: Int = 0, size: Int = 10) throws -> [ConversationMessage] {
         return try list(page: page, size: size).toBlocking().toArray()
     }
     
-    func list(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
+    public func list(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
         return Observable.create {
             obs in
             self.stream(0, Int.max, false, obs)
@@ -72,19 +72,19 @@ class ConversationMessages: JSONable {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingStreamAndConsume(limit: Int = Int.max) throws -> [ConversationMessage] {
+    public func blockingStreamAndConsume(limit: Int = Int.max) throws -> [ConversationMessage] {
         return try stream(limit: limit).toBlocking().toArray()
     }
     
-    func streamAndConsume(limit: Int = Int.max) -> Observable<ConversationMessage> {
+    public func streamAndConsume(limit: Int = Int.max) -> Observable<ConversationMessage> {
         return list(page: 0, size: limit)
     }
     
-    func blockingListAndConsume(page: Int = 0, size: Int = 10) throws -> [ConversationMessage] {
+    public func blockingListAndConsume(page: Int = 0, size: Int = 10) throws -> [ConversationMessage] {
         return try list(page: page, size: size).toBlocking().toArray()
     }
     
-    func listAndConsume(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
+    public func listAndConsume(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
         return Observable.create {
             obs in
             self.stream(0, Int.max, true, obs)

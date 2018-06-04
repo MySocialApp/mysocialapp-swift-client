@@ -1,6 +1,6 @@
 import Foundation
 
-internal class JSONable: NSObject {
+public class JSONable: NSObject {
     internal static var currentSession: Session?
     internal var session: Session?
     private var jsonString: String?
@@ -13,7 +13,7 @@ internal class JSONable: NSObject {
     
     internal typealias CreationMethod = (_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable?
     
-    internal required override init() {
+    public required override init() {
         super.init()
         self.session = JSONable.currentSession
     }
@@ -179,6 +179,16 @@ internal class JSONable: NSObject {
         } else {
             return dict
         }
+    }
+    
+    internal func getAttributes<T>(_ f: (JSONable)->T?) -> [String: T] {
+        var dict: [String:T] = [:]
+        for k in self.jsonAttributes.keys {
+            if let a = self.getAttributeInstance(k), let t = f(a) {
+                dict[k] = t
+            }
+        }
+        return dict
     }
     
     internal func getDictArray() -> [Any]? {

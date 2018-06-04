@@ -1,23 +1,23 @@
 import Foundation
 
-class RideLocation: Location {
-    var position: Int? {
+public class RideLocation: Location {
+    public var position: Int? {
         get { return (super.getAttributeInstance("position") as! JSONableInt?)?.int }
         set(position) { super.setIntAttribute(withName: "position", position) }
     }
-    var altitude: Double? {
+    public var altitude: Double? {
         get { return (super.getAttributeInstance("altitude") as! JSONableDouble?)?.double }
         set(altitude) { super.setDoubleAttribute(withName: "altitude", altitude) }
     }
-    var rideId: Int64? {
+    public var rideId: Int64? {
         get { return (super.getAttributeInstance("ride_id") as! JSONableInt64?)?.int64 }
         set(rideId) { super.setInt64Attribute(withName: "ride_id", rideId) }
     }
-    var note: String? {
+    public var note: String? {
         get { return (super.getAttributeInstance("note") as! JSONableString?)?.string }
         set(note) { super.setStringAttribute(withName: "note", note) }
     }
-    var locationType: RideLocationType? {
+    public var locationType: RideLocationType? {
         get { if let t = (super.getAttributeInstance("location_type") as! JSONableString?)?.string { return RideLocationType(rawValue: t) } else { return nil } }
         set(locationType) { if let t = locationType { super.setStringAttribute(withName: "location_type", t.rawValue) } else { super.setStringAttribute(withName: "location_type", nil) } }
     }

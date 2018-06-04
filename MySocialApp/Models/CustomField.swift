@@ -1,12 +1,12 @@
 import Foundation
 
-class CustomField: Base {
+public class CustomField: Base {
     
-    var field: Field? {
+    public var field: Field? {
         get { return self.getAttributeInstance("field") as? Field }
         set(field) { self.setAttribute(withName: "field", field) }
     }
-    var data: FieldData? {
+    public var data: FieldData? {
         get { return self.getAttributeInstance("data") as? FieldData }
         set(data) { self.setAttribute(withName: "data", data) }
     }

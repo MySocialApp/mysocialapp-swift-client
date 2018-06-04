@@ -1,19 +1,31 @@
 import Foundation
 
-class AccountEvent: JSONable {
-    var conversation: JSONableMap<JSONableDouble>? {
+public class AccountEvent: JSONable {
+    public var conversation: [String:Double]? {
         get {
-            return super.getAttributeInstance("conversation") as? JSONableMap<JSONableDouble>
+            if let m = super.getAttributeInstance("conversation") as? JSONableMap<JSONableDouble> {
+                return m.getAttributes { ($0 as? JSONableDouble)?.double }
+            } else {
+                return nil
+            }
         }
     }
-    var notification: JSONableMap<JSONableDouble>? {
+    public var notification: [String:Double]? {
         get {
-            return super.getAttributeInstance("notification") as? JSONableMap<JSONableDouble>
+            if let m = super.getAttributeInstance("notification") as? JSONableMap<JSONableDouble> {
+                return m.getAttributes { ($0 as? JSONableDouble)?.double }
+            } else {
+                return nil
+            }
         }
     }
-    var friendRequest: JSONableMap<JSONableDouble>? {
+    public var friendRequest: [String:Double]? {
         get {
-            return super.getAttributeInstance("friend_request") as? JSONableMap<JSONableDouble>
+            if let m = super.getAttributeInstance("friend_request") as? JSONableMap<JSONableDouble> {
+                return m.getAttributes { ($0 as? JSONableDouble)?.double }
+            } else {
+                return nil
+            }
         }
     }
 
@@ -27,22 +39,22 @@ class AccountEvent: JSONable {
     }
     
     public func getUnreadConversations() -> Int {
-        if let c = self.conversation, let u = c.getValue(forKey: "total_unreads")?.double {
-            return Int(u)
+        if let c = self.conversation?["total_unreads"] {
+            return Int(c)
         }
         return 0
     }
     
     public func getUnreadNotifications() -> Int {
-        if let n = self.notification, let u = n.getValue(forKey: "total_unreads")?.double {
-            return Int(u)
+        if let n = self.notification?["total_unreads"] {
+            return Int(n)
         }
         return 0
     }
     
     public func getIncomingFriendRequests() -> Int {
-        if let f = self.friendRequest, let u = f.getValue(forKey: "total_incoming_requests")?.double {
-            return Int(u)
+        if let f = self.friendRequest?["total_incoming_requests"] {
+            return Int(f)
         }
         return 0
     }

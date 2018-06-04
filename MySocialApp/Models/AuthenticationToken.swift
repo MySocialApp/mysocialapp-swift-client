@@ -1,8 +1,8 @@
 import Foundation
 
-class AuthenticationToken {
-    var nickname: String?
-    var accessToken: String?
+public class AuthenticationToken {
+    public var nickname: String?
+    public var accessToken: String?
     
     internal init(_ nickname: String?, _ accessToken: String?) {
         self.nickname = nickname

@@ -1,26 +1,26 @@
 import Foundation
 import RxSwift
 
-class FluentNotification {
+public class FluentNotification {
     private static let PAGE_SIZE = 10
     
     var session: Session
     
-    lazy var unread: Unread = {
+    public lazy var unread: Unread = {
         Unread(self.session)
     }()
-    lazy var read: Read = {
+    public lazy var read: Read = {
         Read(self.session)
     }()
 
-    public init(_ session: Session) {
+    init(_ session: Session) {
         self.session = session
     }
     
-    class Unread {
+    public class Unread {
         var session: Session
         
-        public init(_ session: Session) {
+        init(_ session: Session) {
             self.session = session
         }
         
@@ -46,19 +46,19 @@ class FluentNotification {
             }
         }
 
-        func blockingStream(limit: Int = Int.max) throws -> [PreviewNotification] {
+        public func blockingStream(limit: Int = Int.max) throws -> [PreviewNotification] {
             return try stream(limit: limit).toBlocking().toArray()
         }
         
-        func stream(limit: Int = Int.max) -> Observable<PreviewNotification> {
+        public func stream(limit: Int = Int.max) -> Observable<PreviewNotification> {
             return list(page: 0, size: limit)
         }
         
-        func blockingList(page: Int = 0, size: Int = 10) throws -> [PreviewNotification] {
+        public func blockingList(page: Int = 0, size: Int = 10) throws -> [PreviewNotification] {
             return try list(page: page, size: size).toBlocking().toArray()
         }
         
-        func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
+        public func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
             return Observable.create {
                 obs in
                 self.stream(page, size, obs)
@@ -68,10 +68,10 @@ class FluentNotification {
         }
     }
     
-    class Read {
+    public class Read {
         var session: Session
         
-        public init(_ session: Session) {
+        init(_ session: Session) {
             self.session = session
         }
         
@@ -97,19 +97,19 @@ class FluentNotification {
             }
         }
         
-        func blockingStream(limit: Int = Int.max) throws -> [PreviewNotification] {
+        public func blockingStream(limit: Int = Int.max) throws -> [PreviewNotification] {
             return try stream(limit: limit).toBlocking().toArray()
         }
         
-        func stream(limit: Int = Int.max) -> Observable<PreviewNotification> {
+        public func stream(limit: Int = Int.max) -> Observable<PreviewNotification> {
             return list(page: 0, size: limit)
         }
         
-        func blockingList(page: Int = 0, size: Int = 10) throws -> [PreviewNotification] {
+        public func blockingList(page: Int = 0, size: Int = 10) throws -> [PreviewNotification] {
             return try list(page: page, size: size).toBlocking().toArray()
         }
         
-        func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
+        public func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
             return Observable.create {
                 obs in
                 self.stream(page, size, obs)

@@ -1,11 +1,11 @@
 import Foundation
 
-class PreviewPhotos: JSONable {
-    var total: Int?{
+public class PreviewPhotos: JSONable {
+    public var total: Int?{
         get { return (super.getAttributeInstance("total") as! JSONableInt?)?.int }
         set(total) { super.setIntAttribute(withName: "total", total) }
     }
-    var samples: [Photo]?{
+    public var samples: [Photo]?{
         get { return (super.getAttributeInstance("samples") as! JSONableArray<Photo>?)?.array }
         set(samples) { super.setArrayAttribute(withName: "samples", samples) }
     }

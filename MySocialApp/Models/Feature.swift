@@ -1,6 +1,6 @@
 import Foundation
 
-enum Feature: String {
+public enum Feature: String {
     case Feed = "FEED"
     case Friend = "FRIEND"
     case Profile = "PROFILE"

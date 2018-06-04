@@ -1,6 +1,6 @@
 import Foundation
 
-enum ActivityType: String {
+public enum ActivityType: String {
     case Publish = "PUBLISH"
     case Edit = "EDIT"
     case Delete = "DELETE"

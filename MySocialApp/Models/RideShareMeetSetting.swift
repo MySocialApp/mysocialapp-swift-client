@@ -1,11 +1,11 @@
 import Foundation
 
-class RideShareMeetSetting: Base {
-    var active: Bool? {
+public class RideShareMeetSetting: Base {
+    public var active: Bool? {
         get { return (self.getAttributeInstance("active") as! JSONableBool).bool }
         set(active) { self.setBoolAttribute(withName: "active", active) }
     }
-    var maximumDistance: Int? {
+    public var maximumDistance: Int? {
         get { return (self.getAttributeInstance("maximum_distance") as! JSONableInt).int }
         set(maximumDistance) { self.setIntAttribute(withName: "maximum_distance", maximumDistance) }
     }

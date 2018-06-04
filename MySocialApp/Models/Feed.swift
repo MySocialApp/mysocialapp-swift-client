@@ -1,4 +1,4 @@
 import Foundation
 
-class Feed: WallActivity {
+public class Feed: WallActivity {
 }

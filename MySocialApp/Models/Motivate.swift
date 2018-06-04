@@ -1,7 +1,7 @@
 import Foundation
 
-class Motivate: JSONable {
-    var quantity: Int? {
+public class Motivate: JSONable {
+    public var quantity: Int? {
         get { return (self.getAttributeInstance("quantity") as! JSONableInt?)?.int }
         set(quantity) { self.setIntAttribute(withName: "quantity", quantity) }
     }

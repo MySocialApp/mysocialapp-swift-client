@@ -1,35 +1,35 @@
 import Foundation
 
-class WallActivity: Base {
-    var action: ActivityType? {
+public class WallActivity: Base {
+    public var action: ActivityType? {
         get { if let z = (super.getAttributeInstance("action") as! JSONableString?)?.string { return ActivityType(rawValue: z) } else { return nil } }
         set(action) { super.setStringAttribute(withName: "action", action?.rawValue) }
     }
-    var object: Base? {
+    public var object: Base? {
         get { return getQualifiedObject(super.getAttributeInstance("object")) as? Base }
         set(object) { super.setAttribute(withName: "object", object) }
     }
-    var languageZone: LanguageZone? {
+    public var languageZone: LanguageZone? {
         get { if let z = (super.getAttributeInstance("language_zone") as! JSONableString?)?.string { return LanguageZone(rawValue: z) } else { return nil } }
         set(languageZone) { super.setStringAttribute(withName: "language_zone", languageZone?.rawValue) }
     }
-    var actor: User? {
+    public var actor: User? {
         get { return super.getAttributeInstance("actor") as? User }
         set(actor) { super.setAttribute(withName: "actor", actor) }
     }
-    var target: JSONable? {
+    public var target: JSONable? {
         get { return getQualifiedObject(super.getAttributeInstance("target")) }
         set(target) { super.setAttribute(withName: "target", target) }
     }
-    var summary: String? {
+    public var summary: String? {
         get { return (super.getAttributeInstance("summary") as! JSONableString?)?.string }
         set(summary) { super.setStringAttribute(withName: "summary", summary) }
     }
-    var badge: Badge? {
+    public var badge: Badge? {
         get { if let b = (super.getAttributeInstance("badge") as! JSONableString?)?.string { return Badge(rawValue: b) } else { return nil } }
     }
     
-    enum Badge: String {
+    public enum Badge: String {
         case Pinned = "PINNED"
     }
     

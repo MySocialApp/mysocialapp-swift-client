@@ -1,4 +1,4 @@
 import Foundation
 
-class HashTag: TagEntity {
+public class HashTag: TagEntity {
 }

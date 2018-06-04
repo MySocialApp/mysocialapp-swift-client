@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import RxBlocking
 
-class MySocialApp {
+public class MySocialApp {
     
     private var configuration: Configuration
     private var clientConfiguration: ClientConfiguration
@@ -15,36 +15,36 @@ class MySocialApp {
         self.clientConfiguration = builder.mClientConfiguration
     }
     
-    class Builder {
+    public class Builder {
         internal var mAppId: String = ""
         internal var mAPIEndpointURL: String? = nil
         internal var mClientConfiguration: ClientConfiguration = ClientConfiguration()
         
-        func setAppId(_ appId: String) -> Builder {
+        public func setAppId(_ appId: String) -> Builder {
             self.mAppId = appId
             return self
         }
         
-        func setAPIEndpointURL(_ appURL: String) -> Builder {
+        public func setAPIEndpointURL(_ appURL: String) -> Builder {
             self.mAPIEndpointURL = appURL
             return self
         }
         
-        func setClientConfiguration(_ clientConfiguration: ClientConfiguration) -> Builder {
+        public func setClientConfiguration(_ clientConfiguration: ClientConfiguration) -> Builder {
             self.mClientConfiguration = clientConfiguration
             return self
         }
         
-        func build() -> MySocialApp {
+        public func build() -> MySocialApp {
             return MySocialApp(self)
         }
     }
 
-    func blockingCreateAccount(username: String, email: String, password: String, firstName: String? = nil) throws -> Session? {
+    public func blockingCreateAccount(username: String, email: String, password: String, firstName: String? = nil) throws -> Session? {
         return try createAccount(username: username, email: email, password: password, firstName: firstName).toBlocking().first()
     }
     
-    func createAccount(username: String, email: String, password: String, firstName: String? = nil) -> Observable<Session> {
+    public func createAccount(username: String, email: String, password: String, firstName: String? = nil) -> Observable<Session> {
         let user = User()
         user.username = username
         if let n = firstName {
@@ -76,19 +76,19 @@ class MySocialApp {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingConnectByEmail(email: String, password: String) throws -> Session? {
+    public func blockingConnectByEmail(email: String, password: String) throws -> Session? {
         return try self.connectByEmail(email: email, password: password).toBlocking().first()
     }
     
-    func connectByEmail(email: String, password: String) -> Observable<Session> {
+    public func connectByEmail(email: String, password: String) -> Observable<Session> {
         return self.connect(username: email, password: password)
     }
     
-    func blockingConnect(username: String, password: String) throws -> Session? {
+    public func blockingConnect(username: String, password: String) throws -> Session? {
         return try self.connect(username: username, password: password).toBlocking().first()
     }
     
-    func connect(username: String, password: String) -> Observable<Session> {
+    public func connect(username: String, password: String) -> Observable<Session> {
         let l = Login()
         l.username = username
         l.password = password
@@ -107,11 +107,11 @@ class MySocialApp {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingConnect(accessToken: String) throws -> Session? {
+    public func blockingConnect(accessToken: String) throws -> Session? {
         return try self.connect(accessToken: accessToken).toBlocking().first()
     }
     
-    func connect(accessToken: String) -> Observable<Session> {
+    public func connect(accessToken: String) -> Observable<Session> {
         return Observable.create {
             obs in
             obs.onNext(Session(self.configuration, self.clientConfiguration, AuthenticationToken(nil, accessToken)))
@@ -120,21 +120,21 @@ class MySocialApp {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingResetPasswordByEmail(_ email: String) throws -> Reset? {
+    public func blockingResetPasswordByEmail(_ email: String) throws -> Reset? {
         return try resetPasswordByEmail(email).toBlocking().first()
     }
     
-    func resetPasswordByEmail(_ email: String) -> Observable<Reset> {
+    public func resetPasswordByEmail(_ email: String) -> Observable<Reset> {
         let r = Reset()
         r.email = email
         return resetPassword(r)
     }
     
-    func blockingResetPassword(username: String) throws -> Reset? {
+    public func blockingResetPassword(username: String) throws -> Reset? {
         return try resetPassword(username: username).toBlocking().first()
     }
     
-    func resetPassword(username: String) -> Observable<Reset> {
+    public func resetPassword(username: String) -> Observable<Reset> {
         let r = Reset()
         r.username = username
         return resetPassword(r)

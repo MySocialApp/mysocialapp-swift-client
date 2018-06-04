@@ -1,6 +1,6 @@
 import Foundation
 
-enum BaseType: String {
+public enum BaseType: String {
 
     case Status = "Status";
     case Photo = "Photo";

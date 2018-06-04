@@ -1,12 +1,12 @@
 import Foundation
 
-class UserStatStatus: Base {
+public class UserStatStatus: Base {
     
-    var lastConnectionDate: Date? {
+    public var lastConnectionDate: Date? {
         get { return (super.getAttributeInstance("last_connection_date") as! JSONableDate?)?.date }
         set(lastConnectionDate) { super.setDateAttribute(withName: "last_connection_date", lastConnectionDate) }
     }
-    var state: State? {
+    public var state: State? {
         get { if let s = (super.getAttributeInstance("state") as! JSONableString?)?.string { return State(rawValue: s) } else { return nil } }
         set(state) { if let s = state { self.setStringAttribute(withName: "state", s.rawValue) } else { self.setStringAttribute(withName: "state", nil) } }
     }
@@ -22,7 +22,7 @@ class UserStatStatus: Base {
         }
     }
 
-    enum State: String {
+    public enum State: String {
         case connected = "CONNECTED"
         case riding = "RIDING"
         case away = "AWAY"

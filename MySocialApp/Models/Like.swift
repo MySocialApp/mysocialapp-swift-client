@@ -1,5 +1,5 @@
 import Foundation
 
-class Like: Base {
+public class Like: Base {
     
 }

@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class FluentGroup {
+public class FluentGroup {
     private static let PAGE_SIZE = 10
     
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
     
@@ -53,19 +53,19 @@ class FluentGroup {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingGet(_ id: Int64) throws -> Group? {
+    public func blockingGet(_ id: Int64) throws -> Group? {
         return try self.get(id).toBlocking().first()
     }
     
-    func get(_ id: Int64) -> Observable<Group> {
+    public func get(_ id: Int64) -> Observable<Group> {
         return session.clientService.group.get(id)
     }
     
-    func blockingCreate(_ group: Group) throws -> Group? {
+    public func blockingCreate(_ group: Group) throws -> Group? {
         return try self.create(group).toBlocking().first()
     }
     
-    func create(_ group: Group) -> Observable<Group> {
+    public func create(_ group: Group) -> Observable<Group> {
         return Observable.create {
             obs in
             let _ = self.session.clientService.group.post(group).subscribe {
@@ -117,11 +117,11 @@ class FluentGroup {
             .subscribeOn(MainScheduler.instance)
     }
 
-    func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Group>? {
+    public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Group>? {
         return try self.search(search, page: page, size: size).toBlocking().first()
     }
     
-    func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Group>> {
+    public func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Group>> {
         return Observable.create {
             obs in
             if size > 0 {
@@ -147,56 +147,56 @@ class FluentGroup {
             .subscribeOn(MainScheduler.instance)
     }
     
-    class Search: ISearch {
+    public class Search: ISearch {
         
-        class Builder {
+        public class Builder {
             private var user = User()
             private var mName: String? = nil
             private var mDescription: String? = nil
             private var mLocationMaximumDistance: Double? = nil
             private var mSortOrder: SortOrder? = nil
             
-            func setName(_ name: String) -> Builder {
+            public func setName(_ name: String) -> Builder {
                 self.mName = name
                 return self
             }
             
-            func setDescription(_ description: String) -> Builder {
+            public func setDescription(_ description: String) -> Builder {
                 self.mDescription = description
                 return self
             }
             
-            func setOwnerFirstName(_ firstName: String) -> Builder {
+            public func setOwnerFirstName(_ firstName: String) -> Builder {
                 self.user.firstName = firstName
                 return self
             }
             
-            func setOwnerLastName(_ lastName: String) -> Builder {
+            public func setOwnerLastName(_ lastName: String) -> Builder {
                 self.user.lastName = lastName
                 return self
             }
             
-            func setLocation(_ location: Location) -> Builder {
+            public func setLocation(_ location: Location) -> Builder {
                 self.user.livingLocation = location
                 return self
             }
             
-            func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
+            public func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance
                 return self
             }
             
-            func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
+            public func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance * 1000
                 return self
             }
             
-            func setOrder(_ sortOrder: SortOrder) -> Builder {
+            public func setOrder(_ sortOrder: SortOrder) -> Builder {
                 self.mSortOrder = sortOrder
                 return self
             }
             
-            func build() -> Search {
+            public func build() -> Search {
                 return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: nil, endDate: nil, dateField: nil))
             }
         }

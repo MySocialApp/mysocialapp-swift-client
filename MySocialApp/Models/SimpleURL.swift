@@ -1,7 +1,7 @@
 import Foundation
 
-class SimpleURL: Base {
-    convenience init(_ url: String) {
+public class SimpleURL: Base {
+    public convenience init(_ url: String) {
         self.init()
         self.displayedName = url
     }

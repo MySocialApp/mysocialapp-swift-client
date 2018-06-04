@@ -1,16 +1,16 @@
 import Foundation
 
-class Comment: Base, Taggable {
+public class Comment: Base, Taggable {
 
-    var message: String?{
+    public var message: String?{
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
         set(message) { super.setStringAttribute(withName: "message", message) }
     }
-    var tagEntities: TagEntities?{
+    public var tagEntities: TagEntities?{
         get { return super.getAttributeInstance("tag_entities") as? TagEntities }
         set(tagEntities) { super.setAttribute(withName: "tag_entities", tagEntities) }
     }
-    var photo: Photo?{
+    public var photo: Photo?{
         get { return super.getAttributeInstance("photo") as? Photo }
         set(photo) { super.setAttribute(withName: "photo", photo) }
     }

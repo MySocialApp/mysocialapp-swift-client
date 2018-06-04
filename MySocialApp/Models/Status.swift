@@ -1,9 +1,9 @@
 import Foundation
 import RxSwift
 
-class Status: Base {
+public class Status: Base {
 
-    var message: String?{
+    public var message: String?{
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
         set(message) { super.setStringAttribute(withName: "message", message) }
     }
@@ -21,7 +21,7 @@ class Status: Base {
         super.init()
     }
 
-    init(message: String) {
+    public init(message: String) {
         super.init()
         self.message = message
     }

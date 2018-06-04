@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 
-internal class Session {
+public class Session {
     internal var configuration: Configuration
     internal var clientConfiguration: ClientConfiguration
     internal var authenticationToken: AuthenticationToken

@@ -1,6 +1,6 @@
 import Foundation
 
-enum FieldType: String {
+public enum FieldType: String {
     case inputText = "INPUT_TEXT"
     case inputTextarea = "INPUT_TEXTAREA"
     case inputNumber = "INPUT_NUMBER"

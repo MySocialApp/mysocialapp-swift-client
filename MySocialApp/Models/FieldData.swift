@@ -1,18 +1,18 @@
 import Foundation
 
-class FieldData: Base {
-    var fieldId: Int64? {
+public class FieldData: Base {
+    public var fieldId: Int64? {
         get { return (super.getAttributeInstance("field_id") as! JSONableInt64?)?.int64 }
         set(fieldId) { super.setInt64Attribute(withName: "field_id", fieldId) }
     }
-    var fieldIdStr: String? {
+    public var fieldIdStr: String? {
         get { return (super.getAttributeInstance("field_id_str") as! JSONableString?)?.string }
         set(fieldIdStr) { super.setStringAttribute(withName: "field_id_str", fieldIdStr) }
     }
-    func getValue<T:JSONable>() -> T? {
+    public func getValue<T:JSONable>() -> T? {
         return super.getAttributeInstance("value", withCreationMethod: T().initAttributes) as? T
     }
-    func setValue(_ value: JSONable?) {
+    public func setValue(_ value: JSONable?) {
         super.setAttribute(withName: "value", value)
     }
 

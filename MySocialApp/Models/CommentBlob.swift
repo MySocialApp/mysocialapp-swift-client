@@ -1,11 +1,11 @@
 import Foundation
 
-class CommentBlob: JSONable {
-    var total: Int? {
+public class CommentBlob: JSONable {
+    public var total: Int? {
         get { return (super.getAttributeInstance("total") as! JSONableInt?)?.int }
         set(total) { super.setIntAttribute(withName: "total", total) }
     }
-    var samples: [Comment]? {
+    public var samples: [Comment]? {
         get { return (super.getAttributeInstance("samples") as! JSONableArray<Comment>?)?.array }
         set(samples) { super.setArrayAttribute(withName: "samples", samples) }
     }

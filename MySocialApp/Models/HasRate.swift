@@ -1,19 +1,19 @@
 import Foundation
 
-class HasRate: Base {
-    override var owner: User? {
+public class HasRate: Base {
+    public override var owner: User? {
         get { return super.getAttributeInstance("from") as? User }
         set(owner) { super.setAttribute(withName: "from", owner) }
     }
-    var to: Base? {
+    public var to: Base? {
         get { return super.getAttributeInstance("to") as? Base }
         set(to) { super.setAttribute(withName: "to", to) }
     }
-    var opinion: String? {
+    public var opinion: String? {
         get { return (super.getAttributeInstance("opinion") as! JSONableString?)?.string }
         set(opinion) { super.setStringAttribute(withName: "opinion", opinion) }
     }
-    var rate: Int? {
+    public var rate: Int? {
         get { return (super.getAttributeInstance("rate") as! JSONableInt?)?.int }
         set(rate) { super.setIntAttribute(withName: "rate", rate) }
     }

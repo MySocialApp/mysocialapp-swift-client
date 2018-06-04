@@ -1,33 +1,33 @@
 import Foundation
 import RxSwift
 
-class URLTag: TagEntity {
+public class URLTag: TagEntity {
 
-    var originalURL: String?{
+    public var originalURL: String?{
         get { return (super.getAttributeInstance("original_url") as! JSONableString?)?.string }
         set(originalURL) { super.setStringAttribute(withName: "original_url", originalURL) }
     }
-    var originalURLToDisplay: String?{
+    public var originalURLToDisplay: String?{
         get { return (super.getAttributeInstance("original_url_to_display") as! JSONableString?)?.string }
         set(originalURLToDisplay) { super.setStringAttribute(withName: "original_url_to_display", originalURLToDisplay) }
     }
-    var originalHostURL: String?{
+    public var originalHostURL: String?{
         get { return (super.getAttributeInstance("original_host_url") as! JSONableString?)?.string }
         set(originalHostURL) { super.setStringAttribute(withName: "original_host_url", originalHostURL) }
     }
-    var shortURL: String?{
+    public var shortURL: String?{
         get { return (super.getAttributeInstance("short_url") as! JSONableString?)?.string }
         set(shortURL) { super.setStringAttribute(withName: "short_url", shortURL) }
     }
-    var title: String?{
+    public var title: String?{
         get { return (super.getAttributeInstance("title") as! JSONableString?)?.string }
         set(title) { super.setStringAttribute(withName: "title", title) }
     }
-    var desc: String?{
+    public var desc: String?{
         get { return (super.getAttributeInstance("description") as! JSONableString?)?.string }
         set(description) { super.setStringAttribute(withName: "description", description) }
     }
-    var previewURL: String?{
+    public var previewURL: String?{
         get { return (super.getAttributeInstance("preview_url") as! JSONableString?)?.string }
         set(previewURL) { super.setStringAttribute(withName: "preview_url", previewURL) }
     }
@@ -41,7 +41,7 @@ class URLTag: TagEntity {
         }
     }
 
-    override func getBodyImageURL() -> String? {
+    public override func getBodyImageURL() -> String? {
         return previewURL
     }
 }

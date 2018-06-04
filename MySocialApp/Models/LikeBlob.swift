@@ -1,15 +1,15 @@
 import Foundation
 
-class LikeBlob: JSONable {
-    var total: Int? {
+public class LikeBlob: JSONable {
+    public var total: Int? {
         get { return (super.getAttributeInstance("total") as! JSONableInt?)?.int }
         set(total) { super.setIntAttribute(withName: "total", total) }
     }
-    var hasLike: Bool? {
+    public var hasLike: Bool? {
         get { return (super.getAttributeInstance("has_like") as! JSONableBool?)?.bool }
         set(hasLike) { super.setBoolAttribute(withName: "has_like", hasLike) }
     }
-    var samples: [Like]? {
+    public var samples: [Like]? {
         get { return (super.getAttributeInstance("samples") as! JSONableArray<Like>?)?.array }
         set(samples) { super.setArrayAttribute(withName: "samples", samples) }
     }

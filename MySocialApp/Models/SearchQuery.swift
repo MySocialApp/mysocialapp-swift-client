@@ -12,7 +12,7 @@ struct SearchQuery {
     var dateField: String? = nil
 }
 
-enum SortOrder: String {
+public enum SortOrder: String {
     case asc = "ASC"
     case desc = "DESC"
 }

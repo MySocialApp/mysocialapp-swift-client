@@ -1,23 +1,23 @@
 import Foundation
 
-class Field: Base {
-    var fieldType: FieldType? {
+public class Field: Base {
+    public var fieldType: FieldType? {
         get { if let z = (super.getAttributeInstance("field_type") as! JSONableString?)?.string { return FieldType(rawValue: z) } else { return nil } }
         set(fieldType) { super.setStringAttribute(withName: "field_type", fieldType?.rawValue) }
     }
-    var position: Int? {
+    public var position: Int? {
         get { return (super.getAttributeInstance("position") as! JSONableInt?)?.int }
         set(position) { super.setIntAttribute(withName: "position", position) }
     }
-    var important: Bool? {
+    public var important: Bool? {
         get { return (super.getAttributeInstance("important") as! JSONableBool?)?.bool }
         set(important) { super.setBoolAttribute(withName: "important", important) }
     }
-    var defaultValue: Int? {
+    public var defaultValue: Int? {
         get { return (super.getAttributeInstance("default_value") as! JSONableInt?)?.int }
         set(defaultValue) { super.setIntAttribute(withName: "default_value", defaultValue) }
     }
-    var labels: [InterfaceLanguage:String]? {
+    public var labels: [InterfaceLanguage:String]? {
         get {
             return (super.getAttributeInstance("labels") as? Localizable<JSONableString>)?.map.reduce([InterfaceLanguage:String]()) {
                 m, e in
@@ -29,7 +29,7 @@ class Field: Base {
             }
         }
     }
-    var descriptions: [InterfaceLanguage:String]? {
+    public var descriptions: [InterfaceLanguage:String]? {
         get {
             return (super.getAttributeInstance("descriptions") as? Localizable<JSONableString>)?.map.reduce([InterfaceLanguage:String]()) {
                 m, e in
@@ -41,7 +41,7 @@ class Field: Base {
             }
         }
     }
-    var placeholders: [InterfaceLanguage:String]? {
+    public var placeholders: [InterfaceLanguage:String]? {
         get {
             return (super.getAttributeInstance("placeholders") as? Localizable<JSONableString>)?.map.reduce([InterfaceLanguage:String]()) {
                 m, e in
@@ -53,7 +53,7 @@ class Field: Base {
             }
         }
     }
-    var values: [InterfaceLanguage:[String]]? {
+    public var values: [InterfaceLanguage:[String]]? {
         get {
             return (super.getAttributeInstance("values") as? Localizable<JSONableArray<JSONableString>>)?.map.reduce([InterfaceLanguage:[String]]()) {
                 m, e in

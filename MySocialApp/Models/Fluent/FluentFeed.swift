@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class FluentFeed {
+public class FluentFeed {
     private static let PAGE_SIZE = 10
     
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
     
@@ -80,11 +80,11 @@ class FluentFeed {
         .subscribeOn(MainScheduler.instance)
     }
 
-    func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Feed>? {
+    public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Feed>? {
         return try self.search(search, page: page, size: size).toBlocking().first()
     }
     
-    func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Feed>> {
+    public func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Feed>> {
         return Observable.create {
             obs in
             if size > 0 {
@@ -110,50 +110,50 @@ class FluentFeed {
             .subscribeOn(MainScheduler.instance)
     }
     
-    class Search: ISearch {
+    public class Search: ISearch {
         
-        class Builder {
+        public class Builder {
             private var user = User()
             private var mTextToSearch: String? = nil
             private var mSortOrder: SortOrder? = nil
             private var mLocationMaximumDistance: Double? = nil
             
-            func setTextToSearch(_ textToSearch: String) -> Builder {
+            public func setTextToSearch(_ textToSearch: String) -> Builder {
                 self.mTextToSearch = textToSearch
                 return self
             }
             
-            func setOrder(_ sortOrder: SortOrder) -> Builder {
+            public func setOrder(_ sortOrder: SortOrder) -> Builder {
                 self.mSortOrder = sortOrder
                 return self
             }
             
-            func setOwnerFirstName(_ firstName: String) -> Builder {
+            public func setOwnerFirstName(_ firstName: String) -> Builder {
                 self.user.firstName = firstName
                 return self
             }
             
-            func setOwnerLastName(_ lastName: String) -> Builder {
+            public func setOwnerLastName(_ lastName: String) -> Builder {
                 self.user.lastName = lastName
                 return self
             }
             
-            func setLocation(_ location: Location) -> Builder {
+            public func setLocation(_ location: Location) -> Builder {
                 self.user.livingLocation = location
                 return self
             }
             
-            func setOwnerLivingLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
+            public func setOwnerLivingLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance
                 return self
             }
             
-            func setOwnerLivingLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
+            public func setOwnerLivingLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
                 self.mLocationMaximumDistance = maximumDistance * 1000
                 return self
             }
             
-            func build() -> Search {
+            public func build() -> Search {
                 return Search(SearchQuery(user: user, q: mTextToSearch, name: nil, content: nil, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: nil, endDate: nil, dateField: nil))
             }
         }

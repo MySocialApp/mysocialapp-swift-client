@@ -1,9 +1,9 @@
 import Foundation
 import RxSwift
 
-class SearchResult: JSONable {
+public class SearchResult: JSONable {
     
-    var matchedCount: Int64? {
+    public var matchedCount: Int64? {
         get { return (super.getAttributeInstance("matched_count") as! JSONableInt64?)?.int64 }
         set(matchedCount) { super.setInt64Attribute(withName: "matched_count", matchedCount) }
     }

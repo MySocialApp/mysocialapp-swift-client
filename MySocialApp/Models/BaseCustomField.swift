@@ -1,7 +1,7 @@
 import Foundation
 
-class BaseCustomField : Base {
-    var customFields: [CustomField]? {
+public class BaseCustomField : Base {
+    public var customFields: [CustomField]? {
         get { return (super.getAttributeInstance("custom_fields") as? JSONableArray<CustomField>)?.array }
         set(customFields) { super.setArrayAttribute(withName: "custom_fields", customFields) }
     }
@@ -13,7 +13,7 @@ class BaseCustomField : Base {
         return super.getAttributeCreationMethod(name: name)
     }
     
-    func customValueCount() -> Int {
+    public func customValueCount() -> Int {
         if  let v = customFields?.filter({ $0.data != nil }).count {
             return v
         }

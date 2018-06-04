@@ -1,30 +1,30 @@
 import Foundation
 
-class FeedPost {
+public class FeedPost {
     internal var textWallMessage: TextWallMessage? = nil
     internal var photo: UIImage? = nil
     
-    class Builder {
+    public class Builder {
         private var mMessage: String? = nil
         private var mImage: UIImage? = nil
         private var mVisibility: AccessControl = .Friend
         
-        func setMessage(_ message: String?) -> Builder {
+        public func setMessage(_ message: String?) -> Builder {
             self.mMessage = message
             return self
         }
         
-        func setImage(_ image: UIImage?) -> Builder {
+        public func setImage(_ image: UIImage?) -> Builder {
             self.mImage = image
             return self
         }
         
-        func setVisibility(_ visibility: AccessControl) -> Builder {
+        public func setVisibility(_ visibility: AccessControl) -> Builder {
             self.mVisibility = visibility
             return self
         }
         
-        func build() throws -> FeedPost {
+        public func build() throws -> FeedPost {
             guard mMessage != nil || mImage != nil else {
                 let e = RestError()
                 e.setStringAttribute(withName: "message", "Message or image is mandatory")

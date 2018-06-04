@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class PreviewNotification: Base {
-    var total: Int?{
+public class PreviewNotification: Base {
+    public var total: Int?{
         get { return (super.getAttributeInstance("total") as! JSONableInt?)?.int }
         set(total) { super.setIntAttribute(withName: "total", total) }
     }
-    var lastNotification: Notification?{
+    public var lastNotification: Notification?{
         get { return super.getAttributeInstance("last_notification") as? Notification }
         set(lastNotification) { super.setAttribute(withName: "last_notification", lastNotification) }
     }
@@ -22,11 +22,11 @@ class PreviewNotification: Base {
         }
     }
 
-    func blockingConsume() throws -> PreviewNotification? {
+    public func blockingConsume() throws -> PreviewNotification? {
         return try consume().toBlocking().first()
     }
     
-    func consume() -> Observable<PreviewNotification> {
+    public func consume() -> Observable<PreviewNotification> {
         if let s = session, let id = self.id {
             return s.clientService.notification.consume(id)
         } else {

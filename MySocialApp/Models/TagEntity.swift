@@ -1,20 +1,20 @@
 import Foundation
 
-class TagEntity: Base {
+public class TagEntity: Base {
 
-    var text: String?{
+    public var text: String?{
         get { return (super.getAttributeInstance("text") as! JSONableString?)?.string }
         set(text) { super.setStringAttribute(withName: "text", text) }
     }
-    var target: Base?{
+    public var target: Base?{
         get { return super.getAttributeInstance("target") as? Base }
         set(target) { super.setAttribute(withName: "target", target) }
     }
-    var user: User?{
+    public var user: User?{
         get { return super.getAttributeInstance("user") as? User }
         set(user) { super.setAttribute(withName: "user", user) }
     }
-    var indices: [Int]?{
+    public var indices: [Int]?{
         get { if let i = (super.getAttributeInstance("indices") as! JSONableArray<JSONableInt>?)?.getDictArray() as? [Int] {
             return i
         } else if let si = self.startIndex, let ei = self.endIndex {
@@ -43,11 +43,11 @@ class TagEntity: Base {
             }
         }
     }
-    var startIndex: Int? {
+    public var startIndex: Int? {
         get { return (super.getAttributeInstance("start_index") as! JSONableInt?)?.int }
         set(startIndex) { super.setIntAttribute(withName: "start_index", startIndex) }
     }
-    var endIndex: Int? {
+    public var endIndex: Int? {
         get { return (super.getAttributeInstance("end_index") as! JSONableInt?)?.int }
         set(endIndex) { super.setIntAttribute(withName: "end_index", endIndex) }
     }

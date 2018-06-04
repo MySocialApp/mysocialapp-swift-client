@@ -1,6 +1,6 @@
 import Foundation
 
-enum EntityType: String {
+public enum EntityType: String {
     case User = "USER"
     case Ride = "RIDE"
     case Group = "GROUP"

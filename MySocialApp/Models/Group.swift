@@ -1,53 +1,53 @@
 import Foundation
 import RxSwift
 
-class Group: BaseCustomField {
+public class Group: BaseCustomField {
     private static let PAGE_SIZE = 10
 
-    var name: String?{
+    public var name: String?{
         get { return (super.getAttributeInstance("name") as! JSONableString?)?.string }
         set(name) { super.setStringAttribute(withName: "name", name) }
     }
-    var desc: String?{
+    public var desc: String?{
         get { return (super.getAttributeInstance("description") as! JSONableString?)?.string }
         set(description) { super.setStringAttribute(withName: "description", description) }
     }
-    var location: Location?{
+    public var location: Location?{
         get { return super.getAttributeInstance("location") as? Location }
         set(location) { super.setAttribute(withName: "location", location) }
     }
-    var isApprovable: Bool?{
+    public var isApprovable: Bool?{
         get { return (super.getAttributeInstance("is_approvable") as! JSONableBool?)?.bool }
         set(isCancelled) { super.setBoolAttribute(withName: "is_approvable", isCancelled) }
     }
-    var groupMemberAccessControl: MemberAccessControl?{
+    public var groupMemberAccessControl: MemberAccessControl?{
         get { if let c = (super.getAttributeInstance("group_member_access_control") as! JSONableString?)?.string { return MemberAccessControl(rawValue: c) } else { return nil } }
         set(groupMemberAccessControl) { super.setStringAttribute(withName: "group_member_access_control", groupMemberAccessControl?.rawValue) }
     }
-    var members: [Member<GroupStatus>]?{
+    public var members: [Member<GroupStatus>]?{
         get { return (super.getAttributeInstance("members") as! JSONableArray<Member<GroupStatus>>?)?.array }
         set(members) { super.setArrayAttribute(withName: "members", members) }
     }
-    var memberCount: Int {
+    public var memberCount: Int {
         get { if let t = totalMembers { return t } else if let m = members { return m.filter { $0.status == GroupStatus.Member }.count } else { return 0 } }
     }
-    var totalMembers: Int? {
+    public var totalMembers: Int? {
         get { return (super.getAttributeInstance("total_members") as! JSONableInt?)?.int }
         set(totalMembers) { super.setIntAttribute(withName: "total_members", totalMembers) }
     }
-    var profilePhoto: Photo?{
+    public var profilePhoto: Photo?{
         get { return super.getAttributeInstance("profile_photo") as? Photo }
         set(profilePhoto) { super.setAttribute(withName: "profile_photo", profilePhoto) }
     }
-    var profileCoverPhoto: Photo?{
+    public var profileCoverPhoto: Photo?{
         get { return super.getAttributeInstance("profile_cover_photo") as? Photo }
         set(profileCoverPhoto) { super.setAttribute(withName: "profile_cover_photo", profileCoverPhoto) }
     }
-    var isMember: Bool?{
+    public var isMember: Bool?{
         get { return (super.getAttributeInstance("is_member") as! JSONableBool?)?.bool }
         set(isMember) { super.setBoolAttribute(withName: "is_member", isMember) }
     }
-    var distanceInMeters: Int?{
+    public var distanceInMeters: Int?{
         get { return (super.getAttributeInstance("distance_in_meters") as! JSONableInt?)?.int }
         set(distanceInMeters) { super.setIntAttribute(withName: "distance_in_meters", distanceInMeters) }
     }
@@ -74,7 +74,7 @@ class Group: BaseCustomField {
         
     }
     
-    override func getDisplayedName() -> String? {
+    public override func getDisplayedName() -> String? {
         return name
     }
     
@@ -98,19 +98,19 @@ class Group: BaseCustomField {
         }
     }
     
-    func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed] {
+    public func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed] {
         return try streamNewsFeed(limit: limit).toBlocking().toArray()
     }
     
-    func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
+    public func streamNewsFeed(limit: Int = Int.max) -> Observable<Feed> {
         return listNewsFeed(page: 0, size: limit)
     }
     
-    func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
+    public func blockingListNewsFeed(page: Int = 0, size: Int = 10) throws -> [Feed] {
         return try listNewsFeed(page: page, size: size).toBlocking().toArray()
     }
     
-    func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
+    public func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
             self.stream(page, size, obs)
@@ -119,11 +119,11 @@ class Group: BaseCustomField {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingSave() throws -> Group? {
+    public func blockingSave() throws -> Group? {
         return try self.save().toBlocking().first()
     }
     
-    func save() -> Observable<Group> {
+    public func save() -> Observable<Group> {
         if let s = session {
             if let _ = self.id {
                 return s.clientService.group.update(self)
@@ -142,11 +142,11 @@ class Group: BaseCustomField {
         }
     }
     
-    func blockingJoin() throws -> User? {
+    public func blockingJoin() throws -> User? {
         return try join().toBlocking().first()
     }
     
-    func join() -> Observable<User> {
+    public func join() -> Observable<User> {
         if let s = session {
             return s.clientService.user.join(group: self)
         } else {
@@ -161,11 +161,11 @@ class Group: BaseCustomField {
         }
     }
     
-    func blockingUnJoin() throws -> Bool? {
+    public func blockingUnJoin() throws -> Bool? {
         return try unJoin().toBlocking().first()
     }
     
-    func unJoin() -> Observable<Bool> {
+    public func unJoin() -> Observable<Bool> {
         if let s = session {
             return s.clientService.user.unjoin(group: self)
         } else {
@@ -180,7 +180,7 @@ class Group: BaseCustomField {
         }
     }
     
-    class Builder {
+    public class Builder {
         private var mName: String? = nil
         private var mDescription: String? = nil
         private var mLocation: Location? = nil
@@ -188,37 +188,37 @@ class Group: BaseCustomField {
         private var mImage: UIImage? = nil
         private var mCoverImage: UIImage? = nil
         
-        func setName(_ name: String) -> Builder {
+        public func setName(_ name: String) -> Builder {
             self.mName = name
             return self
         }
         
-        func setDescription(_ description: String) -> Builder {
+        public func setDescription(_ description: String) -> Builder {
             self.mDescription = description
             return self
         }
         
-        func setLocation(_ location: Location) -> Builder {
+        public func setLocation(_ location: Location) -> Builder {
             self.mLocation = location
             return self
         }
         
-        func setMemberAccessControl(_ memberAccessControl: MemberAccessControl) -> Builder {
+        public func setMemberAccessControl(_ memberAccessControl: MemberAccessControl) -> Builder {
             self.mMemberAccessControl = memberAccessControl
             return self
         }
         
-        func setImage(_ image: UIImage) -> Builder {
+        public func setImage(_ image: UIImage) -> Builder {
             self.mImage = image
             return self
         }
         
-        func setCoverImage(_ image: UIImage) -> Builder {
+        public func setCoverImage(_ image: UIImage) -> Builder {
             self.mCoverImage = image
             return self
         }
         
-        func build() throws -> Group {
+        public func build() throws -> Group {
             guard mName != nil && mName != "" else {
                 let e = RestError()
                 e.setStringAttribute(withName: "message", "Name cannot be null or empty")

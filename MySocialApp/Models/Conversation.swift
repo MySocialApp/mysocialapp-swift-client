@@ -1,19 +1,19 @@
 import Foundation
 import RxSwift
 
-class Conversation: Base {
+public class Conversation: Base {
 
-    var name: String?{
+    public var name: String?{
         get { return (super.getAttributeInstance("name") as! JSONableString?)?.string }
         set(name) { super.setStringAttribute(withName: "name", name) }
     }
-    var messages: ConversationMessages? {
+    public var messages: ConversationMessages? {
         get {
             return (super.getAttributeInstance("messages") as? ConversationMessages)?.updateConversationId(id)
         }
         set(messages) { super.setAttribute(withName: "messages", messages) }
     }
-    var members: [User]? {
+    public var members: [User]? {
         get { return (self.getAttributeInstance("members") as! JSONableArray<User>?)?.array }
         set(members) { self.setArrayAttribute(withName: "members", members) }
     }
@@ -31,11 +31,11 @@ class Conversation: Base {
         }
     }
     
-    func blockingSendMessage(_ message: ConversationMessagePost) throws -> ConversationMessage? {
+    public func blockingSendMessage(_ message: ConversationMessagePost) throws -> ConversationMessage? {
         return try sendMessage(message).toBlocking().first()
     }
     
-    func sendMessage(_ message: ConversationMessagePost) -> Observable<ConversationMessage> {
+    public func sendMessage(_ message: ConversationMessagePost) -> Observable<ConversationMessage> {
         if let s = session, let id = self.id {
             if let i = message.photo {
                 return Observable.create {
@@ -66,11 +66,11 @@ class Conversation: Base {
         }
     }
     
-    func blockingKickMember(_ user: User) throws -> User? {
+    public func blockingKickMember(_ user: User) throws -> User? {
         return try kickMember(user).toBlocking().first()
     }
     
-    func kickMember(_ user: User) -> Observable<User> {
+    public func kickMember(_ user: User) -> Observable<User> {
         return Observable.create {
             obs in
             self.members = self.members?.filter { $0.id != user.id }
@@ -83,11 +83,11 @@ class Conversation: Base {
         .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingAddMember(_ user: User) throws -> User? {
+    public func blockingAddMember(_ user: User) throws -> User? {
         return try addMember(user).toBlocking().first()
     }
     
-    func addMember(_ user: User) -> Observable<User> {
+    public func addMember(_ user: User) -> Observable<User> {
         return Observable.create {
             obs in
             var members = [user]
@@ -104,11 +104,11 @@ class Conversation: Base {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingDelete() throws -> Bool? {
+    public func blockingDelete() throws -> Bool? {
         return try delete().toBlocking().first()
     }
     
-    override func delete() -> Observable<Bool> {
+    public override func delete() -> Observable<Bool> {
         if let s = session, let id = self.id {
             return s.clientService.conversation.delete(id)
         } else {
@@ -123,11 +123,11 @@ class Conversation: Base {
         }
     }
     
-    func blockingSave() throws -> Conversation? {
+    public func blockingSave() throws -> Conversation? {
         return try save().toBlocking().first()
     }
     
-    func save() -> Observable<Conversation> {
+    public func save() -> Observable<Conversation> {
         if let s = session {
             if let _ = self.id {
                 return s.clientService.conversation.update(self, forConversation: id)
@@ -146,39 +146,39 @@ class Conversation: Base {
         }
     }
     
-    func blockingQuit() throws -> Bool? {
+    public func blockingQuit() throws -> Bool? {
         return try self.blockingDelete()
     }
     
-    func quit() -> Observable<Bool> {
+    public func quit() -> Observable<Bool> {
         return self.delete()
     }
     
-    class Builder {
+    public class Builder {
         private var mName: String? = nil
         private var mMembers: [User] = []
         
-        func setName(_ name: String) -> Builder {
+        public func setName(_ name: String) -> Builder {
             self.mName = name
             return self
         }
         
-        func addMember(member: User) -> Builder {
+        public func addMember(member: User) -> Builder {
             self.mMembers.append(member)
             return self
         }
         
-        func addMembers(members: [User]) -> Builder {
+        public func addMembers(members: [User]) -> Builder {
             self.mMembers.append(contentsOf: members)
             return self
         }
         
-        func setMembers(members: [User]) -> Builder {
+        public func setMembers(members: [User]) -> Builder {
             self.mMembers = members
             return self
         }
         
-        func build() -> Conversation {
+        public func build() -> Conversation {
             let c = Conversation()
             c.name = mName
             c.members = mMembers

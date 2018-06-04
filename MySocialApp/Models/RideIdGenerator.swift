@@ -1,11 +1,11 @@
 import Foundation
 
-class RideIdGenerator: Base {
-    var rideId: String? {
+public class RideIdGenerator: Base {
+    public var rideId: String? {
         get { return (super.getAttributeInstance("id") as! JSONableString?)?.string }
         set(rideId) { super.setStringAttribute(withName: "id", rideId) }
     }
-    var url: String? {
+    public var url: String? {
         get { return (super.getAttributeInstance("url") as! JSONableString?)?.string }
         set(url) { super.setStringAttribute(withName: "url", url) }
     }

@@ -1,18 +1,18 @@
 import Foundation
 
-class Device: JSONable {
+public class Device: JSONable {
     
     public static let IOS = "IOS"
 
-    var appPlatform: String?{
+    public var appPlatform: String?{
         get { return (super.getAttributeInstance("app_platform") as! JSONableString?)?.string }
         set(appPlatform) { super.setStringAttribute(withName: "app_platform", appPlatform) }
     }
-    var pushKey: String?{
+    public var pushKey: String?{
         get { return (super.getAttributeInstance("push_key") as! JSONableString?)?.string }
         set(pushKey) { super.setStringAttribute(withName: "push_key", pushKey) }
     }
-    var deviceId: String?{
+    public var deviceId: String?{
         get { return (super.getAttributeInstance("device_id") as! JSONableString?)?.string }
         set(deviceId) { super.setStringAttribute(withName: "device_id", deviceId) }
     }
@@ -26,11 +26,11 @@ class Device: JSONable {
         }
     }
     
-    required init() {
+    public required init() {
         super.init()
     }
     
-    init(appPlatform: String = Device.IOS, pushKey: String, deviceId: String) {
+    public init(appPlatform: String = Device.IOS, pushKey: String, deviceId: String) {
         super.init()
         self.appPlatform = appPlatform
         self.pushKey = pushKey

@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class FluentConversation {
+public class FluentConversation {
     private static let PAGE_SIZE = 10
 
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
     
@@ -51,19 +51,19 @@ class FluentConversation {
             .subscribeOn(MainScheduler.instance)
     }
 
-    func blockingGet(_ id: Int64) throws -> Conversation? {
+    public func blockingGet(_ id: Int64) throws -> Conversation? {
         return try self.get(id).toBlocking().first()
     }
     
-    func get(_ id: Int64) -> Observable<Conversation> {
+    public func get(_ id: Int64) -> Observable<Conversation> {
         return session.clientService.conversation.get(id)
     }
     
-    func blockingCreate(_ conversation: Conversation) throws -> Conversation? {
+    public func blockingCreate(_ conversation: Conversation) throws -> Conversation? {
         return try self.create(conversation).toBlocking().first()
     }
     
-    func create(_ conversation: Conversation) -> Observable<Conversation> {
+    public func create(_ conversation: Conversation) -> Observable<Conversation> {
         return session.clientService.conversation.post(conversation)
     }
 }

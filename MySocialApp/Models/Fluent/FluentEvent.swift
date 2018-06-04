@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
 
-class FluentEvent {
+public class FluentEvent {
     private static let PAGE_SIZE = 10
     
     var session: Session
     
-    public init(_ session:  Session) {
+    init(_ session:  Session) {
         self.session = session
     }
     
@@ -53,19 +53,19 @@ class FluentEvent {
             .subscribeOn(MainScheduler.instance)
     }
     
-    func blockingGet(_ id: Int64) throws -> Event? {
+    public func blockingGet(_ id: Int64) throws -> Event? {
         return try self.get(id).toBlocking().first()
     }
     
-    func get(_ id: Int64) -> Observable<Event> {
+    public func get(_ id: Int64) -> Observable<Event> {
         return session.clientService.event.get(id)
     }
     
-    func blockingCreate(_ event: Event) throws -> Event? {
+    public func blockingCreate(_ event: Event) throws -> Event? {
         return try self.create(event).toBlocking().first()
     }
     
-    func create(_ event: Event) -> Observable<Event> {
+    public func create(_ event: Event) -> Observable<Event> {
         return Observable.create {
             obs in
             let _ = self.session.clientService.event.post(event).subscribe {
@@ -117,11 +117,11 @@ class FluentEvent {
             .subscribeOn(MainScheduler.instance)
     }
 
-    func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Event>? {
+    public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Event>? {
         return try self.search(search, page: page, size: size).toBlocking().first()
     }
     
-    func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Event>> {
+    public func search(_ search: Search, page: Int = 0, size: Int = 10) -> Observable<SearchResultValue<Event>> {
         return Observable.create {
             obs in
             if size > 0 {
@@ -147,9 +147,9 @@ class FluentEvent {
         .subscribeOn(MainScheduler.instance)
     }
     
-    class Search: ISearch {
+    public class Search: ISearch {
     
-    class Builder {
+    public class Builder {
         private var user = User()
         private var mName: String? = nil
         private var mDescription: String? = nil
@@ -159,62 +159,62 @@ class FluentEvent {
         private var mToDate: Date? = nil
         private var mDateField: DateField? = nil
     
-        func setName(_ name: String) -> Builder {
+        public func setName(_ name: String) -> Builder {
             self.mName = name
             return self
         }
     
-        func setDescription(_ description: String) -> Builder {
+        public func setDescription(_ description: String) -> Builder {
             self.mDescription = description
             return self
         }
     
-        func setOwnerFirstName(_ firstName: String) -> Builder {
+        public func setOwnerFirstName(_ firstName: String) -> Builder {
             self.user.firstName = firstName
             return self
         }
     
-        func setOwnerLastName(_ lastName: String) -> Builder {
+        public func setOwnerLastName(_ lastName: String) -> Builder {
             self.user.lastName = lastName
             return self
         }
     
-        func setLocation(_ location: Location) -> Builder {
+        public func setLocation(_ location: Location) -> Builder {
             self.user.livingLocation = location
             return self
         }
     
-        func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
+        public func setLocationMaximumDistanceInMeters(_ maximumDistance: Double) -> Builder {
             self.mLocationMaximumDistance = maximumDistance
             return self
         }
     
-        func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
+        public func setLocationMaximumDistanceInKilometers(_ maximumDistance: Double) -> Builder {
             self.mLocationMaximumDistance = maximumDistance * 1000
             return self
         }
         
-        func setOrder(_ sortOrder: SortOrder) -> Builder {
+        public func setOrder(_ sortOrder: SortOrder) -> Builder {
             self.mSortOrder = sortOrder
             return self
         }
         
-        func setFromDate(_ fromDate: Date) -> Builder {
+        public func setFromDate(_ fromDate: Date) -> Builder {
             self.mFromDate = fromDate
             return self
         }
         
-        func setToDate(_ toDate: Date) -> Builder {
+        public func setToDate(_ toDate: Date) -> Builder {
             self.mToDate = toDate
             return self
         }
         
-        func setDateField(_ dateField: DateField) -> Builder {
+        public func setDateField(_ dateField: DateField) -> Builder {
             self.mDateField = dateField
             return self
         }
 
-        func build() -> Search {
+        public func build() -> Search {
             return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: mFromDate, endDate: mToDate, dateField: mDateField?.rawValue))
         }
     }
@@ -225,7 +225,7 @@ class FluentEvent {
             return m
         }
         
-        enum DateField: String {
+        public enum DateField: String {
             case startDate = "START_DATE"
             case endDate = "END_DATE"
         }

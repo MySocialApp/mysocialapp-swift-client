@@ -1,15 +1,15 @@
 import Foundation
 
-class BaseLocation: Base {
-    var latitude: Double? {
+public class BaseLocation: Base {
+    public var latitude: Double? {
         get { return (super.getAttributeInstance("latitude") as! JSONableDouble?)?.double }
         set(latitude) { super.setDoubleAttribute(withName: "latitude", latitude) }
     }
-    var longitude: Double? {
+    public var longitude: Double? {
         get { return (super.getAttributeInstance("longitude") as! JSONableDouble?)?.double }
         set(longitude) { super.setDoubleAttribute(withName: "longitude", longitude) }
     }
-    var accuracy: Float? {
+    public var accuracy: Float? {
         get { return (super.getAttributeInstance("accuracy") as! JSONableFloat?)?.float }
         set(accuracy) { super.setFloatAttribute(withName: "accuracy", accuracy) }
     }
@@ -25,13 +25,13 @@ class BaseLocation: Base {
         }
     }
     
-    convenience init(latitude: Double, longitude: Double) {
+    public convenience init(latitude: Double, longitude: Double) {
         self.init()
         self.latitude = latitude
         self.longitude = longitude
     }
     
-    func distance(from: BaseLocation) -> Double? {
+    public func distance(from: BaseLocation) -> Double? {
         if let l1 = LocationUtils.fromLocation(self),
             let l2 = LocationUtils.fromLocation(from) {
             return l1.distance(from: l2)

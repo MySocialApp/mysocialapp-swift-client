@@ -1,23 +1,23 @@
 import Foundation
 
-class Login: Base {
+public class Login: Base {
 
-    var username: String? {
+    public var username: String? {
         get { return (super.getAttributeInstance("username") as! JSONableString?)?.string }
         set(username) { super.setStringAttribute(withName: "username", username) }
     }
 
-    var password: String? {
+    public var password: String? {
         get { return (super.getAttributeInstance("password") as! JSONableString?)?.string }
         set(password) { super.setStringAttribute(withName: "password", password) }
     }
 
-    var accessToken: String? {
+    public var accessToken: String? {
         get { return (super.getAttributeInstance("access_token") as! JSONableString?)?.string }
         set(accessToken) { super.setStringAttribute(withName: "access_token", accessToken) }
     }
 
-    required init() {
+    public required init() {
         super.init()
     }
     
@@ -30,13 +30,13 @@ class Login: Base {
         }
     }
     
-    init(username: String, password: String) {
+    public init(username: String, password: String) {
         super.init()
         self.username = username
         self.password = password
     }
     
-    init(accessToken: String) {
+    public init(accessToken: String) {
         super.init()
         self.accessToken = accessToken
     }

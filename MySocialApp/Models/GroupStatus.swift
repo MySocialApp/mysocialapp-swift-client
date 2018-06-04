@@ -1,6 +1,6 @@
 import Foundation
 
-enum GroupStatus: String {
+public enum GroupStatus: String {
     case WaitingForApproval = "WAITING_FOR_APPROVAL"
     case NotAvailable = "NOT_AVAILABLE"
     case Member = "MEMBER"

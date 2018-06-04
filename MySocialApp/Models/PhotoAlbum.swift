@@ -1,21 +1,21 @@
 import Foundation
 
-class PhotoAlbum: Base {
+public class PhotoAlbum: Base {
 
-    var name: String?{
+    public var name: String?{
         get { return (super.getAttributeInstance("name") as! JSONableString?)?.string }
         set(name) { super.setStringAttribute(withName: "name", name) }
     }
-    var photos: [Photo]?{
+    public var photos: [Photo]?{
         get { return (super.getAttributeInstance("photos") as! JSONableArray<Photo>?)?.array }
         set(photos) { super.setArrayAttribute(withName: "photos", photos) }
     }
-    var previewPhotos: PreviewPhotos?{
+    public var previewPhotos: PreviewPhotos?{
         get { return super.getAttributeInstance("preview_photos") as? PreviewPhotos }
         set(previewPhotos) { super.setAttribute(withName: "preview_photos", previewPhotos) }
     }
     
-    convenience init(_ s: String) {
+    public convenience init(_ s: String) {
         self.init()
         self.name = s
         self.displayedName = s

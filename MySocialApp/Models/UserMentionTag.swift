@@ -1,7 +1,7 @@
 import Foundation
 
-class UserMentionTag: TagEntity {
-    var mentionedUser: User?{
+public class UserMentionTag: TagEntity {
+    public var mentionedUser: User?{
         get { return super.getAttributeInstance("mentioned_user") as? User }
         set(mentionedUser) { super.setAttribute(withName: "mentioned_user", mentionedUser) }
     }

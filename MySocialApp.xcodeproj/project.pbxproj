@@ -44,7 +44,7 @@
 		0DEADF7E20BCA96D00EDE0DC /* RideShareFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3020BCA95300EDE0DC /* RideShareFlag.swift */; };
 		0DEADF7F20BCA96D00EDE0DC /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3120BCA95300EDE0DC /* Photo.swift */; };
 		0DEADF8020BCA96D00EDE0DC /* RideShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3220BCA95400EDE0DC /* RideShareData.swift */; };
-		0DEADF8120BCA96D00EDE0DC /* HasCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */; };
+		0DEADF8120BCA96D00EDE0DC /* BaseCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3320BCA95400EDE0DC /* BaseCustomField.swift */; };
 		0DEADF8220BCA96D00EDE0DC /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3420BCA95400EDE0DC /* Status.swift */; };
 		0DEADF8320BCA96D00EDE0DC /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3520BCA95400EDE0DC /* Gender.swift */; };
 		0DEADF8420BCA96D00EDE0DC /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEADF3620BCA95400EDE0DC /* Group.swift */; };
@@ -210,7 +210,7 @@
 		0DEADF3020BCA95300EDE0DC /* RideShareFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareFlag.swift; sourceTree = "<group>"; };
 		0DEADF3120BCA95300EDE0DC /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		0DEADF3220BCA95400EDE0DC /* RideShareData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideShareData.swift; sourceTree = "<group>"; };
-		0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasCustomField.swift; sourceTree = "<group>"; };
+		0DEADF3320BCA95400EDE0DC /* BaseCustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCustomField.swift; sourceTree = "<group>"; };
 		0DEADF3420BCA95400EDE0DC /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		0DEADF3520BCA95400EDE0DC /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		0DEADF3620BCA95400EDE0DC /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -461,7 +461,7 @@
 				0DEADF3520BCA95400EDE0DC /* Gender.swift */,
 				0DEADF3620BCA95400EDE0DC /* Group.swift */,
 				0DEADF5F20BCA96300EDE0DC /* GroupStatus.swift */,
-				0DEADF3320BCA95400EDE0DC /* HasCustomField.swift */,
+				0DEADF3320BCA95400EDE0DC /* BaseCustomField.swift */,
 				0DEADF4420BCA95900EDE0DC /* HashTag.swift */,
 				0DEADF5920BCA96000EDE0DC /* HasRate.swift */,
 				0DEADF4520BCA95900EDE0DC /* HasRide.swift */,
@@ -843,7 +843,7 @@
 				0DEAE0D920BE0D0500EDE0DC /* RestUser.swift in Sources */,
 				0DEADFA820BCA96D00EDE0DC /* WallActivity.swift in Sources */,
 				0DEADFA020BCA96D00EDE0DC /* Feed.swift in Sources */,
-				0DEADF8120BCA96D00EDE0DC /* HasCustomField.swift in Sources */,
+				0DEADF8120BCA96D00EDE0DC /* BaseCustomField.swift in Sources */,
 				0DEAE0A320BCB2DA00EDE0DC /* RestHashTag.swift in Sources */,
 				0DEADF8320BCA96D00EDE0DC /* Gender.swift in Sources */,
 				0DEADF9B20BCA96D00EDE0DC /* PhotoAlbum.swift in Sources */,

@@ -1,21 +1,21 @@
 import Foundation
 import RxSwift
 
-class SearchResultTypes: JSONable {
+public class SearchResultTypes: JSONable {
     
-    var users: SearchResultValue<User>? {
+    public var users: SearchResultValue<User>? {
         get { return super.getAttributeInstance("USER") as? SearchResultValue<User> }
         set(users) { super.setAttribute(withName: "USER", users) }
     }
-    var feeds: SearchResultValue<Feed>? {
+    public var feeds: SearchResultValue<Feed>? {
         get { return super.getAttributeInstance("FEED") as? SearchResultValue<Feed> }
         set(feeds) { super.setAttribute(withName: "FEED", feeds) }
     }
-    var groups: SearchResultValue<Group>? {
+    public var groups: SearchResultValue<Group>? {
         get { return super.getAttributeInstance("GROUP") as? SearchResultValue<Group> }
         set(groups) { super.setAttribute(withName: "GROUP", groups) }
     }
-    var events: SearchResultValue<Event>? {
+    public var events: SearchResultValue<Event>? {
         get { return super.getAttributeInstance("EVENT") as? SearchResultValue<Event> }
         set(events) { super.setAttribute(withName: "EVENT", events) }
     }
@@ -36,12 +36,12 @@ class SearchResultTypes: JSONable {
     }
 }
 
-class SearchResultValue<T: JSONable>: JSONable {
-    var matchedCount: Int64? {
+public class SearchResultValue<T: JSONable>: JSONable {
+    public var matchedCount: Int64? {
         get { return (super.getAttributeInstance("matched_count") as! JSONableInt64?)?.int64 }
         set(matchedCount) { super.setInt64Attribute(withName: "matched_count", matchedCount) }
     }
-    var data: [T]? {
+    public var data: [T]? {
         get { return (super.getAttributeInstance("data") as! JSONableArray<T>?)?.array }
         set(data) { super.setArrayAttribute(withName: "data", data) }
     }
