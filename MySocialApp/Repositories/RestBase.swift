@@ -44,10 +44,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(O())
                 } else {
                     obs.onCompleted()
@@ -98,10 +100,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(O())
                 } else {
                     obs.onCompleted()
@@ -116,6 +120,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func getEmpty() -> Observable<O> {
         return Observable.create {
+            JSONable.currentSession = self.session
             $0.onNext(O())
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
@@ -124,6 +129,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func listEmpty() -> Observable<JSONableArray<O>> {
         return Observable.create {
+            JSONable.currentSession = self.session
             $0.onNext(JSONableArray<O>([]))
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
@@ -132,6 +138,7 @@ class RestBase<I:JSONable, O:JSONable> {
     
     func boolEmpty() -> Observable<Bool> {
         return Observable.create {
+            JSONable.currentSession = self.session
             $0.onNext(false)
             return Disposables.create()
             }.observeOn(MainScheduler.instance)
@@ -147,10 +154,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(O())
                 } else {
                     obs.onCompleted()
@@ -197,10 +206,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(JSONableArray<O>([O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O]))
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(JSONableArray<O>())
                 } else {
                     obs.onCompleted()
@@ -222,10 +233,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(JSONableArray<O>().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json))
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(JSONableArray<O>())
                 } else {
                     obs.onCompleted()
@@ -247,10 +260,12 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(RestError.fromResponse(responseCode: status, json: json))
                     } else {
+                        JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
+                    JSONable.currentSession = self.session
                     obs.onNext(O())
                 } else {
                     obs.onCompleted()
