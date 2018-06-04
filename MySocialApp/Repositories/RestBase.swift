@@ -5,12 +5,15 @@ import RxSwift
 class RestBase<I:JSONable, O:JSONable> {
 
     internal var session: Session?
+    internal var configuration: Configuration?
     internal var baseURL_: String?
     internal var baseURL: String {
         get {
             if let u = self.baseURL_ {
                 return u
             } else if let u = session?.configuration.completeAPIEndpointURL {
+                return u
+            } else if let u = self.configuration?.completeAPIEndpointURL {
                 return u
             } else {
                 return "{noRootUrl}"
@@ -19,9 +22,10 @@ class RestBase<I:JSONable, O:JSONable> {
     }
     internal var resourceURLhandler: ((_: String)->String) = {s in return s}
 
-    init(baseURL: String? = nil, _ session: Session?, resourceURLhandler: ((_: String)->String)? = nil) {
+    init(baseURL: String? = nil, _ session: Session?, configuration: Configuration? = nil, resourceURLhandler: ((_: String)->String)? = nil) {
         self.baseURL_ = baseURL
         self.session = session
+        self.configuration = configuration
         if let h = resourceURLhandler {
             self.resourceURLhandler = h
         }

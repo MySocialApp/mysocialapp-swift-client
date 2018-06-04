@@ -58,7 +58,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.3'
+  pod 'MySocialApp', '~> 1.0.4'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
