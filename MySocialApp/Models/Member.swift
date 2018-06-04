@@ -13,6 +13,10 @@ class Member<T: RawRepresentable where T.RawValue == String>: JSONable {
         get { return super.getAttributeInstance("event") as? Event }
         set(event) { super.setAttribute(withName: "event", event) }
     }
+    var group: Group? {
+        get { return super.getAttributeInstance("group") as? Group }
+        set(group) { super.setAttribute(withName: "group", group) }
+    }
     var user: User? {
         get { return super.getAttributeInstance("user") as? User }
         set(user) { super.setAttribute(withName: "user", user) }
@@ -28,6 +32,8 @@ class Member<T: RawRepresentable where T.RawValue == String>: JSONable {
             return JSONableDate().initAttributes
         case "event":
             return Event().initAttributes
+        case "group":
+            return Group().initAttributes
         case "user":
             return User().initAttributes
         case "status":

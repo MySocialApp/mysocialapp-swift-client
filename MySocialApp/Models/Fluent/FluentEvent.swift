@@ -60,6 +60,62 @@ class FluentEvent {
     func get(_ id: Int64) -> Observable<Event> {
         return session.clientService.event.get(id)
     }
+    
+    func blockingCreate(_ event: Event) throws -> Event? {
+        return try self.create(event).toBlocking().first()
+    }
+    
+    func create(_ event: Event) -> Observable<Event> {
+        return Observable.create {
+            obs in
+            let _ = self.session.clientService.event.post(event).subscribe {
+                e in
+                if let e = e.element {
+                    if let i = e.profileImage {
+                        self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
+                            photo in
+                            if let _ = photo {
+                                e.profileImage = nil
+                                if let i = e.profileCoverImage {
+                                    self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
+                                        photo in
+                                        if let _ = photo {
+                                            e.profileCoverImage = nil
+                                            obs.onNext(e)
+                                        } else {
+                                            obs.onCompleted()
+                                        }
+                                    }
+                                } else {
+                                    obs.onNext(e)
+                                }
+                            } else {
+                                obs.onCompleted()
+                            }
+                        }
+                    } else if let i = e.profileCoverImage {
+                        self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
+                            photo in
+                            if let _ = photo {
+                                e.profileCoverImage = nil
+                                obs.onNext(e)
+                            } else {
+                                obs.onCompleted()
+                            }
+                        }
+                    } else {
+                        obs.onNext(e)
+                    }
+                } else if let e = e.error {
+                    obs.onError(e)
+                } else {
+                    obs.onCompleted()
+                }
+            }
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
 
     func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Event>? {
         return try self.search(search, page: page, size: size).toBlocking().first()

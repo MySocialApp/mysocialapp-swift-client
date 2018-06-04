@@ -386,5 +386,62 @@ class Base: JSONable {
         }
     }
 
+    func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
+        return try sendWallPost(feedPost).toBlocking().first()
+    }
+    
+    func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
+        if let s = self.session {
+            if let p = feedPost.photo {
+                return Observable.create {
+                    obs in
+                    s.clientService.textWallMessage.post(forTarget: self, message: feedPost.textWallMessage, image: p) {
+                        e in
+                        if let e = e as? Feed {
+                            obs.onNext(e)
+                        } else {
+                            obs.onCompleted()
+                        }
+                    }
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            } else if let t = feedPost.textWallMessage {
+                return Observable.create {
+                    obs in
+                    let _ = s.clientService.textWallMessage.post(forTarget: self, message: t).subscribe {
+                        e in
+                        if let e = e.element as? Feed {
+                            obs.onNext(e)
+                        } else if let e = e.error {
+                            obs.onError(e)
+                        } else {
+                            obs.onCompleted()
+                        }
+                    }
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            } else {
+                return Observable.create {
+                    obs in
+                    let e = RestError()
+                    e.setStringAttribute(withName: "message", "At least message or photo is mandatory to post a feed")
+                    obs.onError(e)
+                    return Disposables.create()
+                    }.observeOn(MainScheduler.instance)
+                    .subscribeOn(MainScheduler.instance)
+            }
+        } else {
+            return Observable.create {
+                obs in
+                let e = RestError()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(MainScheduler.instance)
+                .subscribeOn(MainScheduler.instance)
+        }
+    }
 }
 

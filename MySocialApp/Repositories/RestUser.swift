@@ -91,4 +91,36 @@ class RestUser: RestBase<User, User> {
     func requestedAsFriends(_ page: Int) -> Observable<JSONableArray<User>> {
         return super.list("/friend/request/outgoing", params: ["page": page as AnyObject])
     }
+    
+    func join(group: Group) -> Observable<User> {
+        if let id = group.id {
+            return super.post("/group/\(id)/member", input: nil)
+        } else {
+            return super.getEmpty()
+        }
+    }
+    
+    func unjoin(group: Group) -> Observable<Bool> {
+        if let id = group.id {
+            return super.delete("/group/\(id)/member")
+        } else {
+            return super.boolEmpty()
+        }
+    }
+    
+    func join(event: Event) -> Observable<User> {
+        if let id = event.id {
+            return super.post("/event/\(id)/member", input: nil)
+        } else {
+            return super.getEmpty()
+        }
+    }
+    
+    func unjoin(event: Event) -> Observable<Bool> {
+        if let id = event.id {
+            return super.delete("/event/\(id)/member")
+        } else {
+            return super.boolEmpty()
+        }
+    }
 }

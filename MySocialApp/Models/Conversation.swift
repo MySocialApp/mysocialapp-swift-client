@@ -129,7 +129,7 @@ class Conversation: Base {
     
     func save() -> Observable<Conversation> {
         if let s = session {
-            if let id = self.id {
+            if let _ = self.id {
                 return s.clientService.conversation.update(self, forConversation: id)
             } else {
                 return s.clientService.conversation.post(self)

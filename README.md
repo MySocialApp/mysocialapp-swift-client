@@ -35,8 +35,8 @@ Add social features to your existing app, automate actions, scrape contents, ana
 | Search news feed | :heavy_check_mark: | :heavy_check_mark:
 | Search groups | :heavy_check_mark: | :heavy_check_mark:
 | Search events | :heavy_check_mark: | :heavy_check_mark:
-| Group [optional module] | :heavy_check_mark: | Partially
-| Event [optional module] | :heavy_check_mark: | Partially
+| Group [optional module] | :heavy_check_mark: | :heavy_check_mark:
+| Event [optional module] | :heavy_check_mark: | :heavy_check_mark:
 | Roadbook [optional module] | :heavy_check_mark: | Partially
 | Live tracking with `RideShare` ([exemple here](https://www.nousmotards.com/rideshare/follow/f6e0c27e01beb4f4-3856809369215939951-f10c31fd2dcc4576a1b488385aaa61c2)) [optional module] | :heavy_check_mark: | Soon
 | Point of interest [optional module] | :heavy_check_mark: | Soon
@@ -204,7 +204,7 @@ if let friend = s?.account?.blockingGet()?.blockingListFriends()?.first {
 #### Ignore a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(1)?.first {
+if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
     newsFeed.blockingIgnore()
 }
 ```
@@ -212,7 +212,7 @@ if let newsFeed = s?.newsFeed?.blockingStream(1)?.first {
 #### Report a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(1)?.first {
+if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
     newsFeed.blockingReport()
 }
 ```
@@ -220,7 +220,7 @@ if let newsFeed = s?.newsFeed?.blockingStream(1)?.first {
 #### Delete a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(1)?.first {
+if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
     newsFeed.blockingDelete()
 }
 ```
@@ -277,7 +277,7 @@ let conversations = s?.conversation?.blockingList()
 let s = johnSession
 
 // take 3 first users
-if let people = s?.user?.blockingStream(3) {
+if let people = s?.user?.blockingStream(limit: 3) {
 
     let conversation = Conversation.Builder()
         .setName("let's talk about the next event in private")
@@ -309,10 +309,10 @@ let s = johnSession
 let conversation = s?.conversation?.blockingList()?.first
 
 // get 35 last messages without consuming them
-let conversationMessages = conversation?.messages?.blockingStream(35)
+let conversationMessages = conversation?.messages?.blockingStream(limit: 35)
 
 // get 35 last messages and consume them
-let conversationMessages = conversation?.messages?.blockingStreamAndConsume(35)
+let conversationMessages = conversation?.messages?.blockingStreamAndConsume(limit: 35)
 ```
 
 #### Change conversation name
@@ -340,7 +340,7 @@ conversation?.blockingAddMember(user)
 ```swift
 let s = johnSession
 let i = someUIImage
-if let user = s?.user?.blockingList()?.firstOrNull()?.users?.first {
+if let user = try? s?.user?.blockingList()?.first?.users?.first {
 
     let message = ConversationMessagePost.Builder()
         .setMessage("Hey [[user:\(user.id)]] ! This is a quick message from our SDK #MySocialApp with an amazing picture. Enjoy")
@@ -354,80 +354,180 @@ if let user = s?.user?.blockingList()?.firstOrNull()?.users?.first {
 #### Quit conversation
 ```swift
 let s = johnSession
-let conversation = s?.conversation?.blockingList()?.first
-
-conversation?.blockingQuit()
+if let conversation = try? s?.conversation?.blockingList()?.first {
+    conversation.blockingQuit()
+}
 ```
 
 ### Event
 This module is optional. Please contact [us](mailto:support@mysocialapp.io) to request it
 
-#### List next events
-
-TODO
+#### List 50 next events
+```swift
+let s = johnSession
+s?.event?.blockingStream(limit: 50)
+```
 
 #### Create an event
+```swift
+let s = johnSession
+let i = someUIImage
 
-TODO
+let newarkLocation = Location(longitude: 40.736504474883915, latitude: -74.18175405)
+ 
+let tomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 1, to: Date())
+
+let afterTomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 2, to: Date())
+ 
+let event = Event.Builder()
+        .setName("New test event")
+        .setDescription("This is a new event create with our SDK")
+        .setStartDate(tomorrow)
+        .setEndDate(afterTomorrow)
+        .setLocation(newarkLocation)
+        .setMaxSeats(100)
+        .setMemberAccessControl(.Public)
+        .setCoverImage(i)
+        .build()
+
+s?.event?.blockingCreate(event)
+```
 
 #### Update an event
-
-TODO
+```swift
+event.name = "New event name"
+event.save()
+```
 
 #### Join / participate to an event
+```swift
+event.blockingParticipate()
+```
 
-TODO
-
-#### List my next events
-
-TODO
+#### List my 10 next events
+```swift
+let s = johnSession
+s?.account?.blockingGet()?.blockingStreamEvent(limit: 10)
+```
 
 #### List events between two dates
+```swift
+let s = johnSession
 
-TODO
+let tomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 1, to: Date())
+
+let afterTomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 2, to: Date())
+
+let query = FluentEvent.Search.Builder()
+        .setLocationMaximumDistanceInKilometers(100.0)
+        .setFromDate(tomorrow)
+        .setToDate(afterTomorrow)
+        .build()
+
+s?.event?.blockingSearch(query)
+```
 
 #### Search for events by name or description
+```swift
+let s = johnSession
 
-TODO
+let query = FluentEvent.Search.Builder()
+        .setName("my event name")
+        .setDescription("my event description")
+        .build()
+
+s?.event?.blockingSearch(query)
+```
 
 #### Search for events by owner
+```swift
+[..]
+user.blockingStreamEvent(limit: 10)
+```
 
-TODO
+#### Create post on event
+```swift
+[..]
+val post = FeedPost.Builder()
+        .setMessage("This is a post with #hashtag url https://mysocialapp.io and someone mentioned [[user:3856809369215939951]]")
+        .setVisibility(.Public)
+        .build()
+
+event.blockingSendWallPost(post)
+```
 
 ### Group
 This module is optional. Please contact [us](mailto:support@mysocialapp.io) to request it 
 
 #### List groups
-
-TODO
+```swift
+let s = johnSession
+s?.group?.blockingStream(limit: 100)
+```
 
 #### Create a group
+```swift
+let s = johnSession
+let i = someUIImage
 
-TODO
+let newarkLocation = Location(latitude: 40.736504474883915, longitude: -74.18175405)
+
+let group = Group.Builder()
+        .setName("New group")
+        .setDescription("This is a new group create with our SDK")
+        .setLocation(newarkLocation)
+        .setMemberAccessControl(.Public)
+        .setImage(i)
+        .build()
+
+s?.group?.blockingCreate(group)
+```
 
 #### Update a group
-
-TODO
+```swift
+group.name = "New group name"
+group.save()
+```
 
 #### Join a group
-
-TODO
+```swift
+group.blockingJoin()
+```
 
 #### List my groups
-
-TODO
+```swift
+let s = johnSession
+s?.account?.blockingGet()?.blockingStreamGroup(limit: 10)
+```
 
 #### Search for groups by name or description
+```swift
+let s = johnSession
 
-TODO
+let query = FluentGroup.Search.Builder()
+        .setName("my group name")
+        .setDescription("my group description")
+        .build()
+
+s?.group?.blockingSearch(query)
+```
 
 #### Search for groups by owner
+```swift
+[..]
+user.blockingStreamGroup(limit: 10)
+```
 
-TODO
+#### Create post on group
+```swift
+[..]
+let post = FeedPost.Builder()
+        .setMessage("This is a post with #hashtag url https://mysocialapp.io and someone mentioned [[user:3856809369215939951]]")
+        .setVisibility(.Public)
+        .build()
 
-### More examples?
-
-TODO
+group.blockingSendWallPost(post)
+```
 
 # Credits
 
