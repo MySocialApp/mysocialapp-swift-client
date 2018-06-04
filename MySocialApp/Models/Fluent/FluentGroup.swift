@@ -156,6 +156,8 @@ public class FluentGroup {
             private var mLocationMaximumDistance: Double? = nil
             private var mSortOrder: SortOrder? = nil
             
+            public init() {}
+            
             public func setName(_ name: String) -> Builder {
                 self.mName = name
                 return self

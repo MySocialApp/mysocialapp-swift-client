@@ -8,6 +8,8 @@ public class ConversationMessagePost {
         private var mMessage: String? = nil
         private var mImage: UIImage? = nil
         
+        public init() {}
+        
         public func setMessage(_ message: String?) -> Builder {
             self.mMessage = message
             return self

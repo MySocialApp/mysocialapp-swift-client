@@ -22,7 +22,7 @@ public class Session {
         self.authenticationToken = authenticationToken
     }
     
-    func disconnect() -> Observable<Void> {
+    public func disconnect() -> Observable<Void> {
         return clientService.login.logout()
     }
 }

@@ -159,6 +159,8 @@ public class FluentEvent {
         private var mToDate: Date? = nil
         private var mDateField: DateField? = nil
     
+        public init() {}
+        
         public func setName(_ name: String) -> Builder {
             self.mName = name
             return self

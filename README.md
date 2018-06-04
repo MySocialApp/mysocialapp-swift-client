@@ -58,7 +58,18 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.0'
+  pod 'MySocialApp', '~> 1.0.3'
+
+  post_install do |installer|
+    myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
+    installer.pods_project.targets.each do |target|
+      if myTargets.include? target.name
+        target.build_configurations.each do |config|
+          config.build_settings['SWIFT_VERSION'] = '3.2'
+        end
+      end
+    end
+  end
 }
 ```
 

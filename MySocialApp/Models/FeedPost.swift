@@ -9,6 +9,8 @@ public class FeedPost {
         private var mImage: UIImage? = nil
         private var mVisibility: AccessControl = .Friend
         
+        public init() {}
+        
         public func setMessage(_ message: String?) -> Builder {
             self.mMessage = message
             return self

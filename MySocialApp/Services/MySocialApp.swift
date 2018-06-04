@@ -20,6 +20,8 @@ public class MySocialApp {
         internal var mAPIEndpointURL: String? = nil
         internal var mClientConfiguration: ClientConfiguration = ClientConfiguration()
         
+        public init() {}
+        
         public func setAppId(_ appId: String) -> Builder {
             self.mAppId = appId
             return self

@@ -118,6 +118,8 @@ public class FluentFeed {
             private var mSortOrder: SortOrder? = nil
             private var mLocationMaximumDistance: Double? = nil
             
+            public init() {}
+            
             public func setTextToSearch(_ textToSearch: String) -> Builder {
                 self.mTextToSearch = textToSearch
                 return self

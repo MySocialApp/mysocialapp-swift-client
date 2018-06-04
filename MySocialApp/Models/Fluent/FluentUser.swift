@@ -106,6 +106,8 @@ public class FluentUser {
             private var mLocationMaximumDistance: Double? = nil
             private var mSortOrder: SortOrder? = nil
             
+            public init() {}
+            
             public func setFirstName(_ firstName: String) -> Builder {
                 self.user.firstName = firstName
                 return self
