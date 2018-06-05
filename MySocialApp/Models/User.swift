@@ -91,10 +91,14 @@ public class User: BaseCustomField {
     public var authorities: [String] {
         get { if let a = super.getAttributeInstance("authorities") as? JSONableArray<JSONableString> { return a.array.flatMap { $0.string } } else { return [] } }
     }
-    
+    public var externalId: String?{
+        get { return (super.getAttributeInstance("external_id") as! JSONableString?)?.string }
+        set(externalId) { super.setStringAttribute(withName: "external_id", externalId) }
+    }
+
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
-        case "first_name", "last_name", "full_name", "presentation", "gender", "username", "password", "email", "spoken_language":
+        case "first_name", "last_name", "full_name", "presentation", "gender", "username", "password", "email", "spoken_language", "external_id":
             return JSONableString().initAttributes
         case "date_of_birth":
             return JSONableDate().initAttributes
