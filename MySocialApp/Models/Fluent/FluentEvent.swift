@@ -71,7 +71,7 @@ public class FluentEvent {
             let _ = self.session.clientService.event.post(event).subscribe {
                 e in
                 if let e = e.element {
-                    if let i = e.profileImage {
+                    if let i = event.profileImage {
                         self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
                             photo in
                             if let _ = photo {
@@ -93,7 +93,7 @@ public class FluentEvent {
                                 obs.onCompleted()
                             }
                         }
-                    } else if let i = e.profileCoverImage {
+                    } else if let i = event.profileCoverImage {
                         self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
                             photo in
                             if let _ = photo {

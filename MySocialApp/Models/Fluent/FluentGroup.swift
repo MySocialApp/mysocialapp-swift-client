@@ -71,7 +71,7 @@ public class FluentGroup {
             let _ = self.session.clientService.group.post(group).subscribe {
                 e in
                 if let e = e.element {
-                    if let i = e.profileImage {
+                    if let i = group.profileImage {
                         self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
                             photo in
                             if let _ = photo {
@@ -93,7 +93,7 @@ public class FluentGroup {
                                 obs.onCompleted()
                             }
                         }
-                    } else if let i = e.profileCoverImage {
+                    } else if let i = group.profileCoverImage {
                         self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
                             photo in
                             if let _ = photo {
