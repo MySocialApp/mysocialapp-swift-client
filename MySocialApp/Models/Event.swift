@@ -231,6 +231,8 @@ public class Event: BaseCustomField {
         private var mImage: UIImage? = nil
         private var mCoverImage: UIImage? = nil
         
+        public init() {}
+        
         public func setName(_ name: String) -> Builder {
             self.mName = name
             return self

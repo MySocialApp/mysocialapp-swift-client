@@ -73,6 +73,11 @@ public class Location: BaseLocation {
         set(completeCityAddress) { super.setStringAttribute(withName: "complete_city_address", completeCityAddress) }
     }
 
+    public convenience init(latitude: Double, longitude: Double) {
+        self.init()
+        self.location = BaseLocation(latitude: latitude, longitude: longitude)
+    }
+    
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
         case "location":

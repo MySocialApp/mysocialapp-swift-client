@@ -158,6 +158,8 @@ public class Conversation: Base {
         private var mName: String? = nil
         private var mMembers: [User] = []
         
+        public init() {}
+        
         public func setName(_ name: String) -> Builder {
             self.mName = name
             return self
