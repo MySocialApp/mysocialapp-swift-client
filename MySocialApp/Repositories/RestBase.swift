@@ -462,24 +462,29 @@ struct DataToUpload {
     var mimeType: String
 }
 
-class RestError: JSONable, Error {
-    var timestamp: Date? {
+public class RestError: JSONable, Error {
+    public var timestamp: Date? {
         get { return (super.getAttributeInstance("timestamp") as! JSONableDate?)?.date }
     }
-    var status: Int? {
+    public var status: Int? {
         get { return (super.getAttributeInstance("status") as! JSONableInt?)?.int }
     }
-    var error: String? {
+    public var error: String? {
         get { return (super.getAttributeInstance("error") as! JSONableString?)?.string }
     }
-    var exception: String? {
+    public var exception: String? {
         get { return (super.getAttributeInstance("exception") as! JSONableString?)?.string }
     }
-    var message: String? {
+    public var message: String? {
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
     }
     var path: String? {
         get { return (super.getAttributeInstance("path") as! JSONableString?)?.string }
+    }
+    public var fullResponse: String? {
+        get {
+            return self.getJSON()
+        }
     }
     
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
