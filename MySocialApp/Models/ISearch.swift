@@ -62,6 +62,16 @@ open class ISearch {
         if let order = searchQuery.sortOrder {
             m["sort_order"] = order.rawValue
         }
+        
+        if let matchAll = searchQuery.matchAll {
+            m["must_match_all"] = "\(matchAll)"
+        }
+        if let startsWith = searchQuery.startsWith {
+            m["starts_with"] = "\(startsWith)"
+        }
+        if let endsWith = searchQuery.endsWith {
+            m["ends_with"] = "\(endsWith)"
+        }
 
         return m
     }

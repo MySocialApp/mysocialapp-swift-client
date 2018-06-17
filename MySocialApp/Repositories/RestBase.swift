@@ -21,6 +21,10 @@ class RestBase<I:JSONable, O:JSONable> {
         }
     }
     internal var resourceURLhandler: ((_: String)->String) = {s in return s}
+    
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session?.clientConfiguration.scheduler ?? MainScheduler.instance
+    }
 
     init(baseURL: String? = nil, _ session: Session?, configuration: Configuration? = nil, resourceURLhandler: ((_: String)->String)? = nil) {
         self.baseURL_ = baseURL
@@ -42,7 +46,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
@@ -58,8 +62,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func postVoid(_ resourceURL: String, input: I?, params: [String:AnyObject] = [:]) -> Observable<Void> {
@@ -73,7 +77,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext()
                     }
@@ -87,8 +91,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func postData(_ resourceURL: String, data: Data?, contentType: String = "text/plain", params: [String:AnyObject] = [:]) -> Observable<O> {
@@ -98,7 +102,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
@@ -114,8 +118,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func getEmpty() -> Observable<O> {
@@ -123,8 +127,8 @@ class RestBase<I:JSONable, O:JSONable> {
             JSONable.currentSession = self.session
             $0.onNext(O())
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func listEmpty() -> Observable<JSONableArray<O>> {
@@ -132,8 +136,8 @@ class RestBase<I:JSONable, O:JSONable> {
             JSONable.currentSession = self.session
             $0.onNext(JSONableArray<O>([]))
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func boolEmpty() -> Observable<Bool> {
@@ -141,8 +145,8 @@ class RestBase<I:JSONable, O:JSONable> {
             JSONable.currentSession = self.session
             $0.onNext(false)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func get(_ resourceURL: String, params: [String: AnyObject] = [:]) -> Observable<O> {
@@ -152,7 +156,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
@@ -168,8 +172,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func getVoid(_ resourceURL: String, params: [String: AnyObject] = [:]) -> Observable<Void> {
@@ -179,7 +183,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         obs.onNext()
                     }
@@ -193,8 +197,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func getAsList(_ resourceURL: String, params: [String: AnyObject] = [:]) -> Observable<JSONableArray<O>> {
@@ -204,7 +208,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(JSONableArray<O>([O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O]))
@@ -220,8 +224,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 
     func list(_ resourceURL: String, params: [String: AnyObject] = [:]) -> Observable<JSONableArray<O>> {
@@ -231,7 +235,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(JSONableArray<O>().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json))
@@ -247,8 +251,8 @@ class RestBase<I:JSONable, O:JSONable> {
 
             return Disposables.create()
 
-        }.observeOn(MainScheduler.instance)
-        .subscribeOn(MainScheduler.instance)
+        }.observeOn(self.scheduler())
+        .subscribeOn(self.scheduler())
     }
     
     func update(_ resourceURL: String, input: I) -> Observable<O> {
@@ -258,7 +262,7 @@ class RestBase<I:JSONable, O:JSONable> {
                 res in
                 if let json = res.result.value {
                     if let status = res.response?.statusCode, status >= 400 {
-                        obs.onError(RestError.fromResponse(responseCode: status, json: json))
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
                         obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
@@ -274,8 +278,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 
     func delete(_ resourceURL: String, params: [String: AnyObject]? = nil) -> Observable<Bool> {
@@ -284,7 +288,7 @@ class RestBase<I:JSONable, O:JSONable> {
             self.deleteRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL))).responseString {
                 res in
                 if let status = res.response?.statusCode, status >= 400 {
-                    obs.onError(RestError.fromResponse(responseCode: status, string: res.result.value))
+                    obs.onError(MySocialAppException.fromResponse(responseCode: status, string: res.result.value))
                 } else {
                     obs.onNext(true)
                 }
@@ -292,8 +296,8 @@ class RestBase<I:JSONable, O:JSONable> {
 
             return Disposables.create()
 
-        }.observeOn(MainScheduler.instance)
-        .subscribeOn(MainScheduler.instance)
+        }.observeOn(self.scheduler())
+        .subscribeOn(self.scheduler())
     }
     
     func delete(_ resourceURL: String, input: I) -> Observable<Bool> {
@@ -302,7 +306,7 @@ class RestBase<I:JSONable, O:JSONable> {
             self.deleteRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: input.getDict()).responseString {
                 res in
                 if let status = res.response?.statusCode, status >= 400 {
-                    obs.onError(RestError.fromResponse(responseCode: status, string: res.result.value))
+                    obs.onError(MySocialAppException.fromResponse(responseCode: status, string: res.result.value))
                 } else {
                     obs.onNext(true)
                 }
@@ -310,8 +314,8 @@ class RestBase<I:JSONable, O:JSONable> {
             
             return Disposables.create()
             
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     func getHeaders(contentType: String? = nil) -> HTTPHeaders {
@@ -371,7 +375,7 @@ class RestBase<I:JSONable, O:JSONable> {
                                 if o == nil {
                                     o = O()
                                 }
-                                o?.restError = RestError.fromResponse(responseCode: status, json: json)
+                                o?.mySocialAppException = MySocialAppException.fromResponse(responseCode: status, json: json)
                             }
                             completionHandler(o)
                         } else {
@@ -462,8 +466,8 @@ struct DataToUpload {
     var mimeType: String
 }
 
-public class RestError: JSONable, Error {
-    public var timestamp: Date? {
+public class MySocialAppException: JSONable, Error {
+    internal var timestamp: Date? {
         get { return (super.getAttributeInstance("timestamp") as! JSONableDate?)?.date }
     }
     public var status: Int? {
@@ -478,7 +482,7 @@ public class RestError: JSONable, Error {
     public var message: String? {
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
     }
-    var path: String? {
+    internal var path: String? {
         get { return (super.getAttributeInstance("path") as! JSONableString?)?.string }
     }
     public var fullResponse: String? {
@@ -500,13 +504,13 @@ public class RestError: JSONable, Error {
         }
     }
     
-    public static func fromResponse(responseCode: Int?, json: Any? = nil, string: String? = nil) -> RestError {
-        var e = RestError()
+    public static func fromResponse(responseCode: Int?, json: Any? = nil, string: String? = nil) -> MySocialAppException {
+        var e = MySocialAppException()
         if let _ = json {
-            e = e.initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! RestError
+            e = e.initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! MySocialAppException
         } else if string != nil {
             var s = string
-            e = e.initAttributes(nil, &s, nil, nil, nil) as! RestError
+            e = e.initAttributes(nil, &s, nil, nil, nil) as! MySocialAppException
         }
         if let r = responseCode {
             e.setIntAttribute(withName: "status", r)

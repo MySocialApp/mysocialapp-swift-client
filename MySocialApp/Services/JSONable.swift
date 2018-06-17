@@ -9,7 +9,7 @@ public class JSONable: NSObject {
     
     internal static var NIL_JSON_STRING: String? = nil
     
-    internal var restError: RestError?
+    internal var mySocialAppException: MySocialAppException?
     
     internal typealias CreationMethod = (_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable?
     

@@ -28,7 +28,7 @@ public class FeedPost {
         
         public func build() throws -> FeedPost {
             guard mMessage != nil || mImage != nil else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Message or image is mandatory")
                 throw e
             }

@@ -1,11 +1,11 @@
 import Foundation
 
 internal class ConnectionPool {
-    internal var semaphore: DispatchSemaphore
+    internal var maxConnections: Int
     internal var timeout: TimeInterval
     
     internal init(_ size: Int, _ timeoutInMinutes: Double) {
-        self.semaphore = DispatchSemaphore(value: size)
+        self.maxConnections = size
         self.timeout = TimeInterval(timeoutInMinutes * 60)
     }
 }

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MySocialApp"
-  s.version      = "1.0.10"
+  s.version      = "1.0.11"
   s.summary      = "Official Swift client to interact with MySocialApp API - Create your own social network app https://mysocialapp.io"
 
   s.description  = <<-DESC

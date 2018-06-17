@@ -133,7 +133,7 @@ public class Group: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -142,6 +142,29 @@ public class Group: BaseCustomField {
         }
     }
     
+    public func getMembers() -> Observable<Member<GroupStatus>> {
+        return Observable.create {
+            obs in
+            if let s = self.session, let id = self.id {
+                let _ = s.clientService.group.get(id, limited: false).subscribe {
+                    e in
+                    let _ = e.element?.members?.map {
+                        obs.onNext($0)
+                    }
+                    obs.onCompleted()
+                }
+            } else {
+                obs.onCompleted()
+            }
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    public func blockingGetMembers() throws -> [Member<GroupStatus>] {
+        return try getMembers().toBlocking().toArray()
+    }
+
     public func blockingJoin() throws -> User? {
         return try join().toBlocking().first()
     }
@@ -152,7 +175,7 @@ public class Group: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -171,7 +194,7 @@ public class Group: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -222,19 +245,19 @@ public class Group: BaseCustomField {
         
         public func build() throws -> Group {
             guard mName != nil && mName != "" else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Name cannot be null or empty")
                 throw e
             }
             
             guard mDescription != nil && mDescription != "" else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Description cannot be null or empty")
                 throw e
             }
             
             guard mLocation != nil else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Meeting location cannot be null or empty")
                 throw e
             }

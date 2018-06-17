@@ -22,7 +22,7 @@ public class ConversationMessagePost {
         
         public func build() throws -> ConversationMessagePost {
             guard mMessage != nil || mImage != nil else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Message or image is mandatory")
                 throw e
             }

@@ -57,7 +57,7 @@ public class Conversation: Base {
         } else {
                 return Observable.create {
                     obs in
-                    let e = RestError()
+                    let e = MySocialAppException()
                     e.setStringAttribute(withName: "message", "No session associated with this entity")
                     obs.onError(e)
                     return Disposables.create()
@@ -114,7 +114,7 @@ public class Conversation: Base {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -137,7 +137,7 @@ public class Conversation: Base {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()

@@ -154,13 +154,36 @@ public class Event: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
                 }.observeOn(MainScheduler.instance)
                 .subscribeOn(MainScheduler.instance)
         }
+    }
+    
+    public func getMembers() -> Observable<Member<EventStatus>> {
+        return Observable.create {
+            obs in
+            if let s = self.session, let id = self.id {
+                let _ = s.clientService.event.get(id).subscribe {
+                    e in
+                    let _ = e.element?.members?.map {
+                        obs.onNext($0)
+                    }
+                    obs.onCompleted()
+                }
+            } else {
+                obs.onCompleted()
+            }
+            return Disposables.create()
+            }.observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    public func blockingGetMembers() throws -> [Member<EventStatus>] {
+        return try getMembers().toBlocking().toArray()
     }
     
     public func blockingCancel() throws -> Event? {
@@ -173,7 +196,7 @@ public class Event: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -192,7 +215,7 @@ public class Event: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -211,7 +234,7 @@ public class Event: BaseCustomField {
         } else {
             return Observable.create {
                 obs in
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
@@ -280,37 +303,37 @@ public class Event: BaseCustomField {
         
         public func build() throws -> Event {
             guard mName != nil && mName != "" else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Name cannot be null or empty")
                 throw e
             }
         
             guard mDescription != nil && mDescription != "" else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Description cannot be null or empty")
                 throw e
             }
         
             guard mStartDate != nil && mEndDate != nil else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Start date and end date cannot be null")
                 throw e
             }
         
             guard Date().compare(mStartDate!) == ComparisonResult.orderedAscending else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Start date cannot be lower than now")
                 throw e
             }
         
             guard mStartDate!.compare(mEndDate!) == ComparisonResult.orderedAscending else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Start date cannot be greater than end date")
                 throw e
             }
         
             guard mLocation != nil else {
-                let e = RestError()
+                let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "Meeting location cannot be null or empty")
                 throw e
             }

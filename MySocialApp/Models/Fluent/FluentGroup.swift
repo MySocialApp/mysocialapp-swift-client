@@ -155,7 +155,10 @@ public class FluentGroup {
             private var mDescription: String? = nil
             private var mLocationMaximumDistance: Double? = nil
             private var mSortOrder: SortOrder? = nil
-            
+            private var mMatchAll: Bool? = nil
+            private var mStartsWith: Bool? = true
+            private var mEndsWith: Bool? = true
+
             public init() {}
             
             public func setName(_ name: String) -> Builder {
@@ -198,8 +201,23 @@ public class FluentGroup {
                 return self
             }
             
+            public func mustMatchAll(_ matchAll: Bool) -> Builder {
+                self.mMatchAll = matchAll
+                return self
+            }
+            
+            public func mustStartWith(_ startsWith: Bool) -> Builder {
+                self.mStartsWith = startsWith
+                return self
+            }
+            
+            public func mustEndWith(_ endsWith: Bool) -> Builder {
+                self.mEndsWith = endsWith
+                return self
+            }
+
             public func build() -> Search {
-                return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: nil, endDate: nil, dateField: nil))
+                return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: nil, endDate: nil, dateField: nil, matchAll: mMatchAll, startsWith: mStartsWith, endsWith: mEndsWith))
             }
         }
         

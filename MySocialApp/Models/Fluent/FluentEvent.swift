@@ -158,6 +158,9 @@ public class FluentEvent {
         private var mFromDate: Date? = nil
         private var mToDate: Date? = nil
         private var mDateField: DateField? = nil
+        private var mMatchAll: Bool? = nil
+        private var mStartsWith: Bool? = true
+        private var mEndsWith: Bool? = true
     
         public init() {}
         
@@ -215,9 +218,24 @@ public class FluentEvent {
             self.mDateField = dateField
             return self
         }
-
+        
+        public func mustMatchAll(_ matchAll: Bool) -> Builder {
+            self.mMatchAll = matchAll
+            return self
+        }
+        
+        public func mustStartWith(_ startsWith: Bool) -> Builder {
+            self.mStartsWith = startsWith
+            return self
+        }
+        
+        public func mustEndWith(_ endsWith: Bool) -> Builder {
+            self.mEndsWith = endsWith
+            return self
+        }
+        
         public func build() -> Search {
-            return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: mFromDate, endDate: mToDate, dateField: mDateField?.rawValue))
+            return Search(SearchQuery(user: user, q: nil, name: mName, content: mDescription, maximumDistanceInMeters: mLocationMaximumDistance, sortOrder: mSortOrder, startDate: mFromDate, endDate: mToDate, dateField: mDateField?.rawValue, matchAll: mMatchAll, startsWith: mStartsWith, endsWith: mEndsWith))
         }
     }
         

@@ -10,6 +10,9 @@ struct SearchQuery {
     var startDate: Date? = nil
     var endDate: Date? = nil
     var dateField: String? = nil
+    var matchAll: Bool? = nil
+    var startsWith: Bool? = nil
+    var endsWith: Bool? = nil
 }
 
 public enum SortOrder: String {
