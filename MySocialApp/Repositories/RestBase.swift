@@ -9,15 +9,7 @@ class RestBase<I:JSONable, O:JSONable> {
     internal var baseURL_: String?
     internal var baseURL: String {
         get {
-            if let u = self.baseURL_ {
-                return u
-            } else if let u = session?.configuration.completeAPIEndpointURL {
-                return u
-            } else if let u = self.configuration?.completeAPIEndpointURL {
-                return u
-            } else {
-                return "{noRootUrl}"
-            }
+            return self.baseURL_ ?? session?.configuration.completeAPIEndpointURL ?? self.configuration?.completeAPIEndpointURL ?? "{noRootUrl}"
         }
     }
     internal var resourceURLhandler: ((_: String)->String) = {s in return s}

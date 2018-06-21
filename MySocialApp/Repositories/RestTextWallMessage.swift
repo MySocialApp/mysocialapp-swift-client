@@ -13,29 +13,27 @@ class RestTextWallMessage: RestBase<TextWallMessage, Base> {
     
     private func getBaseUrl(_ baseModel: Base, profile: Bool? = nil) -> String? {
         if let id = baseModel.getIdStr() {
-            if baseModel is Event {
-                return "/event/\(id)"
-            }
-            if baseModel is Group {
-                if let _ = profile {
-                    return "/group/\(id)/profile"
-                }
-                return "/group/\(id)"
-            }
-            if baseModel is Ride {
-                return "/ride/\(id)"
-            }
-            if baseModel is User {
-                if let _ = profile {
-                    return "/account/profile"
-                }
-                return "/user/\(id)"
-            }
-            if baseModel is PhotoAlbum {
-                return "/photo/album/\(id)"
-            }
-            if baseModel is PointOfInterest {
-                return "/poi/\(id)"
+            switch baseModel {
+                case is Event:
+                    return "/event/\(id)"
+                case is Group:
+                    if let _ = profile {
+                        return "/group/\(id)/profile"
+                    }
+                    return "/group/\(id)"
+                case is Ride:
+                    return "/ride/\(id)"
+                case is User:
+                    if let _ = profile {
+                        return "/account/profile"
+                    }
+                    return "/user/\(id)"
+                case is PhotoAlbum:
+                    return "/photo/album/\(id)"
+                case is PointOfInterest:
+                    return "/poi/\(id)"
+                default:
+                    return nil
             }
         }
         return nil

@@ -19,7 +19,6 @@
 		0D97D18E20A57EF5008A82FF /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D18D20A57EF5008A82FF /* Configuration.swift */; };
 		0D97D19020A5813E008A82FF /* JSONable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D18F20A5813E008A82FF /* JSONable.swift */; };
 		0D97D19620A58499008A82FF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97D19520A58499008A82FF /* Session.swift */; };
-		0D9BEC7620DB9BFA00E014E5 /* OperationQueueScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9BEC7520DB9BFA00E014E5 /* OperationQueueScheduler.swift */; };
 		0DB2276220C2A3D300D545C7 /* FluentEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2276120C2A3D300D545C7 /* FluentEvent.swift */; };
 		0DB2276420C2A6B100D545C7 /* ISearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2276320C2A6B100D545C7 /* ISearch.swift */; };
 		0DB2276620C2A77700D545C7 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2276520C2A77700D545C7 /* SearchQuery.swift */; };
@@ -186,7 +185,6 @@
 		0D97D18F20A5813E008A82FF /* JSONable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONable.swift; sourceTree = "<group>"; };
 		0D97D19520A58499008A82FF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		0D9A9FCFD0908E6DB3C69C19 /* Pods_MySocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D9BEC7520DB9BFA00E014E5 /* OperationQueueScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationQueueScheduler.swift; sourceTree = "<group>"; };
 		0DB2276120C2A3D300D545C7 /* FluentEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentEvent.swift; sourceTree = "<group>"; };
 		0DB2276320C2A6B100D545C7 /* ISearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISearch.swift; sourceTree = "<group>"; };
 		0DB2276520C2A77700D545C7 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
@@ -388,7 +386,6 @@
 		0D97D16E20A57A6A008A82FF /* MySocialApp */ = {
 			isa = PBXGroup;
 			children = (
-				0D9BEC7420DB9BD100E014E5 /* Extensions */,
 				0DE867F820A87A3300CA9B9F /* Repositories */,
 				0D97D19220A58260008A82FF /* Models */,
 				0D97D19120A58217008A82FF /* Utils */,
@@ -524,14 +521,6 @@
 				0DB2277120C3470900D545C7 /* ConversationMessagePost.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		0D9BEC7420DB9BD100E014E5 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				0D9BEC7520DB9BFA00E014E5 /* OperationQueueScheduler.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		0DE867F820A87A3300CA9B9F /* Repositories */ = {
@@ -903,7 +892,6 @@
 				0DEAE0A720BCB2DA00EDE0DC /* RestReport.swift in Sources */,
 				0DEADF7C20BCA96D00EDE0DC /* RideShareRide.swift in Sources */,
 				0DEADFBC20BCA96D00EDE0DC /* ConversationMessages.swift in Sources */,
-				0D9BEC7620DB9BFA00E014E5 /* OperationQueueScheduler.swift in Sources */,
 				0DEADFB820BCA96D00EDE0DC /* RideShareMeet.swift in Sources */,
 				0DEADFC220BCA96D00EDE0DC /* EntityType.swift in Sources */,
 				0DEADFBB20BCA96D00EDE0DC /* Member.swift in Sources */,

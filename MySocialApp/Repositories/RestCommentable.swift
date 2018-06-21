@@ -6,16 +6,16 @@ class RestCommentable: RestBase<Comment, Comment> {
     
     private func getBaseUrl(_ commentable: Base) -> String? {
         if let id = commentable.getIdStr() {
-            if commentable is Display {
-                return "/display/\(id)"
+            switch commentable {
+                case is Display:
+                    return "/display/\(id)"
+                case is Photo:
+                    return "/photo/\(id)"
+                case is Status:
+                    return "/status/\(id)"
+                default:
+                    return "/feed/\(id)"
             }
-            if commentable is Photo {
-                return "/photo/\(id)"
-            }
-            if commentable is Status {
-                return "/status/\(id)"
-            }
-            return "/feed/\(id)"
         }
         return nil
     }

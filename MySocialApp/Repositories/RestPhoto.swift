@@ -29,7 +29,7 @@ class RestPhoto: RestBase<Photo, Photo> {
     func postPhoto(_ image: UIImage, forModel model: Base?, forCover cover: Bool = false, withTagEntities tagEntities: TagEntities? = nil, onComplete: @escaping (Photo?)->Void) {
         var data: [DataToUpload] = []
         var url: String?
-        var appendPhoto = true
+        let appendPhoto = true
         if let _ = model as? User {
             url = "/account/profile"
         } else if let c = model as? Group, let id = c.id {

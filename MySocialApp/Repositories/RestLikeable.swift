@@ -5,16 +5,16 @@ class RestLikeable: RestBase<Base, Like> {
     
     private func getBaseUrl(_ likeable: Base) -> String? {
         if let id = likeable.getIdStr() {
-            if likeable is Display {
-                return "/display/\(id)"
+            switch likeable {
+                case is Display:
+                    return "/display/\(id)"
+                case is Photo:
+                    return "/photo/\(id)"
+                case is Status:
+                    return "/status/\(id)"
+                default:
+                    return "/feed/\(id)"
             }
-            if likeable is Photo {
-                return "/photo/\(id)"
-            }
-            if likeable is Status {
-                return "/status/\(id)"
-            }
-            return "/feed/\(id)"
         }
         return nil
     }
