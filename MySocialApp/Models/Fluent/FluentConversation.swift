@@ -10,6 +10,10 @@ public class FluentConversation {
         self.session = session
     }
     
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session.clientConfiguration.scheduler
+    }
+
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Conversation>) {
         if to > 0 {
             let _ = session.clientService.conversation.list(page, size: min(FluentConversation.PAGE_SIZE,to - (page * FluentConversation.PAGE_SIZE))).subscribe {
@@ -21,6 +25,9 @@ public class FluentConversation {
                     } else {
                         self.stream(page + 1, to - FluentConversation.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -47,8 +54,8 @@ public class FluentConversation {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 
     public func blockingGet(_ id: Int64) throws -> Conversation? {

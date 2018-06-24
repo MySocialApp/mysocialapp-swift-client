@@ -36,8 +36,8 @@ public class PreviewNotification: Base {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
 }

@@ -10,6 +10,10 @@ public class FluentGroup {
         self.session = session
     }
     
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session.clientConfiguration.scheduler
+    }
+
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Group>) {
         if to > 0 {
             let _ = session.clientService.group.list(page, size: min(FluentGroup.PAGE_SIZE,to - (page * FluentGroup.PAGE_SIZE))).subscribe {
@@ -23,6 +27,7 @@ public class FluentGroup {
                     }
                 } else if let e = e.error {
                     obs.onError(e)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -49,8 +54,8 @@ public class FluentGroup {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingGet(_ id: Int64) throws -> Group? {
@@ -82,12 +87,12 @@ public class FluentGroup {
                                         if let _ = photo {
                                             e.profileCoverImage = nil
                                             obs.onNext(e)
-                                        } else {
-                                            obs.onCompleted()
                                         }
+                                        obs.onCompleted()
                                     }
                                 } else {
                                     obs.onNext(e)
+                                    obs.onCompleted()
                                 }
                             } else {
                                 obs.onCompleted()
@@ -99,22 +104,21 @@ public class FluentGroup {
                             if let _ = photo {
                                 e.profileCoverImage = nil
                                 obs.onNext(e)
-                            } else {
-                                obs.onCompleted()
                             }
+                            obs.onCompleted()
                         }
                     } else {
                         obs.onNext(e)
+                        obs.onCompleted()
                     }
                 } else if let e = e.error {
                     obs.onError(e)
-                } else {
-                    obs.onCompleted()
                 }
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 
     public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Group>? {
@@ -136,17 +140,40 @@ public class FluentGroup {
                         e.matchedCount = 0
                         obs.onNext(e)
                     }
+                    obs.onCompleted()
                 }
             } else {
                 let e = SearchResultValue<Group>()
                 e.matchedCount = 0
                 obs.onNext(e)
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
+    public func blockingGetAvailableCustomFields() throws -> [CustomField] {
+        return try getAvailableCustomFields().toBlocking().toArray()
+    }
+    
+    public func getAvailableCustomFields() -> Observable<CustomField> {
+        return Observable.create {
+            obs in
+            let _ = self.session.clientService.customField.list(for: Group()).subscribe {
+                e in
+                if let e = e.element?.array {
+                    e.forEach { obs.onNext($0) }
+                } else if let error = e.error {
+                    obs.onError(error)
+                }
+                obs.onCompleted()
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+
     public class Search: ISearch {
         
         public class Builder {

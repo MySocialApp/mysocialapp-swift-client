@@ -42,6 +42,9 @@ public class ConversationMessages: JSONable {
                     } else {
                         self.stream(page + 1, to - ConversationMessages.PAGE_SIZE, consume, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -68,8 +71,8 @@ public class ConversationMessages: JSONable {
             obs in
             self.stream(0, Int.max, false, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingStreamAndConsume(limit: Int = Int.max) throws -> [ConversationMessage] {
@@ -89,7 +92,7 @@ public class ConversationMessages: JSONable {
             obs in
             self.stream(0, Int.max, true, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 }

@@ -44,13 +44,12 @@ public class Conversation: Base {
                         e in
                         if let e = e as? ConversationMessage {
                             obs.onNext(e)
-                        } else {
-                            obs.onCompleted()
                         }
+                        obs.onCompleted()
                     }
                     return Disposables.create()
-                    }.observeOn(MainScheduler.instance)
-                    .subscribeOn(MainScheduler.instance)
+                    }.observeOn(self.scheduler())
+                    .subscribeOn(self.scheduler())
             } else {
                 return s.clientService.conversationMessage.post(message.conversationMessage, forConversation: id)
             }
@@ -61,8 +60,8 @@ public class Conversation: Base {
                     e.setStringAttribute(withName: "message", "No session associated with this entity")
                     obs.onError(e)
                     return Disposables.create()
-                    }.observeOn(MainScheduler.instance)
-                    .subscribeOn(MainScheduler.instance)
+                    }.observeOn(self.scheduler())
+                    .subscribeOn(self.scheduler())
         }
     }
     
@@ -76,11 +75,16 @@ public class Conversation: Base {
             self.members = self.members?.filter { $0.id != user.id }
             let _ = self.save().subscribe {
                 e in
-                obs.onNext(user)
+                if let e = e.element {
+                    obs.onNext(user)
+                } else if let error = e.error {
+                    obs.onError(error)
+                }
+                obs.onCompleted()
             }
             return Disposables.create()
-        }.observeOn(MainScheduler.instance)
-        .subscribeOn(MainScheduler.instance)
+        }.observeOn(self.scheduler())
+        .subscribeOn(self.scheduler())
     }
     
     public func blockingAddMember(_ user: User) throws -> User? {
@@ -97,11 +101,16 @@ public class Conversation: Base {
             self.members = members
             let _ = self.save().subscribe {
                 e in
-                obs.onNext(user)
+                if let e = e.element {
+                    obs.onNext(user)
+                } else if let error = e.error {
+                    obs.onError(error)
+                }
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingDelete() throws -> Bool? {
@@ -118,8 +127,8 @@ public class Conversation: Base {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -141,8 +150,8 @@ public class Conversation: Base {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
         }
     }
     

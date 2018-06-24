@@ -145,8 +145,8 @@ public class User: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -164,8 +164,8 @@ public class User: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -183,8 +183,8 @@ public class User: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -202,8 +202,8 @@ public class User: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -221,8 +221,8 @@ public class User: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -237,6 +237,9 @@ public class User: BaseCustomField {
                     } else {
                         self.streamFriends(page + 1, to - User.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -255,8 +258,8 @@ public class User: BaseCustomField {
             obs in
             self.streamFriends(0, Int.max, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     private func streamFeed(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>) {
@@ -270,6 +273,9 @@ public class User: BaseCustomField {
                     } else {
                         self.streamFeed(page + 1, to - User.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -296,8 +302,8 @@ public class User: BaseCustomField {
             obs in
             self.streamFeed(page, page*User.PAGE_SIZE+size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingSendPrivateMessage(_ conversationMessagePost: ConversationMessagePost) throws -> ConversationMessage? {
@@ -319,24 +325,24 @@ public class User: BaseCustomField {
                                 obs.onNext(e)
                             } else if let e = e.error {
                                 obs.onError(e)
-                            } else {
-                                obs.onCompleted()
                             }
+                            obs.onCompleted()
                         }
                     }
                 }
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         } else {
             return Observable.create {
                 obs in
                 let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
+                obs.onCompleted()
                 return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -351,6 +357,9 @@ public class User: BaseCustomField {
                     } else {
                         self.streamGroup(page + 1, to - User.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -377,8 +386,8 @@ public class User: BaseCustomField {
             obs in
             self.streamGroup(page, page*User.PAGE_SIZE+size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     private func streamEvent(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>) {
@@ -392,6 +401,9 @@ public class User: BaseCustomField {
                     } else {
                         self.streamEvent(page + 1, to - User.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -418,7 +430,7 @@ public class User: BaseCustomField {
             obs in
             self.streamEvent(page, page*User.PAGE_SIZE+size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 }

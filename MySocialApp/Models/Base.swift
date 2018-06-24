@@ -226,19 +226,21 @@ public class Base: JSONable {
                         e.iterate {
                             obs.onNext($0)
                         }
+                    } else if let error = e.error {
+                        obs.onError(error)
                     }
                     obs.onCompleted()
                 }
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         } else {
             return Observable.create {
                 obs in
                 obs.onCompleted()
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -256,8 +258,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -275,8 +277,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -294,19 +296,21 @@ public class Base: JSONable {
                         e.iterate {
                             obs.onNext($0)
                         }
+                    } else if let error = e.error {
+                        obs.onError(error)
                     }
                     obs.onCompleted()
                 }
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         } else {
             return Observable.create {
                 obs in
                 obs.onCompleted()
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -322,22 +326,22 @@ public class Base: JSONable {
                     e in
                     if let e = e {
                         obs.onNext(e)
-                    } else {
-                        obs.onCompleted()
                     }
+                    obs.onCompleted()
                 }
                 return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
         } else {
             return Observable.create {
                 obs in
                 let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
+                obs.onCompleted()
                 return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
         }
     }
     
@@ -351,8 +355,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -366,8 +370,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -381,8 +385,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
 
@@ -399,13 +403,12 @@ public class Base: JSONable {
                         e in
                         if let e = e as? Feed {
                             obs.onNext(e)
-                        } else {
-                            obs.onCompleted()
                         }
+                        obs.onCompleted()
                     }
                     return Disposables.create()
-                    }.observeOn(MainScheduler.instance)
-                    .subscribeOn(MainScheduler.instance)
+                    }.observeOn(self.scheduler())
+                    .subscribeOn(self.scheduler())
             } else if let t = feedPost.textWallMessage {
                 return Observable.create {
                     obs in
@@ -415,13 +418,12 @@ public class Base: JSONable {
                             obs.onNext(e)
                         } else if let e = e.error {
                             obs.onError(e)
-                        } else {
-                            obs.onCompleted()
                         }
+                        obs.onCompleted()
                     }
                     return Disposables.create()
-                    }.observeOn(MainScheduler.instance)
-                    .subscribeOn(MainScheduler.instance)
+                    }.observeOn(self.scheduler())
+                    .subscribeOn(self.scheduler())
             } else {
                 return Observable.create {
                     obs in
@@ -429,8 +431,8 @@ public class Base: JSONable {
                     e.setStringAttribute(withName: "message", "At least message or photo is mandatory to post a feed")
                     obs.onError(e)
                     return Disposables.create()
-                    }.observeOn(MainScheduler.instance)
-                    .subscribeOn(MainScheduler.instance)
+                    }.observeOn(self.scheduler())
+                    .subscribeOn(self.scheduler())
             }
         } else {
             return Observable.create {
@@ -439,8 +441,8 @@ public class Base: JSONable {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
 }

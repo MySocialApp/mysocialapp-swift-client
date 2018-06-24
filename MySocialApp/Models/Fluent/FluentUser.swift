@@ -10,6 +10,10 @@ public class FluentUser {
         self.session = session
     }
     
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session.clientConfiguration.scheduler
+    }
+
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<User>) {
         if to > 0 {
             let _ = session.clientService.user.list(page, size: min(FluentUser.PAGE_SIZE,to - (page * FluentUser.PAGE_SIZE))).subscribe {
@@ -23,6 +27,7 @@ public class FluentUser {
                     }
                 } else if let e = e.error {
                     obs.onError(e)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -49,8 +54,8 @@ public class FluentUser {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingGet(_ id: Int64) throws -> User? {
@@ -88,17 +93,40 @@ public class FluentUser {
                         e.matchedCount = 0
                         obs.onNext(e)
                     }
+                    obs.onCompleted()
                 }
             } else {
                 let e = SearchResultValue<User>()
                 e.matchedCount = 0
                 obs.onNext(e)
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
+    public func blockingGetAvailableCustomFields() throws -> [CustomField] {
+        return try getAvailableCustomFields().toBlocking().toArray()
+    }
+    
+    public func getAvailableCustomFields() -> Observable<CustomField> {
+        return Observable.create {
+            obs in
+            let _ = self.session.clientService.customField.list(for: User()).subscribe {
+                e in
+                if let e = e.element?.array {
+                    e.forEach { obs.onNext($0) }
+                } else if let error = e.error {
+                    obs.onError(error)
+                }
+                obs.onCompleted()
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+
     public class Search: ISearch {
         
         public class Builder {

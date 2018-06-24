@@ -10,6 +10,10 @@ public class FluentFeed {
         self.session = session
     }
     
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session.clientConfiguration.scheduler
+    }
+
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>) {
         if to > 0 {
             let _ = session.clientService.feed.list(page, size: min(FluentFeed.PAGE_SIZE,to - (page * FluentFeed.PAGE_SIZE))).subscribe {
@@ -21,6 +25,9 @@ public class FluentFeed {
                     } else {
                         self.stream(page + 1, to - FluentFeed.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -47,8 +54,8 @@ public class FluentFeed {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-        }.observeOn(MainScheduler.instance)
-        .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
@@ -67,17 +74,16 @@ public class FluentFeed {
                             obs.onNext(e)
                         } else if let e = e.error {
                             obs.onError(e)
-                        } else {
-                            obs.onCompleted()
                         }
+                        obs.onCompleted()
                     }
                 } else {
                     obs.onCompleted()
                 }
             }
             return Disposables.create()
-        }.observeOn(MainScheduler.instance)
-        .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 
     public func blockingSearch(_ search: Search, page: Int = 0, size: Int = 10) throws -> SearchResultValue<Feed>? {
@@ -99,15 +105,17 @@ public class FluentFeed {
                         e.matchedCount = 0
                         obs.onNext(e)
                     }
+                    obs.onCompleted()
                 }
             } else {
                 let e = SearchResultValue<Feed>()
                 e.matchedCount = 0
                 obs.onNext(e)
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public class Search: ISearch {

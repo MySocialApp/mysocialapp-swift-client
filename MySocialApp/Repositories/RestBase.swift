@@ -14,7 +14,7 @@ class RestBase<I:JSONable, O:JSONable> {
     }
     internal var resourceURLhandler: ((_: String)->String) = {s in return s}
     
-    private func scheduler() -> ImmediateSchedulerType {
+    internal func scheduler() -> ImmediateSchedulerType {
         return self.session?.clientConfiguration.scheduler ?? MainScheduler.instance
     }
 

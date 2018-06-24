@@ -89,6 +89,9 @@ public class Group: BaseCustomField {
                     } else {
                         self.stream(page + 1, to - Group.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -115,8 +118,8 @@ public class Group: BaseCustomField {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingSave() throws -> Group? {
@@ -136,9 +139,10 @@ public class Group: BaseCustomField {
                 let e = MySocialAppException()
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
+                obs.onCompleted()
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -148,8 +152,10 @@ public class Group: BaseCustomField {
             if let s = self.session, let id = self.id {
                 let _ = s.clientService.group.get(id, limited: false).subscribe {
                     e in
-                    let _ = e.element?.members?.map {
-                        obs.onNext($0)
+                    if let e = e.element {
+                        e.members?.forEach { obs.onNext($0) }
+                    } else if let error = e.error {
+                        obs.onError(error)
                     }
                     obs.onCompleted()
                 }
@@ -157,8 +163,8 @@ public class Group: BaseCustomField {
                 obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingGetMembers() throws -> [Member<GroupStatus>] {
@@ -179,8 +185,8 @@ public class Group: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -198,8 +204,8 @@ public class Group: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -210,7 +216,8 @@ public class Group: BaseCustomField {
         private var mMemberAccessControl = MemberAccessControl.Public
         private var mImage: UIImage? = nil
         private var mCoverImage: UIImage? = nil
-        
+        private var mCustomFields: [CustomField]? = nil
+
         public init() {}
         
         public func setName(_ name: String) -> Builder {
@@ -243,6 +250,11 @@ public class Group: BaseCustomField {
             return self
         }
         
+        public func setCustomFields(_ customFields: [CustomField]) -> Builder {
+            self.mCustomFields = customFields
+            return self
+        }
+
         public func build() throws -> Group {
             guard mName != nil && mName != "" else {
                 let e = MySocialAppException()
@@ -269,6 +281,9 @@ public class Group: BaseCustomField {
             g.groupMemberAccessControl = mMemberAccessControl
             g.profileImage = mImage
             g.profileCoverImage = mCoverImage
+            if let cf = mCustomFields {
+                g.setCustomFields(cf)
+            }
             return g
         }
     }

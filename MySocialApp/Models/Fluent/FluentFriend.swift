@@ -10,6 +10,10 @@ public class FluentFriend {
         self.session = session
     }
 
+    private func scheduler() -> ImmediateSchedulerType {
+        return self.session.clientConfiguration.scheduler
+    }
+
     public func blockingListIncomingFriendRequests() throws -> [User] {
         return try listIncomingFriendRequests().toBlocking().toArray()
     }
@@ -19,14 +23,16 @@ public class FluentFriend {
             obs in
             let _ = self.listFriendRequests().subscribe {
                 e in
-                let _ = e.element?.incoming?.map {
-                    obs.onNext($0)
+                if let e = e.element {
+                    e.incoming?.forEach { obs.onNext($0) }
+                } else if let error = e.error {
+                    obs.onError(error)
                 }
                 obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingListOutgoingFriendRequests() throws -> [User] {
@@ -38,14 +44,16 @@ public class FluentFriend {
             obs in
             let _ = self.listFriendRequests().subscribe {
                 e in
-                let _ = e.element?.outgoing?.map {
-                    obs.onNext($0)
+                if let e = e.element {
+                    e.outgoing?.forEach { obs.onNext($0) }
+                } else if let error = e.error {
+                    obs.onError(error)
                 }
                 obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingListFriendRequests() throws -> FriendRequests? {
@@ -70,14 +78,15 @@ public class FluentFriend {
                         e in
                         if let e = e.element {
                             obs.onNext(e)
-                        } else {
-                            obs.onCompleted()
+                        } else if let error = e.error {
+                            obs.onError(error)
                         }
+                        obs.onCompleted()
                     }
                 }
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
 }

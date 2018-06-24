@@ -15,6 +15,10 @@ public class MySocialApp {
         self.clientConfiguration = builder.mClientConfiguration
     }
     
+    internal func scheduler() -> ImmediateSchedulerType {
+        return self.clientConfiguration.scheduler
+    }
+
     public class Builder {
         internal var mAppId: String = ""
         internal var mAPIEndpointURL: String? = nil
@@ -65,17 +69,19 @@ public class MySocialApp {
                         e in
                         if let e = e.element {
                             obs.onNext(e)
-                        } else {
-                            obs.onCompleted()
+                        } else if let error = e.error {
+                            obs.onError(error)
                         }
+                        obs.onCompleted()
                     }
-                } else {
-                    obs.onCompleted()
+                } else if let error = e.error {
+                    obs.onError(error)
                 }
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingConnectByEmail(email: String, password: String) throws -> Session? {
@@ -100,13 +106,14 @@ public class MySocialApp {
                 e in
                 if let auth = e.element {
                     obs.onNext(Session(self.configuration, self.clientConfiguration, AuthenticationToken(auth.username, auth.accessToken)))
-                } else {
-                    obs.onCompleted()
+                } else if let error = e.error {
+                    obs.onError(error)
                 }
+                obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingConnect(accessToken: String) throws -> Session? {
@@ -117,9 +124,10 @@ public class MySocialApp {
         return Observable.create {
             obs in
             obs.onNext(Session(self.configuration, self.clientConfiguration, AuthenticationToken(nil, accessToken)))
+            obs.onCompleted()
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingResetPasswordByEmail(_ email: String) throws -> Reset? {

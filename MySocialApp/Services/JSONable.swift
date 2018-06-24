@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 public class JSONable: NSObject {
     internal static var currentSession: Session?
@@ -13,6 +14,10 @@ public class JSONable: NSObject {
     
     internal typealias CreationMethod = (_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable?
     
+    internal func scheduler() -> ImmediateSchedulerType {
+        return self.session?.clientConfiguration.scheduler ?? MainScheduler.instance
+    }
+
     public required override init() {
         super.init()
         self.session = JSONable.currentSession

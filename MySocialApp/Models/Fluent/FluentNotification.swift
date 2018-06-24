@@ -24,12 +24,16 @@ public class FluentNotification {
             self.session = session
         }
         
+        private func scheduler() -> ImmediateSchedulerType {
+            return self.session.clientConfiguration.scheduler
+        }
+        
         private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>) {
             if to > 0 {
                 let _ = session.clientService.notification.listUnread(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
                     e in
                     if let e = e.element?.array {
-                        let _ = e.map { obs.onNext($0) }
+                        e.forEach { obs.onNext($0) }
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
@@ -37,6 +41,7 @@ public class FluentNotification {
                         }
                     } else if let e = e.error {
                         obs.onError(e)
+                        obs.onCompleted()
                     } else {
                         obs.onCompleted()
                     }
@@ -63,8 +68,8 @@ public class FluentNotification {
                 obs in
                 self.stream(page, size, obs)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -75,12 +80,16 @@ public class FluentNotification {
             self.session = session
         }
         
+        private func scheduler() -> ImmediateSchedulerType {
+            return self.session.clientConfiguration.scheduler
+        }
+        
         private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>) {
             if to > 0 {
                 let _ = session.clientService.notification.listRead(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
                     e in
                     if let e = e.element?.array {
-                        let _ = e.map { obs.onNext($0) }
+                        e.forEach { obs.onNext($0) }
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
@@ -88,6 +97,7 @@ public class FluentNotification {
                         }
                     } else if let e = e.error {
                         obs.onError(e)
+                        obs.onCompleted()
                     } else {
                         obs.onCompleted()
                     }
@@ -114,8 +124,8 @@ public class FluentNotification {
                 obs in
                 self.stream(page, size, obs)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
 }

@@ -110,6 +110,9 @@ public class Event: BaseCustomField {
                     } else {
                         self.stream(page + 1, to - Event.PAGE_SIZE, obs)
                     }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
                 } else {
                     obs.onCompleted()
                 }
@@ -136,8 +139,8 @@ public class Event: BaseCustomField {
             obs in
             self.stream(page, size, obs)
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingSave() throws -> Event? {
@@ -158,8 +161,8 @@ public class Event: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -169,8 +172,12 @@ public class Event: BaseCustomField {
             if let s = self.session, let id = self.id {
                 let _ = s.clientService.event.get(id).subscribe {
                     e in
-                    let _ = e.element?.members?.map {
-                        obs.onNext($0)
+                    if let e = e.element {
+                        let _ = e.members?.map {
+                            obs.onNext($0)
+                        }
+                    } else if let error = e.error {
+                        obs.onError(error)
                     }
                     obs.onCompleted()
                 }
@@ -178,8 +185,8 @@ public class Event: BaseCustomField {
                 obs.onCompleted()
             }
             return Disposables.create()
-            }.observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public func blockingGetMembers() throws -> [Member<EventStatus>] {
@@ -200,8 +207,8 @@ public class Event: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -219,8 +226,8 @@ public class Event: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -238,8 +245,8 @@ public class Event: BaseCustomField {
                 e.setStringAttribute(withName: "message", "No session associated with this entity")
                 obs.onError(e)
                 return Disposables.create()
-                }.observeOn(MainScheduler.instance)
-                .subscribeOn(MainScheduler.instance)
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
     
@@ -253,6 +260,7 @@ public class Event: BaseCustomField {
         private var mMemberAccessControl = MemberAccessControl.Public
         private var mImage: UIImage? = nil
         private var mCoverImage: UIImage? = nil
+        private var mCustomFields: [CustomField]? = nil
         
         public init() {}
         
@@ -298,6 +306,11 @@ public class Event: BaseCustomField {
         
         public func setCoverImage(_ image: UIImage) -> Builder {
             self.mCoverImage = image
+            return self
+        }
+        
+        public func setCustomFields(_ customFields: [CustomField]) -> Builder {
+            self.mCustomFields = customFields
             return self
         }
         
@@ -348,6 +361,9 @@ public class Event: BaseCustomField {
             e.eventMemberAccessControl = mMemberAccessControl
             e.profileImage = mImage
             e.profileCoverImage = mCoverImage
+            if let cf = mCustomFields {
+                e.setCustomFields(cf)
+            }
             return e
         }
     }
