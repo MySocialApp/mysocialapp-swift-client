@@ -58,7 +58,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.15'
+  pod 'MySocialApp', '~> 1.0.16'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
@@ -91,6 +91,29 @@ Ask for an administrator to give you the **APP ID**.
 
 Most of the actions can be synchronous and asynchronous with RxSwift. We are using [RxSwift](https://github.com/ReactiveX/RxSwift) to provide an elegant way to handle asynchronous results.
 
+### Common usage
+Everytime you see a "try" instruction, you have the choice between these two alternatives :
+
+#### Error catching
+```swift
+do {
+    try MySocialApp.someOperation.throwingException()
+} catch let e as MySocialAppException {
+    NSLog("Exception caught : \(e.message)")
+} catch {
+    NSLog("Another technical exception")
+}
+```
+
+#### No error catching, just tests if it succeeds
+```swift
+if let myResult = try? MySocialApp.someOperation.throwingException() {
+    doSomething(with: myResult)
+} else {
+    // Some error occured
+}
+```
+
 ### Profile
 #### Create an account
 ```swift
@@ -102,33 +125,35 @@ let endpointURL = "https://u123456789123a123456-api.mysocialapp.io";
 let msa = MySocialApp.Builder().setAPIEndpointURL(endpointURL).build()
 
 // create an account and return an active session to do fluent operations
-let johnSession = msa.blockingCreateAccount(username: "John", email: "john@myapp.com", password: "myverysecretpassw0rd")
+let johnSession = try msa.blockingCreateAccount(username: "John", email: "john@myapp.com", password: "myverysecretpassw0rd")
 ```
 
 #### Do login with an access token and get session
 ```swift
-let johnSession = msa.blockingConnect(accessToken: "my access token")
+let johnSession = try msa.blockingConnect(accessToken: "my access token")
 ```
 
 #### Do login with your account and get session
 ```swift
-let johnSession = msa.blockingConnect(username: "John", password: "myverysecretpassw0rd")
+let johnSession = try msa.blockingConnect(username: "John", password: "myverysecretpassw0rd")
 ```
 
 #### Get your account info
 ```swift
-let account = johnSession.account.blockingGet()
-account.firstName
-account.dateOfBirth
-account.livingLocation?.completeCityAddress
-[..]
+if let account = try johnSession?.account.blockingGet() {
+    let _ = account.firstName
+    let _ = account.dateOfBirth
+    let _ = account.livingLocation?.completeCityAddress
+    // [..]
+}
 ```
 
 #### Update your account
 ```swift
-let account = johnSession.account
-account.lastName = "James"
-account.blockingSave() // or use save() to asynchronously save it with Rx
+if let account = try johnSession?.account.blockingGet() {
+    account.lastName = "James"
+    let updatedAccount = try account.blockingSave() // or use save() to asynchronously save it with Rx
+}
 ```
 
 #### How to integrate a MySocialApp user with an existing user in my application? 
@@ -140,12 +165,13 @@ let yourAppUserId = "12348-abcdy-82739-qzdqdq"
 let s = johnSession
 
 // set app external user id
-let account = s?.account?.blockingGet()
-account?.externalId = yourAppUserId
-account?.blockingSave()
+if let account = try johnSession?.account.blockingGet() {
+    account.externalId = yourAppUserId
+    let updatedAccount = try account.blockingSave()
+}
 
 // find user by external id
-let user = s?.user?.blockingGetByExternalId(yourAppUserId)
+let user = try johnSession?.user.blockingGetByExternalId(yourAppUserId)
 ```
 
 #### Delete your account (not recoverable)
@@ -154,7 +180,7 @@ let user = s?.user?.blockingGetByExternalId(yourAppUserId)
 let s = johnSession
 let password = "your account password to confirm the ownership"
 
-s?.account?.blockingRequestForDeleteAccount(password: password)
+let _ = try s?.account.blockingRequestForDeleteAccount(password: password)
 // Your account has been deleted..
 // You are no more able to perform operations
 ```
@@ -162,24 +188,24 @@ s?.account?.blockingRequestForDeleteAccount(password: password)
 ### News feed
 #### List news feed from specific page and size
 ```swift
-johnSession?.newsFeed?.blockingList(page: 0, size: 10)
+let feeds = try johnSession?.newsFeed.blockingList(page: 0, size: 10)
 ```
 
 #### Stream all 100 first news feed message
 ```swift
-johnSession?.newsFeed?.blockingStream(limit: 100)
+let feeds = try johnSession?.newsFeed.blockingStream(limit: 100)
 ```
 
 #### Post public news with hashtag + url + user mention
 ```swift
 let s = johnSession
 
-let post = FeedPost.Builder()
+let post = try FeedPost.Builder()
         .setMessage("This is a post with #hashtag url https://mysocialapp.io and someone mentioned [[user:3856809369215939951]]")
         .setVisibility(.Public)
         .build()
 
-s?.newsFeed?.blockingSendWallPost(post)
+try s?.newsFeed.blockingSendWallPost(post)
 ``` 
 
 #### Post public photo with a hashtag
@@ -187,13 +213,13 @@ s?.newsFeed?.blockingSendWallPost(post)
 let s = johnSession
 let i = someUIImage
 
-let post = FeedPost.Builder()
+let post = try FeedPost.Builder()
         .setMessage("This is a post with an image and a #hashtag :)")
         .setImage(i)
         .setVisibility(.Public)
         .build()
 
-s?.newsFeed?.blockingSendWallPost(post)
+try s?.newsFeed.blockingSendWallPost(post)
 ```
 
 #### Post on a friend wall and mention him
@@ -201,38 +227,38 @@ s?.newsFeed?.blockingSendWallPost(post)
 let s = johnSession
 
 // take my first friend
-if let friend = s?.account?.blockingGet()?.blockingListFriends()?.first {
+if let friend = try s?.account.blockingGet()?.blockingListFriends()?.first {
 
-    val post = FeedPost.Builder()
+    let post = try FeedPost.Builder()
         .setMessage("Hey [[user:\(friend.id)]] what's up?")
         .setVisibility(.Friend)
         .build()
 
-    friend.blockingSendWallPost(post)
+    try friend.blockingSendWallPost(post)
 }
 ```
 
 #### Ignore a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
-    newsFeed.blockingIgnore()
+if let newsFeed = try s?.newsFeed.blockingStream(limit: 1)?.first {
+    try newsFeed.blockingIgnore()
 }
 ```
 
 #### Report a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
-    newsFeed.blockingReport()
+if let newsFeed = try s?.newsFeed.blockingStream(limit: 1)?.first {
+    try newsFeed.blockingReport()
 }
 ```
 
 #### Delete a news feed post
 ```swift
 let s = getSession()
-if let newsFeed = s?.newsFeed?.blockingStream(limit: 1)?.first {
-    newsFeed.blockingDelete()
+if let newsFeed = try s?.newsFeed.blockingStream(limit: 1)?.first {
+    try newsFeed.blockingDelete()
 }
 ```
 
@@ -246,7 +272,7 @@ let searchQuery = FluentUser.Search.Builder()
         .setGender(.Female)
         .build()
 
-let users = s?.user?.blockingSearch(searchQuery)?.data
+let users = try s?.user.blockingSearch(searchQuery)?.data
 // return the 10 first results
 ```
 
@@ -254,13 +280,13 @@ let users = s?.user?.blockingSearch(searchQuery)?.data
 ```swift
 let s = johnSession
 
-let parisLocation = SimpleLocation(latitude: 48.85661400000001, longitude: 2.3522219000000177)
+let parisLocation = Location(latitude: 48.85661400000001, longitude: 2.3522219000000177)
 
 let searchQuery = FluentUser.Search.Builder()
-        .setLivingLocation(parisLocation)
+        .setLocation(parisLocation)
         .build()
 
-let users = s?.user?.blockingSearch(searchQuery)?.data
+let users = try s?.user.blockingSearch(searchQuery)?.data
 // return the 10 first results
 ```
 
@@ -272,7 +298,7 @@ let searchQuery = FluentFeed.Search.Builder()
         .setTextToSearch("hello world")
         .build()
 
-let feeds = s?.newsFeed?.blockingSearch(searchQuery)?.data
+let feeds = try s?.newsFeed.blockingSearch(searchQuery)?.data
 // return the 10 first results
 ```
 
@@ -280,7 +306,7 @@ let feeds = s?.newsFeed?.blockingSearch(searchQuery)?.data
 #### List private conversations
 ```swift
 let s = johnSession
-let conversations = s?.conversation?.blockingList()
+let conversations = try s?.conversation.blockingList()
 ```
 
 #### Create conversation
@@ -288,14 +314,14 @@ let conversations = s?.conversation?.blockingList()
 let s = johnSession
 
 // take 3 first users
-if let people = s?.user?.blockingStream(limit: 3) {
+if let people = try s?.user.blockingStream(limit: 3) {
 
     let conversation = Conversation.Builder()
         .setName("let's talk about the next event in private")
         .addMembers(people)
         .build()
 
-    let createdConversation = s?.conversation?.blockingCreate(conversation)
+    let createdConversation = try s?.conversation.blockingCreate(conversation)
 }
 ```
 
@@ -303,70 +329,70 @@ if let people = s?.user?.blockingStream(limit: 3) {
 ```swift
 let s = johnSession
 let i = someUIImage
-if let lastConversation = s?.conversation?.blockingList()?.first {
+if let lastConversation = try s?.conversation.blockingList().first {
 
-    val message = ConversationMessagePost.Builder()
-        .setMessage("Hello, this is a message from our SDK #MySocialApp with an amazing picture. Enjoy")
-        .setImage(i)
-        .build()
+    let message = try ConversationMessagePost.Builder()
+            .setMessage("Hello, this is a message from our SDK #MySocialApp with an amazing picture. Enjoy")
+            .setImage(i)
+            .build()
 
-    val messageSent = lastConversation?.blockingSendMessage(message)
+    let messageSent = try lastConversation.blockingSendMessage(message)
 }
 ```
 
 #### Get messages from conversation
 ```swift
 let s = johnSession
-let conversation = s?.conversation?.blockingList()?.first
+let conversation = try s?.conversation.blockingList().first
 
 // get 35 last messages without consuming them
-let conversationMessages = conversation?.messages?.blockingStream(limit: 35)
+let conversationMessages = try conversation?.messages?.blockingStream(limit: 35)
 
 // get 35 last messages and consume them
-let conversationMessages = conversation?.messages?.blockingStreamAndConsume(limit: 35)
+let conversationMessages = try conversation?.messages?.blockingStreamAndConsume(limit: 35)
 ```
 
 #### Change conversation name
 ```swift
 let s = johnSession
-let conversion = s?.conversation?.blockingList()?.first
+let conversion = try s?.conversation.blockingList().first
 
 conversion?.name = "new conversation title :)"
-conversion?.blockingSave()
+try conversion?.blockingSave()
 ```
 
 #### Kick/invite member from conversation
 ```swift
 let s = johnSession
-let conversation = s?.conversation?.blockingList()?.first
+let conversation = try s?.conversation.blockingList().first
 
 // kick member
-conversation?.blockingKickMember(user)
+try conversation?.blockingKickMember(user)
 
 // invite user
-conversation?.blockingAddMember(user)
+try conversation?.blockingAddMember(user)
 ```
 
 #### Send quick private message to someone
 ```swift
 let s = johnSession
 let i = someUIImage
-if let user = try? s?.user?.blockingList()?.first?.users?.first {
+if let user = try? s?.user.blockingList().first {
 
     let message = ConversationMessagePost.Builder()
         .setMessage("Hey [[user:\(user.id)]] ! This is a quick message from our SDK #MySocialApp with an amazing picture. Enjoy")
         .setImage(i)
         .build()
 
-    user.blockingSendPrivateMessage(message)
+    try user.blockingSendPrivateMessage(message)
 }
 ```
 
 #### Quit conversation
 ```swift
 let s = johnSession
-if let conversation = try? s?.conversation?.blockingList()?.first {
-    conversation.blockingQuit()
+if let conversation = try? s?.conversation.blockingList().first {
+    try conversation.blockingQuit()
 }
 ```
 
@@ -376,7 +402,7 @@ This module is optional. Please contact [us](mailto:support@mysocialapp.io) to r
 #### List 50 next events
 ```swift
 let s = johnSession
-s?.event?.blockingStream(limit: 50)
+try s?.event.blockingStream(limit: 50)
 ```
 
 #### Create an event
@@ -401,24 +427,24 @@ let event = Event.Builder()
         .setCoverImage(i)
         .build()
 
-s?.event?.blockingCreate(event)
+try s?.event.blockingCreate(event)
 ```
 
 #### Update an event
 ```swift
 event.name = "New event name"
-event.save()
+try event.save()
 ```
 
 #### Join / participate to an event
 ```swift
-event.blockingParticipate()
+try event.blockingParticipate()
 ```
 
 #### List my 10 next events
 ```swift
 let s = johnSession
-s?.account?.blockingGet()?.blockingStreamEvent(limit: 10)
+try s?.account.blockingGet()?.blockingStreamEvent(limit: 10)
 ```
 
 #### List events between two dates
@@ -435,7 +461,7 @@ let query = FluentEvent.Search.Builder()
         .setToDate(afterTomorrow)
         .build()
 
-s?.event?.blockingSearch(query)
+try s?.event.blockingSearch(query)
 ```
 
 #### Search for events by name or description
@@ -447,24 +473,24 @@ let query = FluentEvent.Search.Builder()
         .setDescription("my event description")
         .build()
 
-s?.event?.blockingSearch(query)
+try s?.event.blockingSearch(query)
 ```
 
 #### Search for events by owner
 ```swift
 [..]
-user.blockingStreamEvent(limit: 10)
+try user.blockingStreamEvent(limit: 10)
 ```
 
 #### Create post on event
 ```swift
 [..]
-val post = FeedPost.Builder()
+let post = FeedPost.Builder()
         .setMessage("This is a post with #hashtag url https://mysocialapp.io and someone mentioned [[user:3856809369215939951]]")
         .setVisibility(.Public)
         .build()
 
-event.blockingSendWallPost(post)
+try event.blockingSendWallPost(post)
 ```
 
 ### Group
@@ -473,7 +499,7 @@ This module is optional. Please contact [us](mailto:support@mysocialapp.io) to r
 #### List groups
 ```swift
 let s = johnSession
-s?.group?.blockingStream(limit: 100)
+try s?.group.blockingStream(limit: 100)
 ```
 
 #### Create a group
@@ -491,24 +517,24 @@ let group = Group.Builder()
         .setImage(i)
         .build()
 
-s?.group?.blockingCreate(group)
+try s?.group.blockingCreate(group)
 ```
 
 #### Update a group
 ```swift
 group.name = "New group name"
-group.save()
+try group.save()
 ```
 
 #### Join a group
 ```swift
-group.blockingJoin()
+try group.blockingJoin()
 ```
 
 #### List my groups
 ```swift
 let s = johnSession
-s?.account?.blockingGet()?.blockingStreamGroup(limit: 10)
+try s?.account.blockingGet()?.blockingStreamGroup(limit: 10)
 ```
 
 #### Search for groups by name or description
@@ -520,13 +546,13 @@ let query = FluentGroup.Search.Builder()
         .setDescription("my group description")
         .build()
 
-s?.group?.blockingSearch(query)
+try s?.group.blockingSearch(query)
 ```
 
 #### Search for groups by owner
 ```swift
 [..]
-user.blockingStreamGroup(limit: 10)
+try user.blockingStreamGroup(limit: 10)
 ```
 
 #### Create post on group
@@ -537,7 +563,70 @@ let post = FeedPost.Builder()
         .setVisibility(.Public)
         .build()
 
-group.blockingSendWallPost(post)
+try group.blockingSendWallPost(post)
+```
+
+### Custom Fields
+This feature is available on users, events, groups, and other options to allow your community to provide specific information. This feature can be managed on your MySocialApp admin console.
+
+#### Display all custom fields of a user
+```swift
+let s = johnSession
+if let user = try s?.user.blockingList().first {
+    try user.blockingGetCustomFields().forEach {
+        field in
+        // NB: label, placeholder and string values are automatically translated into the user's language
+        NSLog("Custom Field label: \(field.label)")
+        // Every type of Custom Field may have a placeholder
+        NSLog("Custom Field placeholder: \(field.placeholder)")
+        if let type = field.fieldType {
+            NSLog("Custom Field type: \(type)")
+            if type == FieldType.inputSelect || type == FieldType.inputCheckbox {
+                // For SELECT and CHECKBOX types, the list of possible values is provided
+                NSLog("CustomField possible values: \(field.possibleValues)")
+            }
+            // The way the value can be get / set depends on the type of the Custom Field
+            switch type {
+                case .inputBoolean:
+                    NSLog("Custom Field value: \(field.boolValue)")
+                case .inputDate, .inputDateTime, .inputTime:
+                    NSLog("Custom Field value: \(field.dateValue)")
+                case .inputCheckbox:
+                    NSLog("Custom Field values: \(field.stringsValue)")
+                case .inputUrl, .inputText, .inputEmail, .inputPhone, .inputSelect, .inputTextarea:
+                    NSLog("Custom Field value: \(field.stringValue)")
+                case .inputLocation:
+                    NSLog("Custom Field value: \(field.locationValue)")
+                case .inputNumber:
+                    NSLog("CustomField value: \(field.doubleValue)")
+            }
+        }
+    }
+}
+```
+
+#### Set the location and url on custom fields on a group
+```swift
+let newarkLocation = Location(latitude: 40.736504474883915, longitude: -74.18175405)
+let url = "https://mysocialapp.io"
+
+if let group = try s?.group.blockingList().first {
+    if let locationField = try group.blockingGetCustomFields().filter({
+                group in
+                return group.fieldType == FieldType.inputLocation
+            }).first {
+        locationField.locationValue = newarkLocation
+    }
+
+    if let urlField = try group.blockingGetCustomFields().filter({
+                group in
+                return group.fieldType == FieldType.inputUrl
+            }).first {
+        urlField.stringValue = url
+    }
+
+    try group.blockingSave()
+}
 ```
 
 # Credits

@@ -9,7 +9,7 @@ public class Conversation: Base {
     }
     public var messages: ConversationMessages? {
         get {
-            return (super.getAttributeInstance("messages") as? ConversationMessages)?.updateConversationId(id)
+            return (super.getAttributeInstance("messages") as? ConversationMessages)?.updateConversationId(id) ?? ConversationMessages().updateConversationId(id)
         }
         set(messages) { super.setAttribute(withName: "messages", messages) }
     }

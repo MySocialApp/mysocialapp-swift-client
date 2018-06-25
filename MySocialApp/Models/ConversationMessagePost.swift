@@ -15,7 +15,7 @@ public class ConversationMessagePost {
             return self
         }
         
-        public func setImage(image: UIImage?) -> Builder {
+        public func setImage(_ image: UIImage?) -> Builder {
             self.mImage = image
             return self
         }
