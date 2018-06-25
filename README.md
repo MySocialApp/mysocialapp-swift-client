@@ -406,6 +406,7 @@ try s?.event.blockingStream(limit: 50)
 ```
 
 #### Create an event
+NB: Setting custom fields value is detailled in the [Custom fields](#set-the-location-and-url-on-custom-fields-on-a-group) section.
 ```swift
 let s = johnSession
 let i = someUIImage
@@ -415,6 +416,8 @@ let newarkLocation = Location(longitude: 40.736504474883915, latitude: -74.18175
 let tomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 1, to: Date())
 
 let afterTomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 2, to: Date())
+
+let customFields = try s?.event.blockingGetAvailableCustomFields()
  
 let event = Event.Builder()
         .setName("New test event")
@@ -425,6 +428,7 @@ let event = Event.Builder()
         .setMaxSeats(100)
         .setMemberAccessControl(.Public)
         .setCoverImage(i)
+        .setCustomFields(customFields)
         .build()
 
 try s?.event.blockingCreate(event)
