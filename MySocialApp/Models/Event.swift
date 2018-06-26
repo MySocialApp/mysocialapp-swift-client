@@ -99,12 +99,18 @@ public class Event: BaseCustomField {
         return staticMapsURL
     }
     
-    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>) {
+    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
+        guard offset < Event.PAGE_SIZE else {
+            self.stream(page+1, to - Event.PAGE_SIZE, obs, offset: offset - Event.PAGE_SIZE)
+            return
+        }
         if let session = self.session, to > 0 {
             let _ = session.clientService.feed.list(page, size: min(Event.PAGE_SIZE,to - (page * Event.PAGE_SIZE)), forEvent: self).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < Event.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -137,7 +143,15 @@ public class Event: BaseCustomField {
     public func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
-            self.stream(page, size, obs)
+            let to = (page+1) * size
+            if size > Event.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / Event.PAGE_SIZE
+                offset -= page * Event.PAGE_SIZE
+                self.stream(page, to, obs, offset: offset)
+            } else {
+                self.stream(page, to, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())

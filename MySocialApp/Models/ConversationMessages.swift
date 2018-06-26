@@ -31,12 +31,18 @@ public class ConversationMessages: JSONable {
         return self
     }
 
-    private func stream(_ page: Int, _ to: Int, _ consume: Bool, _ obs: AnyObserver<ConversationMessage>) {
+    private func stream(_ page: Int, _ to: Int, _ consume: Bool, _ obs: AnyObserver<ConversationMessage>, offset: Int = 0) {
+        guard offset < ConversationMessages.PAGE_SIZE else {
+            self.stream(page+1, to - ConversationMessages.PAGE_SIZE, consume, obs, offset: offset - ConversationMessages.PAGE_SIZE)
+            return
+        }
         if to > 0, let session = self.session {
             let _ = session.clientService.conversationMessage.list(page, size: min(ConversationMessages.PAGE_SIZE,to - (page * ConversationMessages.PAGE_SIZE)), forConversation: conversationId, andConsume: consume).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < ConversationMessages.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -69,7 +75,15 @@ public class ConversationMessages: JSONable {
     public func list(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
         return Observable.create {
             obs in
-            self.stream(0, Int.max, false, obs)
+            let to = (page+1) * size
+            if size > ConversationMessages.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / ConversationMessages.PAGE_SIZE
+                offset -= page * ConversationMessages.PAGE_SIZE
+                self.stream(page, to, false, obs, offset: offset)
+            } else {
+                self.stream(page, to, false, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())
@@ -90,7 +104,15 @@ public class ConversationMessages: JSONable {
     public func listAndConsume(page: Int = 0, size: Int = 10) -> Observable<ConversationMessage> {
         return Observable.create {
             obs in
-            self.stream(0, Int.max, true, obs)
+            let to = (page+1) * size
+            if size > ConversationMessages.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / ConversationMessages.PAGE_SIZE
+                offset -= page * ConversationMessages.PAGE_SIZE
+                self.stream(page, to, true, obs, offset: offset)
+            } else {
+                self.stream(page, to, true, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())

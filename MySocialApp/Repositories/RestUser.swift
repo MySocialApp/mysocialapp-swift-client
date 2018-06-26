@@ -24,7 +24,6 @@ class RestUser: RestBase<User, User> {
         if let r = rider, let id = r.id {
             return super.list("/user/\(id)/friend", params: params)
         }
-        // TODO : version géoloc de la recherche
         return super.list("/user", params: params)
     }
     

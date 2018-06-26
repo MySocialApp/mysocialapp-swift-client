@@ -30,9 +30,9 @@ public class FluentNotification {
         return Observable.create {
             obs in
             if let id = UIDevice.current.identifierForVendor?.uuidString.replacingOccurrences(of: "-", with: "") {
-                self.session.clientService.device.post(Device(pushKey: token.map { String(format: "%02x", $0) }.joined(), deviceId: id)).subscribe {
+                let _ = self.session.clientService.device.post(Device(pushKey: token.map { String(format: "%02x", $0) }.joined(), deviceId: id)).subscribe {
                     e in
-                    if let e = e.element {
+                    if let _ = e.element {
                         obs.onNext(true)
                     } else {
                         obs.onNext(false)
@@ -55,9 +55,9 @@ public class FluentNotification {
         return Observable.create {
             obs in
             if let id = UIDevice.current.identifierForVendor?.uuidString.replacingOccurrences(of: "-", with: "") {
-                self.session.clientService.device.delete(id).subscribe {
+                let _ = self.session.clientService.device.delete(id).subscribe {
                     e in
-                    if let e = e.element {
+                    if let _ = e.element {
                         obs.onNext(true)
                     } else {
                         obs.onNext(false)
@@ -72,11 +72,34 @@ public class FluentNotification {
             .subscribeOn(self.scheduler())
     }
     
+    private func getNotificationFromUrl(_ url: NSURL) throws -> Notification? {
+        guard var url = url.absoluteString else {
+            return nil
+        }
+        if url.contains("\(session.configuration.appId)://url/") {
+            url = url.replacingOccurrences(of: "\(session.configuration.appId)://url/", with: "")
+        }
+        if url.contains("\(session.configuration.appId)://relative/"), let webSiteUrl = (try session.clientService.backend.get("/config/\(session.configuration.appId)").toBlocking().first()?.getAttributeInstance("web_site_url", withCreationMethod: JSONableString().initAttributes) as? JSONableString)?.string {
+            url = url.replacingOccurrences(of: "\(session.configuration.appId)://relative/", with: webSiteUrl)
+        }
+        var page = 0
+        while let notifications = try self.session.clientService.notification.listUnread(page, size: FluentNotification.PAGE_SIZE).toBlocking().first()?.array, !notifications.isEmpty {
+            page += 1
+            if let notification = notifications.filter({ $0.lastNotification?.url == url }).first {
+                return notification.lastNotification
+            }
+            if notifications.count < FluentNotification.PAGE_SIZE {
+                break
+            }
+        }
+        return nil
+    }
+    
     @available(iOS 10.0, *)
     public func userNotificationCenter(didReceive response: UNNotificationResponse) throws -> Notification? {
         if response.actionIdentifier == UNNotificationDefaultActionIdentifier,
             let u = response.notification.request.content.userInfo["URL"] as? String, let url = NSURL(string: u) {
-            // TODO: handle the URL to get a notification in return
+            return try self.getNotificationFromUrl(url)
         }
         return nil
     }
@@ -92,8 +115,8 @@ public class FluentNotification {
     
     public func application(continue userActivity: NSUserActivity) throws -> Notification? {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let url = userActivity.webpageURL as? NSURL {
-                // TODO: handle the URL to get a notification in return
+            if let url = userActivity.webpageURL {
+                return try self.getNotificationFromUrl(url as NSURL)
             }
         }
         return nil
@@ -101,7 +124,7 @@ public class FluentNotification {
     
     func application(open url: URL) throws -> Notification? {
         if url.scheme == session.configuration.appId, let u = NSURL(string: url.absoluteString) {
-            // TODO: handle the URL to get a notification in return
+            return try self.getNotificationFromUrl(u)
         }
         return nil
     }
@@ -124,12 +147,18 @@ public class FluentNotification {
             return self.session.clientConfiguration.scheduler
         }
         
-        private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>) {
+        private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>, offset: Int = 0) {
+            guard offset < FluentNotification.PAGE_SIZE else {
+                self.stream(page+1, to - FluentNotification.PAGE_SIZE, obs, offset: offset - FluentNotification.PAGE_SIZE)
+                return
+            }
             if to > 0 {
                 let _ = session.clientService.notification.listUnread(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
                     e in
                     if let e = e.element?.array {
-                        e.forEach { obs.onNext($0) }
+                        for i in offset..<e.count {
+                            obs.onNext(e[i])
+                        }
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
@@ -162,7 +191,15 @@ public class FluentNotification {
         public func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
             return Observable.create {
                 obs in
-                self.stream(page, size, obs)
+                let to = (page+1) * size
+                if size > FluentNotification.PAGE_SIZE {
+                    var offset = page*size
+                    let page = offset / FluentNotification.PAGE_SIZE
+                    offset -= page * FluentNotification.PAGE_SIZE
+                    self.stream(page, to, obs, offset: offset)
+                } else {
+                    self.stream(page, to, obs)
+                }
                 return Disposables.create()
                 }.observeOn(self.scheduler())
                 .subscribeOn(self.scheduler())
@@ -180,12 +217,18 @@ public class FluentNotification {
             return self.session.clientConfiguration.scheduler
         }
         
-        private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>) {
+        private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>, offset: Int = 0) {
+            guard offset < FluentNotification.PAGE_SIZE else {
+                self.stream(page+1, to - FluentNotification.PAGE_SIZE, obs, offset: offset - FluentNotification.PAGE_SIZE)
+                return
+            }
             if to > 0 {
                 let _ = session.clientService.notification.listRead(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
                     e in
                     if let e = e.element?.array {
-                        e.forEach { obs.onNext($0) }
+                        for i in offset..<e.count {
+                            obs.onNext(e[i])
+                        }
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
@@ -218,7 +261,15 @@ public class FluentNotification {
         public func list(page: Int = 0, size: Int = 10) -> Observable<PreviewNotification> {
             return Observable.create {
                 obs in
-                self.stream(page, size, obs)
+                let to = (page+1) * size
+                if size > FluentNotification.PAGE_SIZE {
+                    var offset = page*size
+                    let page = offset / FluentNotification.PAGE_SIZE
+                    offset -= page * FluentNotification.PAGE_SIZE
+                    self.stream(page, to, obs, offset: offset)
+                } else {
+                    self.stream(page, to, obs)
+                }
                 return Disposables.create()
                 }.observeOn(self.scheduler())
                 .subscribeOn(self.scheduler())

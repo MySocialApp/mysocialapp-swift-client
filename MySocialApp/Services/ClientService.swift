@@ -5,6 +5,7 @@ public class ClientService {
     var session: Session
     
     lazy var account = RestAccount(self.session)
+    lazy var backend = RestJSONable(baseURL: "https://api.mysocialapp.io/api/v1", nil)
     lazy var commentable = RestCommentable(self.session)
     lazy var conversation = RestConversation(self.session)
     lazy var conversationMessage = RestConversationMessage(self.session)

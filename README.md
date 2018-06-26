@@ -58,7 +58,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.17'
+  pod 'MySocialApp', '~> 1.0.18'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
@@ -721,6 +721,7 @@ try johnSession.notification.blockingUnregisterToken()
 ```
 
 ### Provide callback for silent notification (only in foreground and background mode)
+You have to implement these methods in the __AppDelegate.swift__ file:
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // [..]
@@ -775,6 +776,18 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 ```
 
 ### Provide callback for native notification tapped by user
+To handle properly the actions on the native notifications, you first have to setup your application to receive the URL generated especially for your MySocialApp appId. To do so, you have to edit your __Info.plist__ file to add these lines in the main <dict> markup, remplacing the "u123456789123a123456" by your appId :
+```
+<key>CFBundleURLTypes</key>
+<array><dict>
+<key>CFBundleURLSchemes</key>
+<array>
+<string>u123456789123a123456</string>
+</array>
+</dict></array>
+```
+
+Then, the actions on the native notifications can thus be catched in the __AppDelegate.swift__ file by implementing these methods:
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     let msa = MySocialApp.Builder().setAppId(appId).build()

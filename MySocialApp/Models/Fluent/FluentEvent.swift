@@ -14,12 +14,18 @@ public class FluentEvent {
         return self.session.clientConfiguration.scheduler
     }
 
-    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>) {
+    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>, offset: Int = 0) {
+        guard offset < FluentEvent.PAGE_SIZE else {
+            self.stream(page+1, to - FluentEvent.PAGE_SIZE, obs, offset: offset - FluentEvent.PAGE_SIZE)
+            return
+        }
         if to > 0 {
             let _ = session.clientService.event.list(page, size: min(FluentEvent.PAGE_SIZE,to - (page * FluentEvent.PAGE_SIZE))).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < FluentEvent.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -52,7 +58,15 @@ public class FluentEvent {
     public func list(page: Int = 0, size: Int = 10) -> Observable<Event> {
         return Observable.create {
             obs in
-            self.stream(page, size, obs)
+            let to = (page+1) * size
+            if size > FluentEvent.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / FluentEvent.PAGE_SIZE
+                offset -= page * FluentEvent.PAGE_SIZE
+                self.stream(page, to, obs, offset: offset)
+            } else {
+                self.stream(page, to, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())

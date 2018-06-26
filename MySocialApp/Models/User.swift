@@ -226,12 +226,18 @@ public class User: BaseCustomField {
         }
     }
     
-    private func streamFriends(_ page: Int, _ to: Int, _ obs: AnyObserver<User>) {
+    private func streamFriends(_ page: Int, _ to: Int, _ obs: AnyObserver<User>, offset: Int = 0) {
+        guard offset < User.PAGE_SIZE else {
+            self.streamFriends(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            return
+        }
         if to > 0, let session = self.session {
             let _ = session.clientService.user.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), friendsWith: self).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -262,12 +268,18 @@ public class User: BaseCustomField {
             .subscribeOn(self.scheduler())
     }
     
-    private func streamFeed(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>) {
+    private func streamFeed(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
+        guard offset < User.PAGE_SIZE else {
+            self.streamFeed(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            return
+        }
         if to > 0, let session = self.session {
             let _ = session.clientService.feed.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), forUser: self).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -300,7 +312,15 @@ public class User: BaseCustomField {
     public func listNewsFeed(page: Int = 0, size: Int = 10) -> Observable<Feed> {
         return Observable.create {
             obs in
-            self.streamFeed(page, page*User.PAGE_SIZE+size, obs)
+            let to = (page+1) * size
+            if size > User.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / User.PAGE_SIZE
+                offset -= page * User.PAGE_SIZE
+                self.streamFeed(page, to, obs, offset: offset)
+            } else {
+                self.streamFeed(page, to, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())
@@ -346,12 +366,18 @@ public class User: BaseCustomField {
         }
     }
     
-    private func streamGroup(_ page: Int, _ to: Int, _ obs: AnyObserver<Group>) {
+    private func streamGroup(_ page: Int, _ to: Int, _ obs: AnyObserver<Group>, offset: Int = 0) {
+        guard offset < User.PAGE_SIZE else {
+            self.streamGroup(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            return
+        }
         if to > 0, let session = self.session {
             let _ = session.clientService.group.list(forUser: self, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -384,18 +410,32 @@ public class User: BaseCustomField {
     public func listGroup(page: Int = 0, size: Int = 10) -> Observable<Group> {
         return Observable.create {
             obs in
-            self.streamGroup(page, page*User.PAGE_SIZE+size, obs)
+            let to = (page+1) * size
+            if size > User.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / User.PAGE_SIZE
+                offset -= page * User.PAGE_SIZE
+                self.streamGroup(page, to, obs, offset: offset)
+            } else {
+                self.streamGroup(page, to, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())
     }
     
-    private func streamEvent(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>) {
+    private func streamEvent(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>, offset: Int = 0) {
+        guard offset < User.PAGE_SIZE else {
+            self.streamEvent(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            return
+        }
         if to > 0, let session = self.session, let id = self.id {
             let _ = session.clientService.event.list(forMember: id, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
                 e in
                 if let e = e.element?.array {
-                    let _ = e.map { obs.onNext($0) }
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
@@ -428,7 +468,15 @@ public class User: BaseCustomField {
     public func listEvent(page: Int = 0, size: Int = 10) -> Observable<Event> {
         return Observable.create {
             obs in
-            self.streamEvent(page, page*User.PAGE_SIZE+size, obs)
+            let to = (page+1) * size
+            if size > User.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / User.PAGE_SIZE
+                offset -= page * User.PAGE_SIZE
+                self.streamEvent(page, to, obs, offset: offset)
+            } else {
+                self.streamEvent(page, to, obs)
+            }
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())

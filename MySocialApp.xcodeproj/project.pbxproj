@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0C380120E2DBA100BC520F /* RestJSONable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0C380020E2DBA100BC520F /* RestJSONable.swift */; };
 		0D620D3820ACF15800165A43 /* FluentAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3720ACF15800165A43 /* FluentAccount.swift */; };
 		0D620D3A20ACF4C400165A43 /* FluentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3920ACF4C400165A43 /* FluentFeed.swift */; };
 		0D620D3C20AD529F00165A43 /* FluentFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D620D3B20AD529F00165A43 /* FluentFriend.swift */; };
@@ -169,6 +170,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D0C380020E2DBA100BC520F /* RestJSONable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestJSONable.swift; sourceTree = "<group>"; };
 		0D620D3720ACF15800165A43 /* FluentAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentAccount.swift; sourceTree = "<group>"; };
 		0D620D3920ACF4C400165A43 /* FluentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentFeed.swift; sourceTree = "<group>"; };
 		0D620D3B20AD529F00165A43 /* FluentFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentFriend.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */,
 				0DEAE07B20BCB2D600EDE0DC /* RestGroup.swift */,
 				0DEAE07620BCB2D600EDE0DC /* RestHashTag.swift */,
+				0D0C380020E2DBA100BC520F /* RestJSONable.swift */,
 				0DEAE09020BCB2D800EDE0DC /* RestLikeable.swift */,
 				0DEAE09B20BCB2D900EDE0DC /* RestLogin.swift */,
 				0DEAE08620BCB2D700EDE0DC /* RestNotificationAck.swift */,
@@ -856,6 +859,7 @@
 				0DEADFB520BCA96D00EDE0DC /* Conversation.swift in Sources */,
 				0DEADFBF20BCA96D00EDE0DC /* ConversationMessage.swift in Sources */,
 				0DEADFB720BCA96D00EDE0DC /* Reset.swift in Sources */,
+				0D0C380120E2DBA100BC520F /* RestJSONable.swift in Sources */,
 				0DEADFC020BCA96D00EDE0DC /* AccountEvent.swift in Sources */,
 				0DEAE0CB20BCB2DA00EDE0DC /* RestRideIdGenerator.swift in Sources */,
 				0DEADF9820BCA96D00EDE0DC /* ActivityType.swift in Sources */,

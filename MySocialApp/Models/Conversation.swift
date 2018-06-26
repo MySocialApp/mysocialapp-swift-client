@@ -75,7 +75,7 @@ public class Conversation: Base {
             self.members = self.members?.filter { $0.id != user.id }
             let _ = self.save().subscribe {
                 e in
-                if let e = e.element {
+                if let _ = e.element {
                     obs.onNext(user)
                 } else if let error = e.error {
                     obs.onError(error)
@@ -101,7 +101,7 @@ public class Conversation: Base {
             self.members = members
             let _ = self.save().subscribe {
                 e in
-                if let e = e.element {
+                if let _ = e.element {
                     obs.onNext(user)
                 } else if let error = e.error {
                     obs.onError(error)
