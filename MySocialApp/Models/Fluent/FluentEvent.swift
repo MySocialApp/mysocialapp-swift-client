@@ -16,11 +16,12 @@ public class FluentEvent {
 
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>, offset: Int = 0) {
         guard offset < FluentEvent.PAGE_SIZE else {
-            self.stream(page+1, to - FluentEvent.PAGE_SIZE, obs, offset: offset - FluentEvent.PAGE_SIZE)
+            self.stream(page+1, to, obs, offset: offset - FluentEvent.PAGE_SIZE)
             return
         }
-        if to > 0 {
-            let _ = session.clientService.event.list(page, size: min(FluentEvent.PAGE_SIZE,to - (page * FluentEvent.PAGE_SIZE))).subscribe {
+        let size = min(FluentEvent.PAGE_SIZE,to - (page * FluentEvent.PAGE_SIZE))
+        if size > 0 {
+            let _ = session.clientService.event.list(page, size: size).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -29,7 +30,7 @@ public class FluentEvent {
                     if e.count < FluentEvent.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to - FluentEvent.PAGE_SIZE, obs)
+                        self.stream(page + 1, to, obs)
                     }
                 } else if let e = e.error {
                     obs.onError(e)

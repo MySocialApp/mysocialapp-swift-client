@@ -149,11 +149,12 @@ public class FluentNotification {
         
         private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>, offset: Int = 0) {
             guard offset < FluentNotification.PAGE_SIZE else {
-                self.stream(page+1, to - FluentNotification.PAGE_SIZE, obs, offset: offset - FluentNotification.PAGE_SIZE)
+                self.stream(page+1, to, obs, offset: offset - FluentNotification.PAGE_SIZE)
                 return
             }
-            if to > 0 {
-                let _ = session.clientService.notification.listUnread(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
+            let size = min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))
+            if size > 0 {
+                let _ = session.clientService.notification.listUnread(page, size: size).subscribe {
                     e in
                     if let e = e.element?.array {
                         for i in offset..<e.count {
@@ -162,7 +163,7 @@ public class FluentNotification {
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
-                            self.stream(page + 1, to - FluentNotification.PAGE_SIZE, obs)
+                            self.stream(page + 1, to, obs)
                         }
                     } else if let e = e.error {
                         obs.onError(e)
@@ -219,11 +220,12 @@ public class FluentNotification {
         
         private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>, offset: Int = 0) {
             guard offset < FluentNotification.PAGE_SIZE else {
-                self.stream(page+1, to - FluentNotification.PAGE_SIZE, obs, offset: offset - FluentNotification.PAGE_SIZE)
+                self.stream(page+1, to, obs, offset: offset - FluentNotification.PAGE_SIZE)
                 return
             }
-            if to > 0 {
-                let _ = session.clientService.notification.listRead(page, size: min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))).subscribe {
+            let size = min(FluentNotification.PAGE_SIZE,to - (page * FluentNotification.PAGE_SIZE))
+            if size > 0 {
+                let _ = session.clientService.notification.listRead(page, size: size).subscribe {
                     e in
                     if let e = e.element?.array {
                         for i in offset..<e.count {
@@ -232,7 +234,7 @@ public class FluentNotification {
                         if e.count < FluentNotification.PAGE_SIZE {
                             obs.onCompleted()
                         } else {
-                            self.stream(page + 1, to - FluentNotification.PAGE_SIZE, obs)
+                            self.stream(page + 1, to, obs)
                         }
                     } else if let e = e.error {
                         obs.onError(e)

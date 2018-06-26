@@ -16,11 +16,12 @@ public class FluentFeed {
 
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
         guard offset < FluentFeed.PAGE_SIZE else {
-            self.stream(page+1, to - FluentFeed.PAGE_SIZE, obs, offset: offset - FluentFeed.PAGE_SIZE)
+            self.stream(page+1, to, obs, offset: offset - FluentFeed.PAGE_SIZE)
             return
         }
-        if to > 0 {
-            let _ = session.clientService.feed.list(page, size: min(FluentFeed.PAGE_SIZE,to - (page * FluentFeed.PAGE_SIZE))).subscribe {
+        let size = min(FluentFeed.PAGE_SIZE,to - (page * FluentFeed.PAGE_SIZE))
+        if size > 0 {
+            let _ = session.clientService.feed.list(page, size: size).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -29,7 +30,7 @@ public class FluentFeed {
                     if e.count < FluentFeed.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to - FluentFeed.PAGE_SIZE, obs)
+                        self.stream(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)

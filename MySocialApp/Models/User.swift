@@ -228,11 +228,12 @@ public class User: BaseCustomField {
     
     private func streamFriends(_ page: Int, _ to: Int, _ obs: AnyObserver<User>, offset: Int = 0) {
         guard offset < User.PAGE_SIZE else {
-            self.streamFriends(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            self.streamFriends(page+1, to, obs, offset: offset - User.PAGE_SIZE)
             return
         }
-        if to > 0, let session = self.session {
-            let _ = session.clientService.user.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), friendsWith: self).subscribe {
+        let size = min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))
+        if size > 0, let session = self.session {
+            let _ = session.clientService.user.list(page, size: size, friendsWith: self).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -241,7 +242,7 @@ public class User: BaseCustomField {
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.streamFriends(page + 1, to - User.PAGE_SIZE, obs)
+                        self.streamFriends(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)
@@ -270,11 +271,12 @@ public class User: BaseCustomField {
     
     private func streamFeed(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
         guard offset < User.PAGE_SIZE else {
-            self.streamFeed(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            self.streamFeed(page+1, to, obs, offset: offset - User.PAGE_SIZE)
             return
         }
-        if to > 0, let session = self.session {
-            let _ = session.clientService.feed.list(page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE)), forUser: self).subscribe {
+        let size = min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))
+        if size > 0, let session = self.session {
+            let _ = session.clientService.feed.list(page, size: size, forUser: self).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -283,7 +285,7 @@ public class User: BaseCustomField {
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.streamFeed(page + 1, to - User.PAGE_SIZE, obs)
+                        self.streamFeed(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)
@@ -368,11 +370,12 @@ public class User: BaseCustomField {
     
     private func streamGroup(_ page: Int, _ to: Int, _ obs: AnyObserver<Group>, offset: Int = 0) {
         guard offset < User.PAGE_SIZE else {
-            self.streamGroup(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            self.streamGroup(page+1, to, obs, offset: offset - User.PAGE_SIZE)
             return
         }
-        if to > 0, let session = self.session {
-            let _ = session.clientService.group.list(forUser: self, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
+        let size = min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))
+        if size > 0, let session = self.session {
+            let _ = session.clientService.group.list(forUser: self, page: page, size: size).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -381,7 +384,7 @@ public class User: BaseCustomField {
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.streamGroup(page + 1, to - User.PAGE_SIZE, obs)
+                        self.streamGroup(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)
@@ -426,11 +429,12 @@ public class User: BaseCustomField {
     
     private func streamEvent(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>, offset: Int = 0) {
         guard offset < User.PAGE_SIZE else {
-            self.streamEvent(page+1, to - User.PAGE_SIZE, obs, offset: offset - User.PAGE_SIZE)
+            self.streamEvent(page+1, to, obs, offset: offset - User.PAGE_SIZE)
             return
         }
-        if to > 0, let session = self.session, let id = self.id {
-            let _ = session.clientService.event.list(forMember: id, page: page, size: min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))).subscribe {
+        let size = min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))
+        if size > 0, let session = self.session, let id = self.id {
+            let _ = session.clientService.event.list(forMember: id, page: page, size: size).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -439,7 +443,7 @@ public class User: BaseCustomField {
                     if e.count < User.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.streamEvent(page + 1, to - User.PAGE_SIZE, obs)
+                        self.streamEvent(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)

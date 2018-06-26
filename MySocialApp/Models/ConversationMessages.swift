@@ -33,11 +33,12 @@ public class ConversationMessages: JSONable {
 
     private func stream(_ page: Int, _ to: Int, _ consume: Bool, _ obs: AnyObserver<ConversationMessage>, offset: Int = 0) {
         guard offset < ConversationMessages.PAGE_SIZE else {
-            self.stream(page+1, to - ConversationMessages.PAGE_SIZE, consume, obs, offset: offset - ConversationMessages.PAGE_SIZE)
+            self.stream(page+1, to, consume, obs, offset: offset - ConversationMessages.PAGE_SIZE)
             return
         }
-        if to > 0, let session = self.session {
-            let _ = session.clientService.conversationMessage.list(page, size: min(ConversationMessages.PAGE_SIZE,to - (page * ConversationMessages.PAGE_SIZE)), forConversation: conversationId, andConsume: consume).subscribe {
+        let size = min(ConversationMessages.PAGE_SIZE,to - (page * ConversationMessages.PAGE_SIZE))
+        if size > 0, let session = self.session {
+            let _ = session.clientService.conversationMessage.list(page, size: size, forConversation: conversationId, andConsume: consume).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -46,7 +47,7 @@ public class ConversationMessages: JSONable {
                     if e.count < ConversationMessages.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to - ConversationMessages.PAGE_SIZE, consume, obs)
+                        self.stream(page + 1, to, consume, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)

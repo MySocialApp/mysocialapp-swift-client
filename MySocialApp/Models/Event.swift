@@ -101,7 +101,7 @@ public class Event: BaseCustomField {
     
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
         guard offset < Event.PAGE_SIZE else {
-            self.stream(page+1, to - Event.PAGE_SIZE, obs, offset: offset - Event.PAGE_SIZE)
+            self.stream(page+1, to, obs, offset: offset - Event.PAGE_SIZE)
             return
         }
         if let session = self.session, to > 0 {
@@ -114,7 +114,7 @@ public class Event: BaseCustomField {
                     if e.count < Event.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to - Event.PAGE_SIZE, obs)
+                        self.stream(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)

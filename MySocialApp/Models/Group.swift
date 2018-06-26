@@ -80,7 +80,7 @@ public class Group: BaseCustomField {
     
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
         guard offset < Group.PAGE_SIZE else {
-            self.stream(page+1, to - Group.PAGE_SIZE, obs, offset: offset - Group.PAGE_SIZE)
+            self.stream(page+1, to, obs, offset: offset - Group.PAGE_SIZE)
             return
         }
         if let session = self.session, to > 0 {
@@ -93,7 +93,7 @@ public class Group: BaseCustomField {
                     if e.count < Group.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to - Group.PAGE_SIZE, obs)
+                        self.stream(page + 1, to, obs)
                     }
                 } else if let error = e.error {
                     obs.onError(error)
