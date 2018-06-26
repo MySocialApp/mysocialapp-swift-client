@@ -9,6 +9,7 @@ public class ClientService {
     lazy var conversation = RestConversation(self.session)
     lazy var conversationMessage = RestConversationMessage(self.session)
     lazy var customField = RestCustomField(self.session)
+    lazy var device = RestDevice(self.session)
     lazy var event = RestEvent(self.session)
     lazy var feed = RestFeed(self.session)
     lazy var friendRequest = RestFriendRequest(self.session)

@@ -514,10 +514,20 @@ public class MySocialAppException: JSONable, Error {
     }
 }
 
-extension Request {
+extension DataRequest {
     func debugLog(_ debug: Bool = true) -> Self {
         if debug {
             debugPrint(self)
+            self.response {
+                if let u = $0.request?.url, let m = $0.request?.httpMethod, let sc = $0.response?.statusCode {
+                    if let e = $0.error {
+                        NSLog("_request_log_ \(m) \(u) \(sc) ERROR \(e.localizedDescription)")
+                    }
+                    if #available(iOS 10, *), let i = $0.metrics?.taskInterval {
+                        NSLog("_request_log_ \(m) \(u) \(sc) \(i.start) \(i.duration)")
+                    }
+                }
+            }
         }
         return self
     }

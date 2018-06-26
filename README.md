@@ -463,6 +463,7 @@ let query = FluentEvent.Search.Builder()
         .setLocationMaximumDistanceInKilometers(100.0)
         .setFromDate(tomorrow)
         .setToDate(afterTomorrow)
+        .setDateField(.startDate)
         .build()
 
 try s?.event.blockingSearch(query)
@@ -630,6 +631,200 @@ if let group = try s?.group.blockingList().first {
     }
 
     try group.blockingSave()
+}
+```
+
+# Realtime notifications
+In order to make your application able to receive native and silent notifications from our backend, here are some steps to follow.
+
+## Create a .p12 certificate
+Why ? We must provide to the APNS a valid certificate related to your application.
+### Create an APNS certificate
+- Connect on your Apple Developer Account, and then get into the "Certificates, Identifiers & Profiles" section, on the "Certificates > All" tab (i.e. on [this URL](https://developer.apple.com/account/ios/certificate/)).
+- Click on the "+" button to create a new certificate
+- Choose "Apple Push Notification service SSL (Sandbox & Production)" and click on "Continue"
+- Choose your App ID in the list and click on "Continue"
+- Follow the instructions to create a CSR
+- Click on "Continue"
+- Choose the CSR you just created and click on "Continue"
+- Download the generated certificate
+### Create the first .p12 file
+- Double-click on the certificate you just downloaded, this will open your Keychain manager
+- Search in the "My certificates" list to find a certificate named "Apple Push Services: {your App ID}"
+- Right-click on it and choose "Export ..." and export it as a .p12 file
+- A password is requested, so enter "mysocialapp" (only lowercased)
+### Convert the .p12 file into a usable one
+- On command line (in terminal), in the folder containing the .p12 file, just type these instructions, typing "mysocialapp" (only lowercased) as password everytime one is asked :
+```
+# These instructions require a Java Development Kit (JDK) installed on your system
+keytool -importkeystore -destkeystore mysocialapp.jks -srckeystore {your .p12 exported certificat}.p12  -srcstoretype PKCS12
+keytool -importkeystore -srckeystore mysocialapp.jks -srcstoretype JKS -deststoretype PKCS12 -destkeystore mysocialapp.p12
+openssl base64 -in mysocialapp.p12 -out mysocialapp.b64
+```
+### Upload the .p12
+- Connect on your [admin console](https://go.mysocialapp.io)
+- Click on your app
+- Choose the "Certificates" tab
+- Click on the "+ Add" button
+- Enter your package name (App ID)
+- Choose IOS as platform
+- Enter the expiration date
+- Copy / paste the content of the file in the field (open the file "mysocialapp.b64" in a text editor to do so)
+- Click on "Add" button, and that's it!
+
+## Make your app aware of notifications
+Now you need to adapt your app to register on our backend, and to provide callbacks to be notified when a notification is received, or when the user taps on a native notification to open it in your app
+
+### Enable notifications for your app
+In the project properties in XCode, got to the main target Capabilities, and enable "Push notifications", "Background modes", and in "Background modes" check "Background fetch" and "Remote notifications"
+
+### Allow notifications to be received by your app
+You need to ask to the user for permission to notify it. Just put this piece of code to ask the user for permission to send it notifications :
+```swift
+if #available(iOS 10, *) {
+    DispatchQueue.main.async {
+        UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]){
+            (granted, error) in
+            UNUserNotificationCenter.current().delegate = self
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+} else {
+    DispatchQueue.main.async {
+        UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+}
+```
+
+### Register your app on our backend
+Once the user permission is granted, and once the application is registered for remote notifications, you have to receive the APNS token to send it to our backend, by implementing certain methods
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        try johnSession.notification.blockingRegisterToken(deviceToken)
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+}
+```
+
+If the user explicitely logs out, you may unregister the token to avoid the user receiving unwanted notifications
+```swift
+try johnSession.notification.blockingUnregisterToken()
+```
+
+### Provide callback for silent notification (only in foreground and background mode)
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    // [..]
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let receivedNotification = try johnSession.notification.application(didFinishLaunchingWithOptions: launchOptions) {
+            // [..] A notification has just been received, you may update the app GUI to notify the user
+        } else {
+            // Nothing happened, it is a regular application start
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+    // [..]
+}
+
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let receivedNotification = try johnSession.notification.application(didReceiveRemoteNotification: userInfo) {
+            // [..] The notification has just been received, you may update the app GUI to notify the user
+        } else {
+            // It wasn't a MySocialApp notification
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+}
+
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let receivedNotification = try johnSession.notification.application(didReceiveRemoteNotification: userInfo) {
+            // [..] The notification has just been received, you may update the app GUI to notify the user
+        } else {
+            // It wasn't a MySocialApp notification
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+    completionHandler(.noData)
+}
+```
+
+### Provide callback for native notification tapped by user
+```swift
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let tappedNotification = try johnSession.notification.application(continue: userActivity) {
+            // [..] The notification has just been tapped by the user, you may do something with the notification, like displaying it
+        } else {
+            // It wasn't a MySocialApp notification
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+    return true
+}
+
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let tappedNotification = try johnSession.notification.application(open: url) {
+            // [..] The notification has just been tapped by the user, you may do something with the notification, like displaying it
+        } else {
+            // It wasn't a MySocialApp notification
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
+    return true
+}
+
+@available(iOS 10.0, *)
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    let msa = MySocialApp.Builder().setAppId(appId).build()
+    do {
+        let johnSession = try msa.blockingConnect(accessToken: "user access token stored in user defaults or wherever")
+        if let tappedNotification = try johnSession.notification.userNotificationCenter(didReceive: response) {
+            // [..] The notification has just been tapped by the user, you may do something with the notification, like displaying it
+        } else {
+            // It wasn't a MySocialApp notification
+        }
+    } catch let e as MySocialAppException {
+        NSLog("Exception caught : \(e.message)")
+    } catch {
+        NSLog("Another technical exception")
+    }
 }
 ```
 

@@ -273,8 +273,8 @@ public class FluentEvent {
         }
         
         public enum DateField: String {
-            case startDate = "START_DATE"
-            case endDate = "END_DATE"
+            case startDate = "start_date"
+            case endDate = "end_date"
         }
     }
 }
