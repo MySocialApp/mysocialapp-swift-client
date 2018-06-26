@@ -245,6 +245,14 @@ public class Event: BaseCustomField {
         }
     }
     
+    public func blockingConfirmParticipation() throws -> User? {
+        return try self.blockingParticipate()
+    }
+    
+    public func confirmParticipation() -> Observable<User> {
+        return self.participate()
+    }
+    
     public func blockingUnParticipate() throws -> Bool? {
         return try unParticipate().toBlocking().first()
     }
