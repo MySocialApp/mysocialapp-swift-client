@@ -14,14 +14,21 @@ public class FluentEvent {
         return self.session.clientConfiguration.scheduler
     }
 
-    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Event>, offset: Int = 0) {
+    private func stream(_ page: Int, _ to: Int, from date: Date? = nil, _ obs: AnyObserver<Event>, offset: Int = 0) {
         guard offset < FluentEvent.PAGE_SIZE else {
             self.stream(page+1, to, obs, offset: offset - FluentEvent.PAGE_SIZE)
             return
         }
         let size = min(FluentEvent.PAGE_SIZE,to - (page * FluentEvent.PAGE_SIZE))
         if size > 0 {
-            let _ = session.clientService.event.list(page, size: size).subscribe {
+            var params: [String:String] = [:]
+            if let d = date {
+                params["sort_field"] = "start_date"
+                params["date_field"] = "start_date"
+                params["limited"] = "false"
+                params["from_date"] = DateUtils.toISO8601(d)
+            }
+            let _ = session.clientService.event.list(page, size: size, parameters: params).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -44,19 +51,19 @@ public class FluentEvent {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max) throws -> [Event] {
-        return try self.list(page: 0, size: limit).toBlocking().toArray()
+    public func blockingStream(limit: Int = Int.max, from date: Date? = nil) throws -> [Event] {
+        return try self.list(page: 0, size: limit, from: date).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max) throws -> Observable<Event> {
-        return self.list(page: 0, size: limit)
+    public func stream(limit: Int = Int.max, from date: Date? = nil) throws -> Observable<Event> {
+        return self.list(page: 0, size: limit, from: date)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10) throws -> [Event] {
-        return try self.list(page: page, size: size).toBlocking().toArray()
+    public func blockingList(page: Int = 0, size: Int = 10, from date: Date? = nil) throws -> [Event] {
+        return try self.list(page: page, size: size, from: date).toBlocking().toArray()
     }
     
-    public func list(page: Int = 0, size: Int = 10) -> Observable<Event> {
+    public func list(page: Int = 0, size: Int = 10, from date: Date? = nil) -> Observable<Event> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -64,9 +71,9 @@ public class FluentEvent {
                 var offset = page*size
                 let page = offset / FluentEvent.PAGE_SIZE
                 offset -= page * FluentEvent.PAGE_SIZE
-                self.stream(page, to, obs, offset: offset)
+                self.stream(page, to, from: date, obs, offset: offset)
             } else {
-                self.stream(page, to, obs)
+                self.stream(page, to, from: date, obs)
             }
             return Disposables.create()
             }.observeOn(self.scheduler())
