@@ -46,11 +46,11 @@ public class MySocialApp {
         }
     }
 
-    public func blockingCreateAccount(username: String, email: String, password: String, firstName: String? = nil) throws -> Session? {
+    public func blockingCreateAccount(username: String? = nil, email: String, password: String, firstName: String? = nil) throws -> Session? {
         return try createAccount(username: username, email: email, password: password, firstName: firstName).toBlocking().first()
     }
     
-    public func createAccount(username: String, email: String, password: String, firstName: String? = nil) -> Observable<Session> {
+    public func createAccount(username: String? = nil, email: String, password: String, firstName: String? = nil) -> Observable<Session> {
         let user = User()
         user.username = username
         if let n = firstName {
@@ -65,7 +65,7 @@ public class MySocialApp {
             let _ = self.account.create(user).subscribe {
                 e in
                 if let _ = e.element {
-                    let _ = self.connect(username: username, password: password).subscribe {
+                    let _ = self.connect(username: email, password: password).subscribe {
                         e in
                         if let e = e.element {
                             obs.onNext(e)
