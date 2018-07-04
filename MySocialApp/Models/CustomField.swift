@@ -61,32 +61,32 @@ public class CustomField: Base {
     }
     
     public var boolValue: Bool? {
-        get { return (self.data.getValue() as! JSONableBool?)?.bool }
+        get { return (self.data.getValue() as JSONableBool?)?.bool }
         set(value) { if let v = value { self.data.setValue(JSONableBool(v)) } else { self.data.setValue(nil) } }
     }
     
     public var dateValue: Date? {
-        get { return (self.data.getValue() as! JSONableDate?)?.date }
+        get { return (self.data.getValue() as JSONableDate?)?.date }
         set(value) { if let v = value { self.data.setValue(JSONableDate(v)) } else { self.data.setValue(nil) } }
     }
     
     public var stringsValue: [String]? {
-        get { return (self.data.getValue() as! JSONableArray<JSONableString>?)?.array.flatMap { self.getLocalizedValue($0.string) } }
+        get { return (self.data.getValue() as JSONableArray<JSONableString>?)?.array.flatMap { self.getLocalizedValue($0.string) } }
         set(value) { if let v = value { self.data.setValue(JSONableArray<JSONableString>(v.flatMap { JSONableString($0) })) } else { self.data.setValue(nil) } }
     }
 
     public var stringValue: String? {
-        get { return self.getLocalizedValue((self.data.getValue() as! JSONableString?)?.string) }
+        get { return self.getLocalizedValue((self.data.getValue() as JSONableString?)?.string) }
         set(value) { if let v = value { self.data.setValue(JSONableString(v)) } else { self.data.setValue(nil) } }
     }
 
     public var doubleValue: Double? {
-        get { return (self.data.getValue() as! JSONableDouble?)?.double }
+        get { return (self.data.getValue() as JSONableDouble?)?.double }
         set(value) { if let v = value { self.data.setValue(JSONableDouble(v)) } else { self.data.setValue(nil) } }
     }
 
     public var locationValue: Location? {
-        get { return self.data.getValue() as? Location }
+        get { return self.data.getValue() as Location? }
         set(value) { self.data.setValue(value) }
     }
 
