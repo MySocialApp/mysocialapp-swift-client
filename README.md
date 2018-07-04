@@ -417,7 +417,42 @@ let tomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 1,
 
 let afterTomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 2, to: Date())
 
-let customFields = try s?.event.blockingGetAvailableCustomFields()
+let customFields = try s?.event.blockingGetAvailableCustomFields().map {
+    customField -> (CustomField) in
+    if let type = customField.fieldType {
+        switch type {
+            case .inputText:
+                customField.stringValue = "Text test"
+            case .inputTextarea:
+                customField.stringValue = "TextArea test text"
+            case .inputNumber:
+                customField.doubleValue = 1337
+            case .inputBoolean:
+                customField.boolValue = false
+            case .inputDate:
+                customField.dateValue = Date()
+            case .inputUrl:
+                customField.stringValue = "https://mysocialapp.io"
+            case .inputEmail:
+                customField.stringValue = "test@mysocialapp.io"
+            case .inputPhone:
+                customField.stringValue = "+33123452345"
+            case .inputLocation:
+                customField.locationValue = newarkLocation
+            case .inputSelect:
+                customField.stringValue = customField.possibleValues?.first
+            case .inputCheckbox:
+                customField.stringsValue = customField.possibleValues ?? []
+            case .inputDateTime:
+                customField.dateValue = Date()
+            case .inputTime:
+                customField.dateValue = Date()
+            default:
+                break
+        }
+        return customField
+    }
+}
  
 let event = Event.Builder()
         .setName("New test event")
