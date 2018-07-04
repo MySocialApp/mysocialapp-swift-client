@@ -450,8 +450,8 @@ let customFields = try s?.event.blockingGetAvailableCustomFields().map {
             default:
                 break
         }
-        return customField
     }
+    return customField
 }
  
 let event = Event.Builder()
