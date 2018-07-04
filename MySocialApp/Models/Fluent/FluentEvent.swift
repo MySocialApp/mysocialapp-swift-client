@@ -37,7 +37,7 @@ public class FluentEvent {
                     if e.count < FluentEvent.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to, obs)
+                        self.stream(page + 1, to, from: date, obs)
                     }
                 } else if let e = e.error {
                     obs.onError(e)
