@@ -1,7 +1,5 @@
 # mysocialapp-swift-client
 
-[![mysocialapp header](https://msa-resources.s3.amazonaws.com/the%20most%20complete%20community%20messaging%20solution_1280x720.jpg)](https://mysocialapp.io)
-
 Official Swift client to interact with apps made with [MySocialApp](https://mysocialapp.io) (turnkey iOS and Android social network app builder - SaaS).
 
 Note: This lib was made in Swift and can be used inside any Swift 3 and above apps.
