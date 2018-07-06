@@ -14,21 +14,14 @@ public class FluentEvent {
         return self.session.clientConfiguration.scheduler
     }
 
-    private func stream(_ page: Int, _ to: Int, from date: Date? = nil, _ obs: AnyObserver<Event>, offset: Int = 0) {
+    private func stream(_ page: Int, _ to: Int, with options: Options = Options(), _ obs: AnyObserver<Event>, offset: Int = 0) {
         guard offset < FluentEvent.PAGE_SIZE else {
             self.stream(page+1, to, obs, offset: offset - FluentEvent.PAGE_SIZE)
             return
         }
         let size = min(FluentEvent.PAGE_SIZE,to - (page * FluentEvent.PAGE_SIZE))
         if size > 0 {
-            var params: [String:String] = [:]
-            if let d = date {
-                params["sort_field"] = "start_date"
-                params["date_field"] = "start_date"
-                params["limited"] = "false"
-                params["from_date"] = DateUtils.toISO8601(d)
-            }
-            let _ = session.clientService.event.list(page, size: size, parameters: params).subscribe {
+            let _ = session.clientService.event.list(page, size: size, parameters: options.toQueryParams()).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -37,7 +30,7 @@ public class FluentEvent {
                     if e.count < FluentEvent.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to, from: date, obs)
+                        self.stream(page + 1, to, with: options, obs)
                     }
                 } else if let e = e.error {
                     obs.onError(e)
@@ -51,19 +44,19 @@ public class FluentEvent {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max, from date: Date? = nil) throws -> [Event] {
-        return try self.list(page: 0, size: limit, from: date).toBlocking().toArray()
+    public func blockingStream(limit: Int = Int.max, with options: Options = Options()) throws -> [Event] {
+        return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max, from date: Date? = nil) throws -> Observable<Event> {
-        return self.list(page: 0, size: limit, from: date)
+    public func stream(limit: Int = Int.max, with options: Options = Options()) throws -> Observable<Event> {
+        return self.list(page: 0, size: limit, with: options)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10, from date: Date? = nil) throws -> [Event] {
-        return try self.list(page: page, size: size, from: date).toBlocking().toArray()
+    public func blockingList(page: Int = 0, size: Int = 10, with options: Options = Options()) throws -> [Event] {
+        return try self.list(page: page, size: size, with: options).toBlocking().toArray()
     }
     
-    public func list(page: Int = 0, size: Int = 10, from date: Date? = nil) -> Observable<Event> {
+    public func list(page: Int = 0, size: Int = 10, with options: Options = Options()) -> Observable<Event> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -71,9 +64,9 @@ public class FluentEvent {
                 var offset = page*size
                 let page = offset / FluentEvent.PAGE_SIZE
                 offset -= page * FluentEvent.PAGE_SIZE
-                self.stream(page, to, from: date, obs, offset: offset)
+                self.stream(page, to, with: options, obs, offset: offset)
             } else {
-                self.stream(page, to, from: date, obs)
+                self.stream(page, to, with: options, obs)
             }
             return Disposables.create()
             }.observeOn(self.scheduler())
@@ -299,4 +292,84 @@ public class FluentEvent {
             case endDate = "end_date"
         }
     }
+    
+    public class Options {
+        var sortField: String? = nil
+        var dateField: String? = nil
+        var fromDate: Date? = nil
+        var location: Location? = nil
+        var limited: Bool? = nil
+    
+        public class Builder {
+            private var mSortField: String? = "start_date"
+            private var mDateField: DateField? = .startDate
+            private var mFromDate: Date? = Date()
+            private var mLocation: Location? = nil
+            private var mLimited: Bool? = false
+    
+            public init() {}
+            
+            public func setSortField(_ name: String) -> Builder {
+                self.mSortField = name
+                return self
+            }
+    
+            public func setDateField(_ dateField: DateField) -> Builder {
+                self.mDateField = dateField
+                return self
+            }
+    
+            public func setFromDate(_ date: Date) -> Builder {
+                self.mFromDate = date
+                return self
+            }
+    
+            public func setLocation(_ location: Location) -> Builder {
+                self.mLocation = location
+                return self
+            }
+    
+            public func setLimited(_ limited: Bool) -> Builder {
+                self.mLimited = limited
+                return self
+            }
+    
+            public func build() -> Options {
+                var o = Options()
+                o.sortField = mSortField
+                o.dateField = mDateField?.rawValue
+                o.fromDate = mFromDate
+                o.location = mLocation
+                o.limited = mLimited
+                return o
+            }
+    
+            public enum DateField: String {
+                case startDate = "start_date"
+                case endDate = "end_date"
+            }
+        }
+    
+        func toQueryParams() -> [String:String] {
+            var m: [String:String] = [:]
+            if let f = sortField {
+                m["sort_field"] = f
+            }
+            if let f = dateField {
+                m["date_field"] = f
+            }
+            if let d = fromDate {
+                m["from_date"] = DateUtils.toISO8601(d)
+            }
+            if let lat = location?.latitude, let lon = location?.longitude {
+                m["latitude"] = "\(lat)"
+                m["longitude"] = "\(lon)"
+            }
+            if let l = limited {
+                m["limited"] = "\(l)"
+            }
+            return m
+        }
+    }
+    
 }

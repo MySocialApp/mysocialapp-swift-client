@@ -56,7 +56,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.22'
+  pod 'MySocialApp', '~> 1.0.23'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
@@ -484,7 +484,15 @@ let s = johnSession
 try s?.account.blockingGet()?.blockingStreamEvent(limit: 10)
 ```
 
-#### List events between two dates
+#### List nearest events from specific location
+```swift
+let s = johnSession
+
+let madridLocation = Location(latitude: 40.416775, longitude: -3.703790)
+try s?.event.blockingStream(limit: 10, with: FluentEvent.Options.Builder().setLocation(madridLocation).build())
+```
+
+#### Search events between two dates
 ```swift
 let s = johnSession
 
