@@ -150,6 +150,54 @@ public class User: BaseCustomField {
         }
     }
     
+    public func changeProfilePhoto(_ image: UIImage) -> Observable<Photo> {
+        return Observable.create {
+            obs in
+            if let s = self.session {
+                s.clientService.photo.postPhoto(image, forModel: self) {
+                    e in
+                    if let e = e {
+                        obs.onNext(e)
+                    } else {
+                        let e = MySocialAppException()
+                        e.setStringAttribute(withName: "message", "An error occured while uploading profile photo")
+                        obs.onError(e)
+                    }
+                }
+            } else {
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+    
+    public func changeProfileCoverPhoto(_ image: UIImage) -> Observable<Photo> {
+        return Observable.create {
+            obs in
+            if let s = self.session {
+                s.clientService.photo.postPhoto(image, forModel: self, forCover: true) {
+                    e in
+                    if let e = e {
+                        obs.onNext(e)
+                    } else {
+                        let e = MySocialAppException()
+                        e.setStringAttribute(withName: "message", "An error occured while uploading profile cover photo")
+                        obs.onError(e)
+                    }
+                }
+            } else {
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+
     public func blockingRequestAsFriend() throws -> User? {
         return try requestAsFriend().toBlocking().first()
     }

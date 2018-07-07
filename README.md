@@ -55,7 +55,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.23'
+  pod 'MySocialApp', '~> 1.0.24'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
@@ -153,6 +153,22 @@ if let account = try johnSession?.account.blockingGet() {
 }
 ```
 
+#### Update profile photo
+```swift
+let myPhoto = UIPhoto()
+// [..]
+try johnSession?.account.blockingChangeProfilePhoto(myPhoto)
+```
+
+#### Update profile cover photo
+The cover photo is a secondary photo that you can add to your profile.
+
+```swift
+let myPhoto = UIPhoto()
+// [..]
+try johnSession?.account.blockingChangeProfileCoverPhoto(myPhoto)
+```
+
 #### How to integrate a MySocialApp user with an existing user in my application? 
 MySocialApp allows you to use your own user IDs to find a user using the "external_id" property. 
 
@@ -180,6 +196,15 @@ let password = "your account password to confirm the ownership"
 let _ = try s?.account.blockingRequestForDeleteAccount(password: password)
 // Your account has been deleted..
 // You are no more able to perform operations
+```
+
+### User
+#### List nearest users from specific location
+```swift
+let s = johnSession
+
+let madridLocation = Location(latitude: 40.416775, longitude: -3.703790)
+try s?.user.blockingStream(limit: 10, with: FluentUser.Options.Builder().setLocation(madridLocation).build())
 ```
 
 ### News feed
@@ -580,6 +605,14 @@ try group.blockingJoin()
 ```swift
 let s = johnSession
 try s?.account.blockingGet()?.blockingStreamGroup(limit: 10)
+```
+
+#### List nearest groups from specific location
+```swift
+let s = johnSession
+
+let madridLocation = Location(latitude: 40.416775, longitude: -3.703790)
+try s?.group.blockingStream(limit: 10, with: FluentGroup.Options.Builder().setLocation(madridLocation).build())
 ```
 
 #### Search for groups by name or description

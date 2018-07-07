@@ -14,14 +14,14 @@ public class FluentUser {
         return self.session.clientConfiguration.scheduler
     }
 
-    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<User>, offset: Int = 0) {
+    private func stream(_ page: Int, _ to: Int, with options: Options = Options(), _ obs: AnyObserver<User>, offset: Int = 0) {
         guard offset < FluentUser.PAGE_SIZE else {
             self.stream(page+1, to, obs, offset: offset - FluentUser.PAGE_SIZE)
             return
         }
         let size = min(FluentUser.PAGE_SIZE,to - (page * FluentUser.PAGE_SIZE))
         if size > 0 {
-            let _ = session.clientService.user.list(page, size: size).subscribe {
+            let _ = session.clientService.user.list(page, size: size, parameters: options.toQueryParams()).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -30,7 +30,7 @@ public class FluentUser {
                     if e.count < FluentUser.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to, obs)
+                        self.stream(page + 1, to, with: options, obs)
                     }
                 } else if let e = e.error {
                     obs.onError(e)
@@ -44,19 +44,19 @@ public class FluentUser {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max) throws -> [User] {
-        return try self.list(page: 0, size: limit).toBlocking().toArray()
+    public func blockingStream(limit: Int = Int.max, with options: Options = Options()) throws -> [User] {
+        return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max) throws -> Observable<User> {
-        return self.list(page: 0, size: limit)
+    public func stream(limit: Int = Int.max, with options: Options = Options()) throws -> Observable<User> {
+        return self.list(page: 0, size: limit, with: options)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10) throws -> [User] {
-        return try self.list(page: page, size: size).toBlocking().toArray()
+    public func blockingList(page: Int = 0, size: Int = 10, with options: Options = Options()) throws -> [User] {
+        return try self.list(page: page, size: size, with: options).toBlocking().toArray()
     }
     
-    public func list(page: Int = 0, size: Int = 10) -> Observable<User> {
+    public func list(page: Int = 0, size: Int = 10, with options: Options = Options()) -> Observable<User> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -64,9 +64,9 @@ public class FluentUser {
                 var offset = page*size
                 let page = offset / FluentUser.PAGE_SIZE
                 offset -= page * FluentUser.PAGE_SIZE
-                self.stream(page, to, obs, offset: offset)
+                self.stream(page, to, with: options, obs, offset: offset)
             } else {
-                self.stream(page, to, obs)
+                self.stream(page, to, with: options, obs)
             }
             return Disposables.create()
             }.observeOn(self.scheduler())
@@ -217,6 +217,58 @@ public class FluentUser {
         override func toQueryParams() -> [String: String] {
             var m = super.toQueryParams()
             m["type"] = "USER"
+            return m
+        }
+    }
+    
+    public class Options {
+        var sortField: String? = nil
+        var location: Location? = nil
+        var limited: Bool? = nil
+        
+        public class Builder {
+            private var mSortField: String? = nil
+            private var mLocation: Location? = nil
+            private var mLimited: Bool? = false
+            
+            public init() {}
+            
+            public func setSortField(_ name: String) -> Builder {
+                self.mSortField = name
+                return self
+            }
+            
+            public func setLocation(_ location: Location) -> Builder {
+                self.mLocation = location
+                return self
+            }
+            
+            public func setLimited(_ limited: Bool) -> Builder {
+                self.mLimited = limited
+                return self
+            }
+            
+            public func build() -> Options {
+                var o = Options()
+                o.sortField = mSortField
+                o.location = mLocation
+                o.limited = mLimited
+                return o
+            }
+        }
+        
+        func toQueryParams() -> [String:String] {
+            var m: [String:String] = [:]
+            if let f = sortField {
+                m["sort_field"] = f
+            }
+            if let lat = location?.latitude, let lon = location?.longitude {
+                m["latitude"] = "\(lat)"
+                m["longitude"] = "\(lon)"
+            }
+            if let l = limited {
+                m["limited"] = "\(l)"
+            }
             return m
         }
     }
