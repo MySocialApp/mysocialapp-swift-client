@@ -1,12 +1,11 @@
 # mysocialapp-swift-client
 
-Official Swift client to interact with apps made with [MySocialApp](https://mysocialapp.io) (turnkey iOS and Android social network app builder - SaaS).
+#### MySocialApp - Seamless Social Networking features for your app
+Official Swift client to interact with apps made with [MySocialApp](https://mysocialapp.io)
 
-Note: This lib was made in Swift and can be used inside any Swift 3 and above apps.
+# What is MySocialApp?
 
-# Why using it?
-
-MySocialApp is a very innovative way to have a turnkey native social network app for iOS and Android. Our API are open and ready to use for all your need inside one of our generated app or any thirds app. 
+MySocialApp’s powerful API lets you quickly and seamlessly implement social networking features within your websites, mobile and back-end applications. Our API powers billions of requests for hundred of apps every month, delivering responses in under 100ms.
 
 ### What can you do?
 
@@ -881,6 +880,10 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
     }
 }
 ```
+# Demo App using MySocialApp
+
+* [MySocialApp Android](https://play.google.com/store/apps/details?id=io.mysocialapp.android)
+* [MySocialApp iOS](https://itunes.apple.com/fr/app/mysocialapp-your-social-app/id1351250650)
 
 # Credits
 
