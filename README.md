@@ -880,7 +880,7 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
     }
 }
 ```
-# Demo App using MySocialApp
+# Demo apps using MySocialApp
 
 * [MySocialApp Android](https://play.google.com/store/apps/details?id=io.mysocialapp.android)
 * [MySocialApp iOS](https://itunes.apple.com/fr/app/mysocialapp-your-social-app/id1351250650)
