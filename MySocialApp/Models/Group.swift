@@ -106,7 +106,63 @@ public class Group: BaseCustomField {
             obs.onCompleted()
         }
     }
+
+    public func blockingChangeImage(_ image: UIImage) throws -> Photo? {
+        return try self.changeImage(image).toBlocking().first()
+    }
     
+    public func changeImage(_ image: UIImage) -> Observable<Photo> {
+        return Observable.create {
+            obs in
+            if let s = self.session {
+                s.clientService.photo.postPhoto(image, forModel: self) {
+                    e in
+                    if let e = e {
+                        obs.onNext(e)
+                    } else {
+                        let e = MySocialAppException()
+                        e.setStringAttribute(withName: "message", "An error occured while uploading image")
+                        obs.onError(e)
+                    }
+                }
+            } else {
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+    
+    public func blockingChangeCoverImage(_ image: UIImage) throws -> Photo? {
+        return try self.changeCoverImage(image).toBlocking().first()
+    }
+    
+    public func changeCoverImage(_ image: UIImage) -> Observable<Photo> {
+        return Observable.create {
+            obs in
+            if let s = self.session {
+                s.clientService.photo.postPhoto(image, forModel: self, forCover: true) {
+                    e in
+                    if let e = e {
+                        obs.onNext(e)
+                    } else {
+                        let e = MySocialAppException()
+                        e.setStringAttribute(withName: "message", "An error occured while uploading cover image")
+                        obs.onError(e)
+                    }
+                }
+            } else {
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+
     public func blockingStreamNewsFeed(limit: Int = Int.max) throws -> [Feed] {
         return try streamNewsFeed(limit: limit).toBlocking().toArray()
     }

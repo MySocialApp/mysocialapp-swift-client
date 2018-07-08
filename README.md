@@ -55,7 +55,7 @@ Step 2. Add it in your root Podfile at the end of pods:
 ```
 target ... {
     ...
-  pod 'MySocialApp', '~> 1.0.24'
+  pod 'MySocialApp', '~> 1.1.0'
 
   post_install do |installer|
     myTargets = ['RxSwift', 'RxCocoa', 'RxBlocking', 'Alamofire', 'MySocialApp']	
@@ -508,6 +508,18 @@ let s = johnSession
 try s?.account.blockingGet()?.blockingStreamEvent(limit: 10)
 ```
 
+#### Change event image (owner only)
+```swift
+let i = someUIImage
+try event.blockingChangeImage(i)
+```
+
+#### Change event cover image (owner only)
+```swift
+let i = someUIImage
+try event.blockingChangeCoverImage(i)
+```
+
 #### List nearest events from specific location
 ```swift
 let s = johnSession
@@ -594,6 +606,18 @@ try s?.group.blockingCreate(group)
 ```swift
 group.name = "New group name"
 try group.save()
+```
+
+#### Change group image (owner only)
+```swift
+let i = someUIImage
+try group.blockingChangeImage(i)
+```
+
+#### Change group cover image (owner only)
+```swift
+let i = someUIImage
+try group.blockingChangeCoverImage(i)
 ```
 
 #### Join a group

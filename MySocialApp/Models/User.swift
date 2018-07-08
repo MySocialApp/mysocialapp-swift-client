@@ -150,6 +150,10 @@ public class User: BaseCustomField {
         }
     }
     
+    public func blockingChangeProfilePhoto(_ image: UIImage) throws -> Photo? {
+        return try self.changeProfilePhoto(image).toBlocking().first()
+    }
+    
     public func changeProfilePhoto(_ image: UIImage) -> Observable<Photo> {
         return Observable.create {
             obs in
@@ -174,6 +178,10 @@ public class User: BaseCustomField {
             .subscribeOn(self.scheduler())
     }
     
+    public func blockingChangeProfileCoverPhoto(_ image: UIImage) throws -> Photo? {
+        return try self.changeProfileCoverPhoto(image).toBlocking().first()
+    }
+
     public func changeProfileCoverPhoto(_ image: UIImage) -> Observable<Photo> {
         return Observable.create {
             obs in
