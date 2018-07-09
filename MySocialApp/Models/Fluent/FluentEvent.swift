@@ -44,11 +44,35 @@ public class FluentEvent {
         }
     }
     
+    private func getOptionsFromDate(_ date: Date?) -> Options {
+        if let d = date {
+            return Options.Builder().setFromDate(d).setDateField(.startDate).setSortField("start_date").build()
+        } else {
+            return Options()
+        }
+    }
+    
+    public func blockingStream(limit: Int = Int.max, from date: Date?) throws -> [Event] {
+        return try self.blockingStream(limit:limit, with: getOptionsFromDate(date))
+    }
+    
+    public func stream(limit: Int = Int.max, from date: Date?) -> Observable<Event> {
+        return self.stream(limit: limit, with: getOptionsFromDate(date))
+    }
+    
+    public func blockingList(page: Int = 0, size: Int = 10, from date: Date?) throws -> [Event] {
+        return try self.list(page: page, size: size, with: getOptionsFromDate(date)).toBlocking().toArray()
+    }
+    
+    public func list(page: Int = 0, size: Int = 10, from date: Date?) -> Observable<Event> {
+        return self.list(page: page, size: size, with: getOptionsFromDate(date))
+    }
+
     public func blockingStream(limit: Int = Int.max, with options: Options = Options()) throws -> [Event] {
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max, with options: Options = Options()) throws -> Observable<Event> {
+    public func stream(limit: Int = Int.max, with options: Options = Options()) -> Observable<Event> {
         return self.list(page: 0, size: limit, with: options)
     }
     
