@@ -155,7 +155,7 @@ if let account = try johnSession?.account.blockingGet() {
 
 #### Update profile photo
 ```swift
-let myPhoto = UIPhoto()
+let myPhoto = UIImage()
 // [..]
 try johnSession?.account.blockingChangeProfilePhoto(myPhoto)
 ```
@@ -164,7 +164,7 @@ try johnSession?.account.blockingChangeProfilePhoto(myPhoto)
 The cover photo is a secondary photo that you can add to your profile.
 
 ```swift
-let myPhoto = UIPhoto()
+let myPhoto = UIImage()
 // [..]
 try johnSession?.account.blockingChangeProfileCoverPhoto(myPhoto)
 ```
