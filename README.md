@@ -536,7 +536,10 @@ let tomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 1,
 
 let afterTomorrow = Calendar.current.date(byAdding: Calendar.Component.day, value: 2, to: Date())
 
+let madridLocation = Location(latitude: 40.416775, longitude: -3.703790)
+
 let query = FluentEvent.Search.Builder()
+        .setLocation(madridLocation)
         .setLocationMaximumDistanceInKilometers(100.0)
         .setFromDate(tomorrow)
         .setToDate(afterTomorrow)
