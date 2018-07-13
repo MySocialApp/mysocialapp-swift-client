@@ -111,6 +111,48 @@ if let myResult = try? MySocialApp.someOperation.throwingException() {
 }
 ```
 
+#### Location usage
+You may use Google Places API, or Apple MapKit. Here is an example of the use of MapKit to provide a list of matching locations from an input string :
+```swift
+import MapKit
+// [..]
+let thePlaceToFind: String = "some place somewhere"
+let callbackToCallWithFoundLocations: ((_: [Location])->Void) = someCallBackFunction
+
+let request = MKLocalSearchRequest()
+request.naturalLanguageQuery = thePlaceToFind
+let search = MKLocalSearch(request: request)
+search.start {
+    response, error in
+    if let r = response {
+        let locations: [Location] = r.mapItems.map {
+            mi in
+            let l = Location()
+            l.latitude = mi.placemark.coordinate.latitude
+            l.longitude = mi.placemark.coordinate.longitude
+            if let lines = mi.placemark.addressDictionary?["FormattedAddressLines"] as? [String] {
+                // Concatenate every address line, separated by a coma
+                var fullName = ""
+                var separator = ""
+                lines.forEach {
+                    fullName += separator + $0
+                    separator = ", "
+                }
+                if let name = mi.placemark.addressDictionary?["Name"] as? String, !fullName.contains(name) {
+                    fullName = name + separator + fullName
+                }
+                // The completeAddress field will contain the fully qualified human-readable location
+                l.completeAddress = fullName
+            }
+            return l
+        }
+        callbackToCallWithFoundLocations(locations)
+    } else {
+        callbackToCallWithFoundLocations([])
+    }
+}
+```
+
 ### Profile
 #### Create an account
 ```swift
