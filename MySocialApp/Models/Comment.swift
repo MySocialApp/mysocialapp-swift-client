@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 public class Comment: Base, Taggable {
 
@@ -25,6 +26,43 @@ public class Comment: Base, Taggable {
             return Photo().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
+        }
+    }
+    
+    public func blockingReplyBack(_ comment: CommentPost) throws -> Comment? {
+        return try self.replyBack(comment).toBlocking().first()
+    }
+    
+    public func replyBack(_ comment: CommentPost) -> Observable<Comment> {
+        if let id = self.parent?.id, let session = self.session {
+            return session.newsFeed.get(id).flatMap {
+                return $0.addComment(comment)
+            }
+        } else {
+            return Observable.empty()
+        }
+    }
+    
+    public func blockingSave() throws -> Comment? {
+        return try self.save().toBlocking().first()
+    }
+    
+    public func save() -> Observable<Comment> {
+        return self.addComment(self)
+    }
+    
+    public override func delete() -> Observable<Bool> {
+        if let session = self.session, let _ = self.id {
+            return session.clientService.commentable.delete(self.parent ?? self, comment: self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
         }
     }
 }

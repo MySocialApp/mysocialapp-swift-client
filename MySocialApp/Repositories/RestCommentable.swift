@@ -66,8 +66,8 @@ class RestCommentable: RestBase<Comment, Comment> {
     }
     
     func delete(_ commentable: Base, comment: Comment) -> Observable<Bool> {
-        if let base = self.getBaseUrl(commentable) {
-            return super.delete("\(base)/comment")
+        if let base = self.getBaseUrl(commentable), let id = comment.id {
+            return super.delete("\(base)/comment/\(id)")
         } else {
             return self.boolEmpty()
         }

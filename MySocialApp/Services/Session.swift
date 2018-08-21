@@ -15,11 +15,17 @@ public class Session {
     public lazy var conversation = FluentConversation(self)
     public lazy var group = FluentGroup(self)
     public lazy var event = FluentEvent(self)
+    public lazy var photo = FluentPhoto(self)
+    public lazy var photoAlbum = FluentPhotoAlbum(self)
     
     init(_ configuration: Configuration, _ clientConfiguration: ClientConfiguration, _ authenticationToken: AuthenticationToken) {
         self.configuration = configuration
         self.clientConfiguration = clientConfiguration
         self.authenticationToken = authenticationToken
+    }
+    
+    public func blockingDisconnect() throws {
+        try self.disconnect().toBlocking().first()
     }
     
     public func disconnect() -> Observable<Void> {

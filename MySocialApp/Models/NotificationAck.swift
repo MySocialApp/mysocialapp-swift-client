@@ -46,4 +46,70 @@ public class NotificationAck: JSONable {
         case Read = "READ"
         case Opened = "OPENED"
     }
+
+    public enum AppPlatform: String {
+        case IOS = "IOS"
+        case SDK = "SDK"
+    }
+    
+    public class Builder {
+        private var mDeviceId: String? = nil
+        private var mAppPlatform: AppPlatform? = nil
+        private var mAppVersion: String? = nil
+        private var mAdvertisingId: String? = nil
+        private var mNotificationKey: String? = nil
+        private var mNotificationAction: String? = nil
+        private var mLocation: Location? = nil
+        
+        public init() {}
+        
+        public func setDeviceId(_ deviceId: String) -> Builder {
+            self.mDeviceId = deviceId
+            return self
+        }
+        
+        public func setAppPlatform(_ appPlatform: AppPlatform) -> Builder {
+            self.mAppPlatform = appPlatform
+            return self
+        }
+        
+        public func setAppVersion(_ appVersion: String) -> Builder {
+            self.mAppVersion = appVersion
+            return self
+        }
+        
+        public func setAdvertisingId(_ advertisingId: String) -> Builder {
+            self.mAdvertisingId = advertisingId
+            return self
+        }
+        
+        public func setNotificationKey(_ notificationKey: String) -> Builder {
+            self.mNotificationKey = notificationKey
+            return self
+        }
+        
+        public func setNotificationAction(_ notificationAction: String) -> Builder {
+            self.mNotificationAction = notificationAction
+            return self
+        }
+        
+        public func setLocation(_ location: Location) -> Builder {
+            self.mLocation = location
+            return self
+        }
+        
+        public func build() -> NotificationAck {
+            let n = NotificationAck()
+            n.deviceId = mDeviceId
+            n.appPlatform = mAppPlatform?.rawValue
+            n.appVersion = mAppVersion
+            n.advertisingId = mAdvertisingId
+            n.notificationKey = mNotificationKey
+            n.notificationAction = Action(rawValue: StringUtils.safeTrim(mNotificationAction))
+            n.location = mLocation
+            
+            return n
+        }
+    }
+    
 }

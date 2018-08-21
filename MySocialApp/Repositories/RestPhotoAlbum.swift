@@ -3,17 +3,17 @@ import RxSwift
 
 class RestPhotoAlbum: RestBase<PhotoAlbum, PhotoAlbum> {
     
-    func list(_ page: Int, forRider: User? = nil, forGroup: Group? = nil, forEvent: Event? = nil, forRide: Ride? = nil) -> Observable<JSONableArray<PhotoAlbum>> {
-        if let r = forRider, let id = r.id {
-            return super.list("/user/\(id)/photo/album", params: ["page": page as AnyObject])
+    func list(_ page: Int, size: Int = 10, forMember: User? = nil, forGroup: Group? = nil, forEvent: Event? = nil, forRide: Ride? = nil) -> Observable<JSONableArray<PhotoAlbum>> {
+        if let r = forMember, let id = r.id {
+            return super.list("/user/\(id)/photo/album", params: ["page": page as AnyObject, "size": size as AnyObject])
         } else if let g = forGroup, let id = g.id {
-            return super.list("/group/\(id)/photo/album", params: ["page": page as AnyObject])
+            return super.list("/group/\(id)/photo/album", params: ["page": page as AnyObject, "size": size as AnyObject])
         } else if let e = forEvent, let id = e.id {
-            return super.list("/event/\(id)/photo/album", params: ["page": page as AnyObject])
+            return super.list("/event/\(id)/photo/album", params: ["page": page as AnyObject, "size": size as AnyObject])
         } else if let r = forRide, let id = r.id {
-            return super.list("/ride/\(id)/photo/album", params: ["page": page as AnyObject])
+            return super.list("/ride/\(id)/photo/album", params: ["page": page as AnyObject, "size": size as AnyObject])
         }
-        return super.list("/photo", params: ["page": page as AnyObject])
+        return super.list("/photo/album", params: ["page": page as AnyObject, "size": size as AnyObject])
     }
     
     func get(_ id: Int64) -> Observable<PhotoAlbum> {

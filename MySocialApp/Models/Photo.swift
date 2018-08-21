@@ -1,6 +1,9 @@
 import Foundation
+import RxSwift
 
 public class Photo: Base, Taggable {
+
+    internal var photo: UIImage? = nil
 
     public var message: String?{
         get { return (super.getAttributeInstance("message") as! JSONableString?)?.string }
@@ -41,6 +44,59 @@ public class Photo: Base, Taggable {
             return TagEntities().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
+        }
+    }
+    
+    public override func delete() -> Observable<Bool> {
+        if let session = self.session, let id = self.id {
+            return session.clientService.photo.delete(id)
+        } else {
+            return Observable.empty()
+        }
+    }
+    
+    public func save() -> Observable<Photo> {
+        if let session = self.session, let id = self.id {
+            return session.clientService.photo.update(id, photo: self)
+        } else {
+            return Observable.empty()
+        }
+    }
+    
+    public class Builder {
+        private var mMessage: String? = nil
+        private var mImageFile: UIImage? = nil
+        private var mVisibility = AccessControl.Friend
+        
+        public init() {}
+        
+        public func setName(_ name: String) -> Builder {
+            self.mMessage = name
+            return self
+        }
+        
+        public func setImage(_ image: UIImage) -> Builder {
+            self.mImageFile = image
+            return self
+        }
+        
+        public func setVisibility(_ visibility: AccessControl) -> Builder {
+            self.mVisibility = visibility
+            return self
+        }
+        
+        public func build() throws -> Photo {
+            guard mImageFile != nil else {
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "Image cannot be null")
+                throw e
+            }
+            
+            let photo = Photo()
+            photo.photo = mImageFile
+            photo.message = mMessage
+            photo.accessControl = mVisibility
+            return photo
         }
     }
 }

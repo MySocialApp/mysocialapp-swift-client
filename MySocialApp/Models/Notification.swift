@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 
 public class Notification: Base {
     public var title: String? {
@@ -49,5 +50,16 @@ public class Notification: Base {
         default:
             return super.getAttributeCreationMethod(name: name)
         }
+    }
+    
+    public func blockingAck(_ notificationAck: NotificationAck) throws -> NotificationAck? {
+        return try self.ack(notificationAck).toBlocking().first()
+    }
+    
+    public func ack(_ notificationAck: NotificationAck) -> Observable<NotificationAck> {
+        if notificationAck.notificationKey == nil {
+            notificationAck.notificationKey = self.notificationKey
+        }
+        return self.session?.clientService.notificationAck.post(notificationAck) ?? Observable.empty()
     }
 }

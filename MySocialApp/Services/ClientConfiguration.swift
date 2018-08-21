@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 
+
 public class ClientConfiguration {
     var readTimeoutInMilliseconds: Int64
     var writeTimeoutInMilliseconds: Int64

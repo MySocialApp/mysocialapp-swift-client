@@ -174,17 +174,17 @@ public class Conversation: Base {
             return self
         }
         
-        public func addMember(member: User) -> Builder {
+        public func addMember(_ member: User) -> Builder {
             self.mMembers.append(member)
             return self
         }
         
-        public func addMembers(members: [User]) -> Builder {
+        public func addMembers(_ members: [User]) -> Builder {
             self.mMembers.append(contentsOf: members)
             return self
         }
         
-        public func setMembers(members: [User]) -> Builder {
+        public func setMembers(_ members: [User]) -> Builder {
             self.mMembers = members
             return self
         }

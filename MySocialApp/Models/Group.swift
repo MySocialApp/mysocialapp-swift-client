@@ -51,6 +51,12 @@ public class Group: BaseCustomField {
         get { return (super.getAttributeInstance("distance_in_meters") as! JSONableInt?)?.int }
         set(distanceInMeters) { super.setIntAttribute(withName: "distance_in_meters", distanceInMeters) }
     }
+    public var image: Photo? {
+        get { return self.profilePhoto }
+    }
+    public var coverImage: Photo? {
+        get { return self.profileCoverPhoto }
+    }
     internal var profileImage: UIImage? = nil
     internal var profileCoverImage: UIImage? = nil
 
@@ -260,8 +266,16 @@ public class Group: BaseCustomField {
         }
     }
     
+    public func blockingQuit() throws -> Bool? {
+        return try self.blockingUnJoin()
+    }
+    
     public func blockingUnJoin() throws -> Bool? {
         return try unJoin().toBlocking().first()
+    }
+    
+    public func quit() -> Observable<Bool> {
+        return self.unJoin()
     }
     
     public func unJoin() -> Observable<Bool> {

@@ -48,9 +48,9 @@ public class Event: BaseCustomField {
         get { return (super.getAttributeInstance("members") as! JSONableArray<Member<EventStatus>>?)?.array }
         set(members) { super.setArrayAttribute(withName: "members", members) }
     }
-    public var coverPhoto: Photo?{
-        get { return super.getAttributeInstance("cover_photo") as? Photo }
-        set(coverPhoto) { super.setAttribute(withName: "cover_photo", coverPhoto) }
+    public var profilePhoto: Photo?{
+        get { return super.getAttributeInstance("profile_photo") as? Photo }
+        set(profilePhoto) { super.setAttribute(withName: "profile_photo", profilePhoto) }
     }
     public var profileCoverPhoto: Photo?{
         get { return super.getAttributeInstance("profile_cover_photo") as? Photo }
@@ -68,6 +68,12 @@ public class Event: BaseCustomField {
         get { return (super.getAttributeInstance("total_members") as! JSONableInt64?)?.int64 }
         set(totalMembers) { super.setInt64Attribute(withName: "total_members", totalMembers) }
     }
+    public var image: Photo? {
+        get { return self.profilePhoto }
+    }
+    public var coverImage: Photo? {
+        get { return self.profileCoverPhoto }
+    }
     internal var profileImage: UIImage? = nil
     internal var profileCoverImage: UIImage? = nil
     
@@ -81,7 +87,7 @@ public class Event: BaseCustomField {
             return JSONableInt().initAttributes
         case "members":
             return JSONableArray<Member<EventStatus>>().initAttributes
-        case "cover_photo", "profile_cover_photo":
+        case "profile_photo", "profile_cover_photo":
             return Photo().initAttributes
         case "location":
             return Location().initAttributes
@@ -326,6 +332,14 @@ public class Event: BaseCustomField {
                 }.observeOn(self.scheduler())
                 .subscribeOn(self.scheduler())
         }
+    }
+    
+    public func cancelParticipation() -> Observable<Bool> {
+        return self.unParticipate()
+    }
+    
+    public func blockingCancelParticipation() throws -> Bool? {
+        return try self.blockingUnParticipate()
     }
     
     public class Builder {

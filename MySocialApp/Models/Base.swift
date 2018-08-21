@@ -43,6 +43,10 @@ public class Base: JSONable {
         get { return super.getAttributeInstance("owner") as? User }
         set(owner) { super.setAttribute(withName: "owner", owner) }
     }
+    public var parent: Base? {
+        get { return super.getAttributeInstance("parent") as? Base }
+        set(parent) { super.setAttribute(withName: "parent", parent) }
+    }
     public var bodyMessage: String? {
         get { return (super.getAttributeInstance("body_message") as! JSONableString?)?.string }
         set(bodyMessage) { super.setStringAttribute(withName: "body_message", bodyMessage) }
@@ -83,6 +87,8 @@ public class Base: JSONable {
         switch name {
         case "owner":
             return User().initAttributes
+        case "parent":
+            return Base().initAttributes
         case "type", "id_str", "displayed_name", "entity_type", "access_control", "body_message", "body_image_url", "body_image_text":
             return JSONableString().initAttributes
         case "id":
@@ -212,11 +218,21 @@ public class Base: JSONable {
     
     // BaseWall specific methods
     
-    public func getBlockingLikes() throws -> [Like] {
-        return try getLikes().toBlocking().toArray()
+    public func blockingListLikes() throws -> [Like] {
+        return try listLikes().toBlocking().toArray()
     }
     
+    @available(*, deprecated)
+    public func getBlockingLikes() throws -> [Like] {
+        return try self.blockingListLikes()
+    }
+    
+    @available(*, deprecated)
     public func getLikes() -> Observable<Like> {
+        return self.listLikes()
+    }
+    
+    public func listLikes() -> Observable<Like> {
         if let session = self.session {
             return Observable.create {
                 obs in
@@ -244,8 +260,13 @@ public class Base: JSONable {
         }
     }
     
-    public func addBlockingLike() throws -> Like? {
+    public func blockingAddLike() throws -> Like? {
         return try addLike().toBlocking().first()
+    }
+    
+    @available(*, deprecated)
+    public func addBlockingLike() throws -> Like? {
+        return try self.blockingAddLike()
     }
     
     public func addLike() -> Observable<Like> {
@@ -263,11 +284,21 @@ public class Base: JSONable {
         }
     }
     
-    public func deleteBlockingLike() throws -> Bool? {
-        return try deleteLike().toBlocking().first()
+    public func blockingRemoveLike() throws -> Bool? {
+        return try removeLike().toBlocking().first()
     }
     
+    @available(*, deprecated)
+    public func deleteBlockingLike() throws -> Bool? {
+        return try self.blockingRemoveLike()
+    }
+    
+    @available(*, deprecated)
     public func deleteLike() -> Observable<Bool> {
+        return self.removeLike()
+    }
+    
+    public func removeLike() -> Observable<Bool> {
         if let session = self.session {
             return session.clientService.likeable.delete(self)
         } else {
@@ -282,11 +313,21 @@ public class Base: JSONable {
         }
     }
     
+    public func blockingListComments() throws -> [Comment] {
+        return try listComments().toBlocking().toArray()
+    }
+
+    @available(*, deprecated)
     public func getBlockingComments() throws -> [Comment] {
-        return try getComments().toBlocking().toArray()
+        return try self.blockingListComments()
     }
     
+    @available(*, deprecated)
     public func getComments() -> Observable<Comment> {
+        return self.listComments()
+    }
+    
+    public func listComments() -> Observable<Comment> {
         if let session = self.session {
             return Observable.create {
                 obs in
@@ -314,8 +355,21 @@ public class Base: JSONable {
         }
     }
     
-    public func addBlockingComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
+    public func blockingAddComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
         return try addComment(comment, withPhoto: withPhoto).toBlocking().first()
+    }
+    
+    public func blockingAddComment(_ comment: CommentPost) throws -> Comment? {
+        return try addComment(comment).toBlocking().first()
+    }
+
+    @available(*, deprecated)
+    public func addBlockingComment(_ comment: Comment, withPhoto: UIImage? = nil) throws -> Comment? {
+        return try self.blockingAddComment(comment, withPhoto: withPhoto)
+    }
+
+    public func addComment(_ comment: CommentPost) -> Observable<Comment> {
+        return self.addComment(comment.comment ?? Comment(), withPhoto: comment.photo)
     }
     
     public func addComment(_ comment: Comment, withPhoto: UIImage? = nil) -> Observable<Comment> {
@@ -345,6 +399,10 @@ public class Base: JSONable {
         }
     }
     
+    public func blockingIgnore() throws {
+        try self.ignore().toBlocking().first()
+    }
+    
     public func ignore() -> Observable<Void> {
         if let session = self.session, let id = self.id {
             return session.clientService.feed.stopFollow(id)
@@ -360,6 +418,10 @@ public class Base: JSONable {
         }
     }
     
+    public func blockingAbuse() throws {
+        try self.abuse().toBlocking().first()
+    }
+
     public func abuse() -> Observable<Void> {
         if let session = self.session, let id = self.id {
             return session.clientService.report.post(id)
@@ -375,6 +437,10 @@ public class Base: JSONable {
         }
     }
     
+    public func blockingDelete() throws {
+        try self.delete().toBlocking().first()
+    }
+
     public func delete() -> Observable<Bool> {
         if let session = self.session, let id = self.id {
             return session.clientService.feed.delete(id)
@@ -392,6 +458,10 @@ public class Base: JSONable {
 
     public func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
         return try sendWallPost(feedPost).toBlocking().first()
+    }
+    
+    public func blockingCreateFeedPost(_ feedPost: FeedPost) throws -> Feed? {
+        return try self.blockingSendWallPost(feedPost)
     }
     
     public func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
@@ -444,6 +514,10 @@ public class Base: JSONable {
                 }.observeOn(self.scheduler())
                 .subscribeOn(self.scheduler())
         }
+    }
+    
+    public func createFeedPost(_ feedPost: FeedPost) -> Observable<Feed> {
+        return self.sendWallPost(feedPost)
     }
 }
 

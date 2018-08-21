@@ -147,6 +147,22 @@ public class FluentNotification {
             return self.session.clientConfiguration.scheduler
         }
         
+        public func blockingTotal() throws -> Int? {
+            return try self.total().toBlocking().first()
+        }
+        
+        public func total() -> Observable<Int> {
+            return Observable.create {
+                obs in
+                self.session.clientService.accountEvent.get().subscribe {
+                    obs.onNext($0.element?.getUnreadNotifications() ?? 0)
+                    obs.onCompleted()
+                }
+                return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+        }
+
         private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<PreviewNotification>, offset: Int = 0) {
             guard offset < FluentNotification.PAGE_SIZE else {
                 self.stream(page+1, to, obs, offset: offset - FluentNotification.PAGE_SIZE)
@@ -202,8 +218,31 @@ public class FluentNotification {
                     self.stream(page, to, obs)
                 }
                 return Disposables.create()
-                }.observeOn(self.scheduler())
-                .subscribeOn(self.scheduler())
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+        }
+        
+        public func blockingListAndConsume() throws -> [PreviewNotification] {
+            return try self.listAndConsume().toBlocking().toArray()
+        }
+        
+        public func listAndConsume() -> Observable<PreviewNotification> {
+            return Observable.create {
+                obs in
+                let _ = self.session.clientService.notification.listUnreadConsume().subscribe {
+                    e in
+                    if let e = e.error {
+                        obs.onError(e)
+                    } else {
+                        e.element?.iterate {
+                            obs.onNext($0)
+                        }
+                    }
+                    obs.onCompleted()
+                }
+                return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
         }
     }
     

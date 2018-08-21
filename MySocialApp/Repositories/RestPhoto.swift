@@ -3,11 +3,11 @@ import RxSwift
 
 class RestPhoto: RestBase<Photo, Photo> {
 
-    func list(_ page: Int, forPhotoAlbum: PhotoAlbum? = nil) -> Observable<JSONableArray<Photo>> {
+    func list(_ page: Int, size: Int = 10, forPhotoAlbum: PhotoAlbum? = nil) -> Observable<JSONableArray<Photo>> {
         if let a = forPhotoAlbum, let id = a.id {
-            return super.list("/photo/album/\(id)/photo", params: ["page": page as AnyObject])
+            return super.list("/photo/album/\(id)/photo", params: ["page": page as AnyObject, "size": size as AnyObject])
         }
-        return super.list("/photo", params: ["page": page as AnyObject])
+        return super.list("/photo", params: ["page": page as AnyObject, "size": size as AnyObject])
     }
 
     func get(_ id: Int64) -> Observable<Photo> {

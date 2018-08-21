@@ -28,5 +28,9 @@ class RestAccount: RestBase<User, User> {
         }
     }
 
-
+    func delete(_ password: String) -> Observable<User> {
+        let user = User()
+        user.password = password
+        return super.post("/account/delete", input: user)
+    }
 }

@@ -74,10 +74,26 @@ public class FluentFeed {
     }
     
     public func blockingSendWallPost(_ feedPost: FeedPost) throws -> Feed? {
-        return try self.sendWallPost(feedPost).toBlocking().last()
+        return try self.blockingCreate(feedPost)
     }
     
     public func sendWallPost(_ feedPost: FeedPost) -> Observable<Feed> {
+        return self.create(feedPost)
+    }
+    
+    public func blockingGet(_ id: Int64) throws -> Feed? {
+        return try self.get(id).toBlocking().first()
+    }
+    
+    public func get(_ id: Int64) -> Observable<Feed> {
+        return session.clientService.feed.get(id)
+    }
+
+    public func blockingCreate(_ feedPost: FeedPost) throws -> Feed? {
+        return try self.sendWallPost(feedPost).toBlocking().last()
+    }
+    
+    public func create(_ feedPost: FeedPost) -> Observable<Feed> {
         return Observable.create {
             obs in
             let _ = self.session.account.get().subscribe {

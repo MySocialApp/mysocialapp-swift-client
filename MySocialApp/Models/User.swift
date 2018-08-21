@@ -282,6 +282,25 @@ public class User: BaseCustomField {
         }
     }
     
+    public func blockingRemoveFriend() throws -> Bool? {
+        return try self.removeFriend().toBlocking().first()
+    }
+    
+    public func removeFriend() -> Observable<Bool> {
+        if let s = self.session {
+            return s.clientService.user.noMoreFriend(self)
+        } else {
+            return Observable.create {
+                obs in
+                let e = MySocialAppException()
+                e.setStringAttribute(withName: "message", "No session associated with this entity")
+                obs.onError(e)
+                return Disposables.create()
+                }.observeOn(self.scheduler())
+                .subscribeOn(self.scheduler())
+        }
+    }
+    
     private func streamFriends(_ page: Int, _ to: Int, _ obs: AnyObserver<User>, offset: Int = 0) {
         guard offset < User.PAGE_SIZE else {
             self.streamFriends(page+1, to, obs, offset: offset - User.PAGE_SIZE)
@@ -312,14 +331,14 @@ public class User: BaseCustomField {
         }
     }
     
-    public func blockingListFriends() throws -> [User]? {
-        return try listFriends().toBlocking().toArray()
+    public func blockingListFriends(page: Int = 0, size: Int = 10) throws -> [User]? {
+        return try listFriends(page: page, size: size).toBlocking().toArray()
     }
     
-    public func listFriends() -> Observable<User> {
+    public func listFriends(page: Int = 0, size: Int = 10) -> Observable<User> {
         return Observable.create {
             obs in
-            self.streamFriends(0, Int.max, obs)
+            self.streamFriends(0, (page+1)*size, obs)
             return Disposables.create()
             }.observeOn(self.scheduler())
             .subscribeOn(self.scheduler())
@@ -536,6 +555,65 @@ public class User: BaseCustomField {
                 self.streamEvent(page, to, obs, offset: offset)
             } else {
                 self.streamEvent(page, to, obs)
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+    
+    private func streamPhotoAlbum(_ page: Int, _ to: Int, _ obs: AnyObserver<PhotoAlbum>, offset: Int = 0) {
+        guard offset < User.PAGE_SIZE else {
+            self.streamPhotoAlbum(page+1, to, obs, offset: offset - User.PAGE_SIZE)
+            return
+        }
+        let size = min(User.PAGE_SIZE,to - (page * User.PAGE_SIZE))
+        if size > 0, let session = self.session {
+            let _ = session.clientService.photoAlbum.list(page, size: size, forMember: self).subscribe {
+                e in
+                if let e = e.element?.array {
+                    for i in offset..<e.count {
+                        obs.onNext(e[i])
+                    }
+                    if e.count < User.PAGE_SIZE {
+                        obs.onCompleted()
+                    } else {
+                        self.streamPhotoAlbum(page + 1, to, obs)
+                    }
+                } else if let error = e.error {
+                    obs.onError(error)
+                    obs.onCompleted()
+                } else {
+                    obs.onCompleted()
+                }
+            }
+        } else {
+            obs.onCompleted()
+        }
+    }
+    
+    public func blockingStreamPhotoAlbum(limit: Int = Int.max) throws -> [PhotoAlbum] {
+        return try streamPhotoAlbum(limit: limit).toBlocking().toArray()
+    }
+    
+    public func streamPhotoAlbum(limit: Int = Int.max) -> Observable<PhotoAlbum> {
+        return listPhotoAlbum(page: 0, size: limit)
+    }
+    
+    public func blockingListPhotoAlbum(page: Int = 0, size: Int = 10) throws -> [PhotoAlbum] {
+        return try listPhotoAlbum(page: page, size: size).toBlocking().toArray()
+    }
+    
+    public func listPhotoAlbum(page: Int = 0, size: Int = 10) -> Observable<PhotoAlbum> {
+        return Observable.create {
+            obs in
+            let to = (page+1) * size
+            if size > User.PAGE_SIZE {
+                var offset = page*size
+                let page = offset / User.PAGE_SIZE
+                offset -= page * User.PAGE_SIZE
+                self.streamPhotoAlbum(page, to, obs, offset: offset)
+            } else {
+                self.streamPhotoAlbum(page, to, obs)
             }
             return Disposables.create()
             }.observeOn(self.scheduler())

@@ -72,4 +72,20 @@ public class WallActivity: Base {
             return super.getAttributeCreationMethod(name: name)
         }
     }
+    
+    public override var bodyMessage: String? {
+        get {
+            return object?.bodyMessage ?? super.bodyMessage
+        }
+        set(bodyMessage) {
+            super.bodyMessage = bodyMessage
+            object?.bodyMessage = bodyMessage
+        }
+    }
+    
+    public var bodyMessageTagEntities: TagEntities? {
+        get {
+            return (self.object as? Taggable)?.tagEntities
+        }
+    }
 }

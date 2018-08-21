@@ -13,6 +13,27 @@ public class FluentConversation {
     private func scheduler() -> ImmediateSchedulerType {
         return self.session.clientConfiguration.scheduler
     }
+    
+    public func blockingTotalUnread() throws -> Int? {
+        return try self.totalUnread().toBlocking().first()
+    }
+    
+    public func totalUnread() -> Observable<Int> {
+        return Observable.create {
+            obs in
+            let _ = self.session.clientService.accountEvent.get().subscribe {
+                e in
+                if let e = e.element {
+                    obs.onNext(e.getUnreadConversations())
+                } else if let error = e.error {
+                    obs.onError(error)
+                }
+                obs.onCompleted()
+            }
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
 
     private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Conversation>, offset: Int = 0) {
         guard offset < FluentConversation.PAGE_SIZE else {

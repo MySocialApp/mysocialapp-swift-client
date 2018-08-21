@@ -5,6 +5,7 @@ public class ClientService {
     var session: Session
     
     lazy var account = RestAccount(self.session)
+    lazy var accountEvent = RestAccountEvent(self.session)
     lazy var backend = RestJSONable(baseURL: "https://api.mysocialapp.io/api/v1", nil)
     lazy var commentable = RestCommentable(self.session)
     lazy var conversation = RestConversation(self.session)
@@ -18,7 +19,9 @@ public class ClientService {
     lazy var likeable = RestLikeable(self.session)
     lazy var login = RestLogin(self.session)
     lazy var notification = RestPreviewNotification(self.session)
+    lazy var notificationAck = RestNotificationAck(self.session)
     lazy var photo = RestPhoto(self.session)
+    lazy var photoAlbum = RestPhotoAlbum(self.session)
     lazy var report = RestReport(self.session)
     lazy var reset = RestReset(self.session)
     lazy var search = RestSearch(self.session)

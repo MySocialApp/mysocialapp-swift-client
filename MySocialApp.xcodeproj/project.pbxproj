@@ -32,6 +32,9 @@
 		0DB2277420C35C4F00D545C7 /* FluentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2277320C35C4F00D545C7 /* FluentGroup.swift */; };
 		0DB2277620C35D1300D545C7 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2277520C35D1300D545C7 /* FluentNotification.swift */; };
 		0DB2277820C361E600D545C7 /* FluentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB2277720C361E600D545C7 /* FluentUser.swift */; };
+		0DD2FB7E21275DB000AB517D /* CommentPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD2FB7D21275DB000AB517D /* CommentPost.swift */; };
+		0DD2FB82212AE44100AB517D /* FluentPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD2FB81212AE44100AB517D /* FluentPhotoAlbum.swift */; };
+		0DD2FB84212B4C1B00AB517D /* FluentPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD2FB83212B4C1B00AB517D /* FluentPhoto.swift */; };
 		0DE867FA20A87D3E00CA9B9F /* ClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE867F920A87D3E00CA9B9F /* ClientService.swift */; };
 		0DE86AD120A89DEB00CA9B9F /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */; };
 		0DE86AD320A8A10E00CA9B9F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE86AD220A8A10E00CA9B9F /* DateUtils.swift */; };
@@ -155,7 +158,6 @@
 		0DEAE0D720BE0CCC00EDE0DC /* RestFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */; };
 		0DEAE0D920BE0D0500EDE0DC /* RestUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */; };
 		0DEAE0DB20BE0D3700EDE0DC /* AuthenticationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */; };
-		3E64C393636547DEA26FAD98 /* Pods_MySocialAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE51C2EAB6FB55114C7FBC2 /* Pods_MySocialAppTests.framework */; };
 		6FED76B700670FE70CBD3C73 /* Pods_MySocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9A9FCFD0908E6DB3C69C19 /* Pods_MySocialApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -199,6 +201,9 @@
 		0DB2277320C35C4F00D545C7 /* FluentGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentGroup.swift; sourceTree = "<group>"; };
 		0DB2277520C35D1300D545C7 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		0DB2277720C361E600D545C7 /* FluentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUser.swift; sourceTree = "<group>"; };
+		0DD2FB7D21275DB000AB517D /* CommentPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPost.swift; sourceTree = "<group>"; };
+		0DD2FB81212AE44100AB517D /* FluentPhotoAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentPhotoAlbum.swift; sourceTree = "<group>"; };
+		0DD2FB83212B4C1B00AB517D /* FluentPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentPhoto.swift; sourceTree = "<group>"; };
 		0DE867F920A87D3E00CA9B9F /* ClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientService.swift; sourceTree = "<group>"; };
 		0DE86AD020A89DEB00CA9B9F /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		0DE86AD220A8A10E00CA9B9F /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
@@ -322,10 +327,8 @@
 		0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestFriendRequest.swift; sourceTree = "<group>"; };
 		0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUser.swift; sourceTree = "<group>"; };
 		0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationToken.swift; sourceTree = "<group>"; };
-		2613CB9AF6D5CC4DC9524CAD /* Pods-MySocialAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81E338D563EB786089658685 /* Pods-MySocialApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9F8DDAE25C765459E154BC9F /* Pods-MySocialApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.release.xcconfig"; sourceTree = "<group>"; };
-		D6E06A9308A1EF751FABCEE8 /* Pods-MySocialAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		DAE51C2EAB6FB55114C7FBC2 /* Pods_MySocialAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -343,7 +346,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D97D17620A57A6A008A82FF /* MySocialApp.framework in Frameworks */,
-				3E64C393636547DEA26FAD98 /* Pods_MySocialAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +363,8 @@
 				0DB2277320C35C4F00D545C7 /* FluentGroup.swift */,
 				0DB2277520C35D1300D545C7 /* FluentNotification.swift */,
 				0DB2277720C361E600D545C7 /* FluentUser.swift */,
+				0DD2FB83212B4C1B00AB517D /* FluentPhoto.swift */,
+				0DD2FB81212AE44100AB517D /* FluentPhotoAlbum.swift */,
 			);
 			path = Fluent;
 			sourceTree = "<group>";
@@ -446,8 +450,10 @@
 				0DEADF6620BCA96600EDE0DC /* BaseType.swift */,
 				0DEADF6C20BCA96900EDE0DC /* Comment.swift */,
 				0DEADF6020BCA96400EDE0DC /* CommentBlob.swift */,
+				0DD2FB7D21275DB000AB517D /* CommentPost.swift */,
 				0DEADF6720BCA96600EDE0DC /* Conversation.swift */,
 				0DEADF7120BCA96B00EDE0DC /* ConversationMessage.swift */,
+				0DB2277120C3470900D545C7 /* ConversationMessagePost.swift */,
 				0DEADF6E20BCA96A00EDE0DC /* ConversationMessages.swift */,
 				0DEADF4820BCA95A00EDE0DC /* CustomField.swift */,
 				0DEADF3C20BCA95600EDE0DC /* Device.swift */,
@@ -457,6 +463,7 @@
 				0DEADF3720BCA95500EDE0DC /* EventStatus.swift */,
 				0DEADF6420BCA96500EDE0DC /* Feature.swift */,
 				0DEADF5220BCA95E00EDE0DC /* Feed.swift */,
+				0DB2276F20C3317400D545C7 /* FeedPost.swift */,
 				0DEADF3E20BCA95700EDE0DC /* Field.swift */,
 				0DEADF5D20BCA96200EDE0DC /* FieldData.swift */,
 				0DEADF3B20BCA95600EDE0DC /* FieldType.swift */,
@@ -519,8 +526,6 @@
 				0DB2276920C2AD3E00D545C7 /* SearchResult.swift */,
 				0DB2276B20C2AE0D00D545C7 /* SearchResults.swift */,
 				0DB2276D20C2B31300D545C7 /* SearchResultTypes.swift */,
-				0DB2276F20C3317400D545C7 /* FeedPost.swift */,
-				0DB2277120C3470900D545C7 /* ConversationMessagePost.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -587,8 +592,6 @@
 			children = (
 				81E338D563EB786089658685 /* Pods-MySocialApp.debug.xcconfig */,
 				9F8DDAE25C765459E154BC9F /* Pods-MySocialApp.release.xcconfig */,
-				2613CB9AF6D5CC4DC9524CAD /* Pods-MySocialAppTests.debug.xcconfig */,
-				D6E06A9308A1EF751FABCEE8 /* Pods-MySocialAppTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -630,11 +633,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0D97D18320A57A6A008A82FF /* Build configuration list for PBXNativeTarget "MySocialAppTests" */;
 			buildPhases = (
-				AD86B704A48FAF5657F76298 /* [CP] Check Pods Manifest.lock */,
 				0D97D17120A57A6A008A82FF /* Sources */,
 				0D97D17220A57A6A008A82FF /* Frameworks */,
 				0D97D17320A57A6A008A82FF /* Resources */,
-				6B3A3BE3082FA4382AB849E6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -719,48 +720,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6B3A3BE3082FA4382AB849E6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD86B704A48FAF5657F76298 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MySocialAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -816,6 +775,7 @@
 				0DEAE0B120BCB2DA00EDE0DC /* RestPublicRideDirection.swift in Sources */,
 				0DEAE0B520BCB2DA00EDE0DC /* RestURLTag.swift in Sources */,
 				0DEAE0C420BCB2DA00EDE0DC /* RestCommentable.swift in Sources */,
+				0DD2FB84212B4C1B00AB517D /* FluentPhoto.swift in Sources */,
 				0DEAE0A820BCB2DA00EDE0DC /* RestGroup.swift in Sources */,
 				0DEADFAE20BCA96D00EDE0DC /* CommentBlob.swift in Sources */,
 				0DEAE0BD20BCB2DA00EDE0DC /* RestLikeable.swift in Sources */,
@@ -907,6 +867,8 @@
 				0DEADF9E20BCA96D00EDE0DC /* PointOfInterest.swift in Sources */,
 				0DEAE0CC20BCB2DA00EDE0DC /* RestRideLocation.swift in Sources */,
 				0DEADF8F20BCA96D00EDE0DC /* RideLocationType.swift in Sources */,
+				0DD2FB82212AE44100AB517D /* FluentPhotoAlbum.swift in Sources */,
+				0DD2FB7E21275DB000AB517D /* CommentPost.swift in Sources */,
 				0DEADFC120BCA96D00EDE0DC /* RideDirection.swift in Sources */,
 				0DEADF7E20BCA96D00EDE0DC /* RideShareFlag.swift in Sources */,
 				0DB2276420C2A6B100D545C7 /* ISearch.swift in Sources */,
@@ -1110,7 +1072,6 @@
 		};
 		0D97D18420A57A6A008A82FF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2613CB9AF6D5CC4DC9524CAD /* Pods-MySocialAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1129,7 +1090,6 @@
 		};
 		0D97D18520A57A6A008A82FF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6E06A9308A1EF751FABCEE8 /* Pods-MySocialAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
