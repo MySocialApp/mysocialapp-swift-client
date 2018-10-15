@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MySocialApp"
-  s.version      = "1.1.2"
+  s.version      = "1.1.3"
   s.summary      = "Official Swift client to interact with MySocialApp API - Create your own social network app https://mysocialapp.io"
 
   s.description  = <<-DESC
@@ -56,9 +56,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
   s.source_files  = "MySocialApp", "MySocialApp/**/*.{h,swift}"
 
-  s.dependency "RxSwift", "~> 3.0.1"
-  s.dependency "RxCocoa", "~> 3.0.1"
-  s.dependency "RxBlocking", "~> 3.0.1"
-  s.dependency "Alamofire", "~> 4.0.1"
+  s.dependency "RxSwift"#, "~> 3.0.1"
+  s.dependency "RxCocoa"#, "~> 3.0.1"
+  s.dependency "RxBlocking"#, "~> 3.0.1"
+  s.dependency "Alamofire"#, "~> 4.0.1"
 
 end
