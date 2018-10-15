@@ -44,7 +44,8 @@ public class FluentGroup {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max, with options: Options) throws -> [Group] {
+    public func blockingStream(limit: Int = Int.max, with options: Options? = nil) throws -> [Group] {
+        let options = options ?? Options()
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     

@@ -44,7 +44,8 @@ public class FluentUser {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max, with options: Options) throws -> [User] {
+    public func blockingStream(limit: Int = Int.max, with options: Options? = nil) throws -> [User] {
+        let options = options ?? Options()
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
