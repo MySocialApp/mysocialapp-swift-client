@@ -1,6 +1,6 @@
 import Foundation
 
-public class Member<T: RawRepresentable where T.RawValue == String>: JSONable {
+public class Member<T: RawRepresentable>: JSONable where T.RawValue == String {
     public var createdDate: Date? {
         get { return (super.getAttributeInstance("created_date") as! JSONableDate?)?.date }
         set(createdDate) { super.setDateAttribute(withName: "created_date", createdDate) }

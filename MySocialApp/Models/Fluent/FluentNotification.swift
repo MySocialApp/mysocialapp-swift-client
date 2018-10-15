@@ -129,7 +129,7 @@ public class FluentNotification {
         return nil
     }
     
-    func application(didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) throws -> Notification? {
+    func application(didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) throws -> Notification? {
         if let o = launchOptions?[.remoteNotification], let d = o as? NSDictionary {
             return Notification().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, d.dictionaryWithValues(forKeys: d.allKeys as! [String])) as? Notification
         }
@@ -154,7 +154,7 @@ public class FluentNotification {
         public func total() -> Observable<Int> {
             return Observable.create {
                 obs in
-                self.session.clientService.accountEvent.get().subscribe {
+                _ = self.session.clientService.accountEvent.get().subscribe {
                     obs.onNext($0.element?.getUnreadNotifications() ?? 0)
                     obs.onCompleted()
                 }

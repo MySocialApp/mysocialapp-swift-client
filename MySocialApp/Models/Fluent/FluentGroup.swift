@@ -44,19 +44,19 @@ public class FluentGroup {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max, with options: Options = Options()) throws -> [Group] {
+    public func blockingStream(limit: Int = Int.max, with options: Options) throws -> [Group] {
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max, with options: Options = Options()) throws -> Observable<Group> {
+    public func stream(limit: Int = Int.max, with options: Options) throws -> Observable<Group> {
         return self.list(page: 0, size: limit, with: options)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10, with options: Options = Options()) throws -> [Group] {
+    public func blockingList(page: Int = 0, size: Int = 10, with options: Options) throws -> [Group] {
         return try self.list(page: page, size: size, with: options).toBlocking().toArray()
     }
     
-    public func list(page: Int = 0, size: Int = 10, with options: Options = Options()) -> Observable<Group> {
+    public func list(page: Int = 0, size: Int = 10, with options: Options) -> Observable<Group> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -298,7 +298,7 @@ public class FluentGroup {
             }
             
             public func build() -> Options {
-                var o = Options()
+                let o = Options()
                 o.sortField = mSortField
                 o.location = mLocation
                 o.limited = mLimited

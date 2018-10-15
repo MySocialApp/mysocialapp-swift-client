@@ -79,7 +79,7 @@ public class JSONable: NSObject {
             if let v = p.rawValue {
                 return v as? String
             } else if let s = jsonString, let r = p.range {
-                return JSONable.getString(fromJson: s.substring(with: r))
+                return JSONable.getString(fromJson: String(s[r]))
             }
         } else if let a = anyDict as? [String:Any] {
             return a[attributeName] as? String
@@ -94,9 +94,9 @@ public class JSONable: NSObject {
             if let ranges = r {
                 for i in (0..<ranges.count) {
                     if i % 2 == 0 {
-                        key = JSONable.getString(fromJson: s.substring(with: ranges[i]))
+                        key = JSONable.getString(fromJson: String(s[ranges[i]]))
                     } else if let k = key, k == attributeName {
-                        return JSONable.getString(fromJson: s.substring(with: ranges[i]))
+                        return JSONable.getString(fromJson: String(s[ranges[i]]))
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class JSONable: NSObject {
     }
     
     static internal func getRanges(inString string: inout String, inRange range: Range<String.Index>) -> [Range<String.Index>] {
-        let characters = string.substring(with: range)
+        let characters = String(string[range])
         var escaped: Int? = nil
         var inString: Bool = false
         var nbBrackets: Int = 0
@@ -164,7 +164,7 @@ public class JSONable: NSObject {
         var key: String?
         for i in (0..<ranges.count) {
             if i % 2 == 0 {
-                key = JSONable.getString(fromJson: jsonString.substring(with: ranges[i]))
+                key = JSONable.getString(fromJson: String(jsonString[ranges[i]]))
             } else if let k = key {
                 attributes[k] = JSONPart(range: ranges[i], value: nil, rawValue: nil)
             }
@@ -438,7 +438,7 @@ public class JSONable: NSObject {
             if let value = self.jsonAttributes[name]?.value {
                 return value.getDict() as AnyObject
             } else if let json = self.jsonString, let r = self.jsonAttributes[name]?.range {
-                return json.substring(with: r) as AnyObject
+                return String(json[r]) as AnyObject
             }
         }
         return nil
@@ -459,7 +459,7 @@ public class JSONable: NSObject {
         if let idata = try? JSONSerialization.data(withJSONObject: wrapper, options: []),
             let iv: String = NSString(data: idata,encoding: String.Encoding.utf8.rawValue) as String?,
             iv.count > 2 {
-            return iv.substring(with: iv.index(iv.startIndex, offsetBy: 1) ..< iv.index(iv.endIndex, offsetBy: -1))
+            return String(iv[iv.index(iv.startIndex, offsetBy: 1) ..< iv.index(iv.endIndex, offsetBy: -1)])
         }
         return nil
     }
@@ -479,7 +479,8 @@ public class JSONable: NSObject {
                             s += e + v
                             sep = ","
                         }
-                    } else if let r = p.range, let st = self.jsonString?.substring(with: r) {
+                    } else if let r = p.range, let jsonString = self.jsonString {
+                        let st = String(jsonString[r])
                         s += e + st
                         sep = ","
                     }
@@ -505,7 +506,7 @@ class JSONableString: JSONable {
             self.string = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.string = JSONable.getString(fromJson: s.substring(with: r))
+                self.string = JSONable.getString(fromJson: String(s[r]))
             } else {
                 self.string = JSONable.getString(fromJson: s)
             }
@@ -539,7 +540,7 @@ class JSONableDate: JSONable {
             }
         } else if let s = jsonString {
             if let r = jsonRange {
-                if let st = JSONable.getString(fromJson: s.substring(with: r)) {
+                if let st = JSONable.getString(fromJson: String(s[r])) {
                     self.date = DateUtils.fromISO8601(st)
                     if self.date == nil {
                         self.date = DateUtils.fromISO8601ms(st)
@@ -580,7 +581,7 @@ class JSONableBool: JSONable {
             self.bool = a.lowercased() == "\(true)"
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.bool = Bool(s.substring(with: r))
+                self.bool = Bool(String(s[r]))
             } else {
                 self.bool = Bool(s)
             }
@@ -611,7 +612,7 @@ class JSONableInt: JSONable {
             self.int = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.int = Int(s.substring(with: r))
+                self.int = Int(String(s[r]))
             } else {
                 self.int = Int(s)
             }
@@ -642,7 +643,7 @@ class JSONableInt64: JSONable {
             self.int64 = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.int64 = Int64(s.substring(with: r))
+                self.int64 = Int64(String(s[r]))
             } else {
                 self.int64 = Int64(s)
             }
@@ -673,7 +674,7 @@ class JSONableFloat: JSONable {
             self.float = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.float = Float(s.substring(with: r))
+                self.float = Float(String(s[r]))
             } else {
                 self.float = Float(s)
             }
@@ -704,7 +705,7 @@ class JSONableDouble: JSONable {
             self.double = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.double = Double(s.substring(with: r))
+                self.double = Double(String(s[r]))
             } else {
                 self.double = Double(s)
             }
@@ -895,7 +896,8 @@ class JSONableArray<T: JSONable>: JSONable {
             if let ranges = self.jsonRanges {
                 if andInstantiate && self.realArray == nil {
                     self.realArray = []
-                    if ranges.count == 4, let s = self.jsonString, let ss = JSONable.getString(fromJson: s.substring(with: ranges[0])), "total".elementsEqual(ss) {
+                    if ranges.count == 4, let s = self.jsonString,
+                        let ss = JSONable.getString(fromJson: String(s[ranges[0]])), "total".elementsEqual(ss) {
                         self.partialCount = JSONableInt().initAttributes(nil, &self.jsonString, ranges[1], nil, nil)
                         self.partialList = JSONableArray<T>().initAttributes(nil, &self.jsonString, ranges[3], nil, nil)
                     } else {
@@ -932,7 +934,7 @@ class JSONableArray<T: JSONable>: JSONable {
                 }
             }
         } else if let st = self.jsonString, let r = self.jsonRange {
-            return st.substring(with: r)
+            return String(st[r])
         }
         s += "]"
         return s

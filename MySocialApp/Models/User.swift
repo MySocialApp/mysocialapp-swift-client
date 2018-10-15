@@ -89,7 +89,7 @@ public class User: BaseCustomField {
         set(spokenLanguage) { super.setStringAttribute(withName: "spoken_language", spokenLanguage?.rawValue) }
     }
     public var authorities: [String] {
-        get { if let a = super.getAttributeInstance("authorities") as? JSONableArray<JSONableString> { return a.array.flatMap { $0.string } } else { return [] } }
+        get { if let a = super.getAttributeInstance("authorities") as? JSONableArray<JSONableString> { return a.array.compactMap { $0.string } } else { return [] } }
     }
     public var externalId: String?{
         get { return (super.getAttributeInstance("external_id") as! JSONableString?)?.string }

@@ -71,8 +71,8 @@ public class CustomField: Base {
     }
     
     public var stringsValue: [String]? {
-        get { return (self.data.getValue() as JSONableArray<JSONableString>?)?.array.flatMap { self.getLocalizedValue($0.string) } }
-        set(value) { if let v = value { self.data.setValue(JSONableArray<JSONableString>(v.flatMap { JSONableString($0) })) } else { self.data.setValue(nil) } }
+        get { return (self.data.getValue() as JSONableArray<JSONableString>?)?.array.compactMap { self.getLocalizedValue($0.string) } }
+        set(value) { if let v = value { self.data.setValue(JSONableArray<JSONableString>(v.compactMap { JSONableString($0) })) } else { self.data.setValue(nil) } }
     }
 
     public var stringValue: String? {

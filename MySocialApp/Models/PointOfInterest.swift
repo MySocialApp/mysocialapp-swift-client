@@ -27,7 +27,7 @@ public class PointOfInterest: BaseCustomField {
         set(note) { super.setStringAttribute(withName: "note", note) }
     }
     public var photos: [Int64]? {
-        get { return (super.getAttributeInstance("photos") as! JSONableArray<JSONableInt64>?)?.array.flatMap { $0.int64 } }
+        get { return (super.getAttributeInstance("photos") as! JSONableArray<JSONableInt64>?)?.array.compactMap { $0.int64 } }
         set(photos) { super.setArrayAttribute(withName: "photos", photos?.map { JSONableInt64($0) }) }
     }
     public var userId: Int64? {

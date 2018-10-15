@@ -58,7 +58,7 @@ public class Field: Base {
             return (super.getAttributeInstance("values") as? Localizable<JSONableArray<JSONableString>>)?.map.reduce([InterfaceLanguage:[String]]()) {
                 m, e in
                 var m = m
-                m[e.key] = e.value.array.flatMap { $0.string }
+                m[e.key] = e.value.array.compactMap { $0.string }
                 return m
             }
         }

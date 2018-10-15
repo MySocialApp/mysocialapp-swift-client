@@ -91,10 +91,10 @@ public class FluentPhoto {
         }
         return Observable.create {
             obs in
-            self.session.account.get().subscribe {
+            _ = self.session.account.get().subscribe {
                 if let user = $0.element {
                     var textWallMessage: TextWallMessage?
-                    if let m = photo.message {
+                    if photo.message != nil {
                         textWallMessage = TextWallMessage()
                         textWallMessage?.message = photo.message
                         textWallMessage?.tagEntities = photo.tagEntities

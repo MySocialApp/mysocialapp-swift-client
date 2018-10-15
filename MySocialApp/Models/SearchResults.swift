@@ -22,8 +22,8 @@ public class SearchResults: JSONable {
         set(size) { super.setIntAttribute(withName: "size", size) }
     }
     public var matchedTypes: [SearchType]? {
-        get { return (super.getAttributeInstance("matched_types") as! JSONableArray<JSONableString>?)?.array.flatMap { $0.string } }
-        set(matchedTypes) { super.setArrayAttribute(withName: "matched_types", matchedTypes?.flatMap { JSONableString($0) }) }
+        get { return (super.getAttributeInstance("matched_types") as! JSONableArray<JSONableString>?)?.array.compactMap { $0.string } }
+        set(matchedTypes) { super.setArrayAttribute(withName: "matched_types", matchedTypes?.compactMap { JSONableString($0) }) }
     }
     public var resultsByType: SearchResultTypes? {
         get { return super.getAttributeInstance("results_by_type") as? SearchResultTypes }
