@@ -68,7 +68,8 @@ public class FluentEvent {
         return self.list(page: page, size: size, with: getOptionsFromDate(date))
     }
 
-    public func blockingStream(limit: Int = Int.max, with options: Options) throws -> [Event] {
+    public func blockingStream(limit: Int = Int.max, with options: Options? = nil) throws -> [Event] {
+        let options = options ?? Options()
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
