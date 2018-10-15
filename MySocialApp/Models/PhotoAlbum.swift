@@ -42,7 +42,7 @@ public class PhotoAlbum: Base {
     public func addPhoto(_ photo: Photo) -> Observable<Photo> {
         return Observable.create {
             obs in
-            self.addPhotoWithFeedResult(photo).subscribe {
+            _ = self.addPhotoWithFeedResult(photo).subscribe {
                 if let photo = $0.element?.object as? Photo {
                     obs.onNext(photo)
                 } else {
@@ -64,10 +64,10 @@ public class PhotoAlbum: Base {
         }
         return Observable.create {
             obs in
-            session.account.get().subscribe {
+            _ = session.account.get().subscribe {
                 if let user = $0.element {
                     var textWallMessage: TextWallMessage?
-                    if let m = photo.message {
+                    if photo.message != nil {
                         textWallMessage = TextWallMessage()
                         textWallMessage?.message = photo.message
                         textWallMessage?.tagEntities = photo.tagEntities

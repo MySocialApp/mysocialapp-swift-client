@@ -71,11 +71,11 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
-                        obs.onNext()
+                        obs.onNext(())
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
-                    obs.onNext()
+                    obs.onNext(())
                 } else {
                     obs.onCompleted()
                 }
@@ -177,11 +177,11 @@ class RestBase<I:JSONable, O:JSONable> {
                     if let status = res.response?.statusCode, status >= 400 {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
-                        obs.onNext()
+                        obs.onNext(())
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
-                    obs.onNext()
+                    obs.onNext(())
                 } else {
                     obs.onCompleted()
                 }

@@ -438,7 +438,7 @@ public class Base: JSONable {
     }
     
     public func blockingDelete() throws {
-        try self.delete().toBlocking().first()
+        _ = try self.delete().toBlocking().first()
     }
 
     public func delete() -> Observable<Bool> {

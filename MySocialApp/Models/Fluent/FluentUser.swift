@@ -44,19 +44,19 @@ public class FluentUser {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max, with options: Options = Options()) throws -> [User] {
+    public func blockingStream(limit: Int = Int.max, with options: Options) throws -> [User] {
         return try self.list(page: 0, size: limit, with: options).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max, with options: Options = Options()) throws -> Observable<User> {
+    public func stream(limit: Int = Int.max, with options: Options) throws -> Observable<User> {
         return self.list(page: 0, size: limit, with: options)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10, with options: Options = Options()) throws -> [User] {
+    public func blockingList(page: Int = 0, size: Int = 10, with options: Options) throws -> [User] {
         return try self.list(page: page, size: size, with: options).toBlocking().toArray()
     }
     
-    public func list(page: Int = 0, size: Int = 10, with options: Options = Options()) -> Observable<User> {
+    public func list(page: Int = 0, size: Int = 10, with options: Options) -> Observable<User> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -249,7 +249,7 @@ public class FluentUser {
             }
             
             public func build() -> Options {
-                var o = Options()
+                let o = Options()
                 o.sortField = mSortField
                 o.location = mLocation
                 o.limited = mLimited
