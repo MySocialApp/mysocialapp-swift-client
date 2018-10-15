@@ -28,7 +28,15 @@ public class WallActivity: Base {
     public var badge: Badge? {
         get { if let b = (super.getAttributeInstance("badge") as! JSONableString?)?.string { return Badge(rawValue: b) } else { return nil } }
     }
-    
+    public override var id: Int64? {
+        get { return super.id ?? self.object?.id }
+        set(id) { super.id = id }
+    }
+    public override var idStr: String? {
+        get { return super.idStr ?? self.object?.idStr }
+        set(idStr) { super.idStr = idStr }
+    }
+
     public enum Badge: String {
         case Pinned = "PINNED"
     }
