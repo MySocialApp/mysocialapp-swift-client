@@ -376,7 +376,8 @@ public class JSONable: NSObject {
                 if let method = m {
                     self.jsonAttributes[name]?.value = method(name, &JSONable.NIL_JSON_STRING, nil, nil, rawValue)
                 } else {
-                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, &JSONable.NIL_JSON_STRING, nil, nil, rawValue)
+                    let attributeValue = self.getAttributeCreationMethod(name: name)(name, &JSONable.NIL_JSON_STRING, nil, nil, rawValue)
+                    self.jsonAttributes[name]?.value = attributeValue
                 }
                 return self.jsonAttributes[name]?.value
             }
