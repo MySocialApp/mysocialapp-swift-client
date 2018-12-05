@@ -106,8 +106,8 @@ public class Base: JSONable {
         }
     }
     
-    override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String : JSONPart]?, _ anyDict: Any?) -> JSONable {
-        let _ = super.initAttributes(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
+    override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String : JSONPart]?, _ anyDict: Any?) -> JSONable {
+        let _ = super.initAttributes(attributeName, jsonString, jsonRange, jsonAttributes, anyDict)
         if let type = (self.getAttributeInstance("type") as? JSONableString)?.string {
             if let c = Base.getClassFromType(type) {
                 let i = c.init()
@@ -166,11 +166,11 @@ public class Base: JSONable {
         }
     }
     
-    static internal func instantiateBaseModelFromType(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable? {
-        if let type = JSONable.getAttributeStringValue("entity_type", &jsonString, jsonRange, jsonAttributes, anyDict) {
-            return Base.getBaseModelCreationMethodFromType(type)(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
+    static internal func instantiateBaseModelFromType(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable? {
+        if let type = JSONable.getAttributeStringValue("entity_type", jsonString, jsonRange, jsonAttributes, anyDict) {
+            return Base.getBaseModelCreationMethodFromType(type)(attributeName, jsonString, jsonRange, jsonAttributes, anyDict)
         }
-        return Base().initAttributes(attributeName, &jsonString, jsonRange, jsonAttributes, anyDict)
+        return Base().initAttributes(attributeName, jsonString, jsonRange, jsonAttributes, anyDict)
     }
     
     public func getTypeEnum() -> BaseType? {

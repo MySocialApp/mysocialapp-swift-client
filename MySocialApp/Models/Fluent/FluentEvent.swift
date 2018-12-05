@@ -151,10 +151,12 @@ public class FluentEvent {
                         obs.onNext(e)
                         obs.onCompleted()
                     }
-                } else if let e = e.error {
-                    obs.onError(e)
+                } else {
+                    if let e = e.error {
+                        obs.onError(e)
+                    }
+                    obs.onCompleted()
                 }
-                obs.onCompleted()
             }
             return Disposables.create()
             }.observeOn(self.scheduler())

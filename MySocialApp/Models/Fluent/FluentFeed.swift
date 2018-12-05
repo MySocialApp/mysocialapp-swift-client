@@ -109,6 +109,9 @@ public class FluentFeed {
                         obs.onCompleted()
                     }
                 } else {
+                    if let e = e.error {
+                        obs.onError(e)
+                    }
                     obs.onCompleted()
                 }
             }

@@ -1,10 +1,20 @@
 import Foundation
 import RxSwift
 
+internal class StringBox {
+    private var _string: String?
+    internal var string: String? {
+        get { return self._string }
+    }
+    internal init(_ string: String?) {
+        self._string = string
+    }
+}
+
 public class JSONable: NSObject {
     internal static var currentSession: Session?
     internal var session: Session?
-    private var jsonString: String?
+    private var jsonString: StringBox?
     private var jsonRange: Range<String.Index>?
     private var jsonAttributes: [String:JSONPart] = [:]
     
@@ -12,7 +22,7 @@ public class JSONable: NSObject {
     
     internal var mySocialAppException: MySocialAppException?
     
-    internal typealias CreationMethod = (_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable?
+    internal typealias CreationMethod = (_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable?
     
     internal func scheduler() -> ImmediateSchedulerType {
         return self.session?.clientConfiguration.scheduler ?? MainScheduler.instance
@@ -55,48 +65,48 @@ public class JSONable: NSObject {
         }
     }
     
-    internal func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable {
+    internal func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONable {
         if let a = jsonAttributes {
             self.jsonAttributes = a
         } else if let a = anyDict as? [String:Any] {
             self.setDict(a)
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.jsonRange = r
             } else {
                 self.jsonRange = s.startIndex ..< s.endIndex
             }
-            self.jsonString = s
+            self.jsonString = jsonString
             if var j = self.jsonString, let r = self.jsonRange {
-                self.jsonAttributes = self.parseJson(json: &j, range: r)
+                self.jsonAttributes = self.parseJson(json: j, range: r)
             }
         }
         return self
     }
     
-    internal static func getAttributeStringValue(_ attributeName: String, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> String? {
+    internal static func getAttributeStringValue(_ attributeName: String, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> String? {
         if let a = jsonAttributes, let p = a[attributeName] {
             if let v = p.rawValue {
                 return v as? String
             } else if let s = jsonString, let r = p.range {
-                return JSONable.getString(fromJson: String(s[r]))
+                return JSONable.getString(fromJson: s, andRange: r)
             }
         } else if let a = anyDict as? [String:Any] {
             return a[attributeName] as? String
-        } else if var s = jsonString {
+        } else if let sb = jsonString, let s = sb.string {
             var r: [Range<String.Index>]?
             if let range = jsonRange {
-                r = JSONable.getRanges(inString: &s, inRange: range)
+                r = JSONable.getRanges(inString: sb, inRange: range)
             } else {
-                r = JSONable.getRanges(inString: &s, inRange: s.startIndex ..< s.endIndex)
+                r = JSONable.getRanges(inString: sb, inRange: s.startIndex ..< s.endIndex)
             }
             var key: String?
             if let ranges = r {
                 for i in (0..<ranges.count) {
                     if i % 2 == 0 {
-                        key = JSONable.getString(fromJson: String(s[ranges[i]]))
+                        key = JSONable.getString(fromJson: sb, andRange: ranges[i])
                     } else if let k = key, k == attributeName {
-                        return JSONable.getString(fromJson: String(s[ranges[i]]))
+                        return JSONable.getString(fromJson: sb, andRange: ranges[i])
                     }
                 }
             }
@@ -104,7 +114,10 @@ public class JSONable: NSObject {
         return nil
     }
     
-    static internal func getRanges(inString string: inout String, inRange range: Range<String.Index>) -> [Range<String.Index>] {
+    static internal func getRanges(inString string: StringBox, inRange range: Range<String.Index>) -> [Range<String.Index>] {
+        guard let string = string.string else {
+            return []
+        }
         let characters = String(string[range])
         var escaped: Int? = nil
         var inString: Bool = false
@@ -158,13 +171,16 @@ public class JSONable: NSObject {
         return ranges
     }
     
-    internal func parseJson(json jsonString: inout String, range jsonRange: Range<String.Index>) -> [String:JSONPart] {
+    internal func parseJson(json jsonString: StringBox, range jsonRange: Range<String.Index>) -> [String:JSONPart] {
+        guard let string = jsonString.string else {
+            return [:]
+        }
         var attributes: [String:JSONPart] = [:]
-        let ranges = JSONable.getRanges(inString: &jsonString, inRange: (jsonString.index(jsonRange.lowerBound, offsetBy: 1) ..< jsonString.index(jsonRange.upperBound, offsetBy: -1)) )
+        let ranges = JSONable.getRanges(inString: jsonString, inRange: (string.index(jsonRange.lowerBound, offsetBy: 1) ..< string.index(jsonRange.upperBound, offsetBy: -1)) )
         var key: String?
         for i in (0..<ranges.count) {
             if i % 2 == 0 {
-                key = JSONable.getString(fromJson: String(jsonString[ranges[i]]))
+                key = JSONable.getString(fromJson: jsonString, andRange: ranges[i])
             } else if let k = key {
                 attributes[k] = JSONPart(range: ranges[i], value: nil, rawValue: nil)
             }
@@ -200,10 +216,12 @@ public class JSONable: NSObject {
         return nil
     }
     
-    internal static func getString(fromJson json: String) -> String? {
-        if "null" != json, let data = json.data(using: String.Encoding.utf8),
-            let s = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? String {
-            return s
+    internal static func getString(fromJson json: StringBox, andRange range: Range<String.Index>) -> String? {
+        if let string = json.string {
+            let json = String(string[range])
+            if "null" != json, let data = json.data(using: String.Encoding.utf8), let s = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? String {
+                return s
+            }
         }
         return nil
     }
@@ -374,17 +392,17 @@ public class JSONable: NSObject {
             }
             if let rawValue = self.jsonAttributes[name]?.rawValue {
                 if let method = m {
-                    self.jsonAttributes[name]?.value = method(name, &JSONable.NIL_JSON_STRING, nil, nil, rawValue)
+                    self.jsonAttributes[name]?.value = method(name, nil, nil, nil, rawValue)
                 } else {
-                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, &JSONable.NIL_JSON_STRING, nil, nil, rawValue)
+                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, nil, nil, nil, rawValue)
                 }
                 return self.jsonAttributes[name]?.value
             }
             if let range = self.jsonAttributes[name]?.range {
                 if let method = m {
-                    self.jsonAttributes[name]?.value = method(name, &self.jsonString, range, nil, nil)
+                    self.jsonAttributes[name]?.value = method(name, nil, range, nil, nil)
                 } else {
-                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, &self.jsonString, range, nil, nil)
+                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, nil, range, nil, nil)
                 }
                 return self.jsonAttributes[name]?.value
             }
@@ -430,14 +448,14 @@ public class JSONable: NSObject {
         if self.jsonAttributes[name] != nil {
             if self.jsonAttributes[name]?.value == nil {
                 if let value = self.jsonAttributes[name]?.rawValue {
-                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, &JSONable.NIL_JSON_STRING, nil, nil, value)
+                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, nil, nil, nil, value)
                 } else if let range = self.jsonAttributes[name]?.range {
-                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, &self.jsonString, range, nil, nil)
+                    self.jsonAttributes[name]?.value = self.getAttributeCreationMethod(name: name)(name, self.jsonString, range, nil, nil)
                 }
             }
             if let value = self.jsonAttributes[name]?.value {
                 return value.getDict() as AnyObject
-            } else if let json = self.jsonString, let r = self.jsonAttributes[name]?.range {
+            } else if let json = self.jsonString?.string, let r = self.jsonAttributes[name]?.range {
                 return String(json[r]) as AnyObject
             }
         }
@@ -479,7 +497,7 @@ public class JSONable: NSObject {
                             s += e + v
                             sep = ","
                         }
-                    } else if let r = p.range, let jsonString = self.jsonString {
+                    } else if let r = p.range, let jsonString = self.jsonString?.string {
                         let st = String(jsonString[r])
                         s += e + st
                         sep = ","
@@ -501,14 +519,14 @@ internal struct JSONPart {
 class JSONableString: JSONable {
     internal var string: String?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableString {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableString {
         if let a = anyDict as? String {
             self.string = a
         } else if let s = jsonString {
             if let r = jsonRange {
-                self.string = JSONable.getString(fromJson: String(s[r]))
-            } else {
-                self.string = JSONable.getString(fromJson: s)
+                self.string = JSONable.getString(fromJson: s, andRange: r)
+            } else if let string = s.string {
+                self.string = JSONable.getString(fromJson: s, andRange: string.startIndex..<string.endIndex)
             }
         }
         return self
@@ -532,7 +550,7 @@ class JSONableString: JSONable {
 class JSONableDate: JSONable {
     internal var date: Date?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableDate {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableDate {
         if let a = anyDict as? String {
             self.date = DateUtils.fromISO8601(a)
             if self.date == nil {
@@ -540,13 +558,13 @@ class JSONableDate: JSONable {
             }
         } else if let s = jsonString {
             if let r = jsonRange {
-                if let st = JSONable.getString(fromJson: String(s[r])) {
+                if let st = JSONable.getString(fromJson: s, andRange: r) {
                     self.date = DateUtils.fromISO8601(st)
                     if self.date == nil {
                         self.date = DateUtils.fromISO8601ms(st)
                     }
                 }
-            } else if let st = JSONable.getString(fromJson: s) {
+            } else if let string = s.string, let st = JSONable.getString(fromJson: s, andRange: string.startIndex..<string.endIndex) {
                 self.date = DateUtils.fromISO8601(st)
                 if self.date == nil {
                     self.date = DateUtils.fromISO8601ms(st)
@@ -574,12 +592,12 @@ class JSONableDate: JSONable {
 class JSONableBool: JSONable {
     internal var bool: Bool?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableBool {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableBool {
         if let a = anyDict as? Bool {
             self.bool = a
         } else if let a = anyDict as? String {
             self.bool = a.lowercased() == "\(true)"
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.bool = Bool(String(s[r]))
             } else {
@@ -607,10 +625,10 @@ class JSONableBool: JSONable {
 class JSONableInt: JSONable {
     internal var int: Int?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableInt {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableInt {
         if let a = anyDict as? Int {
             self.int = a
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.int = Int(String(s[r]))
             } else {
@@ -638,10 +656,10 @@ class JSONableInt: JSONable {
 class JSONableInt64: JSONable {
     internal var int64: Int64?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableInt64 {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableInt64 {
         if let a = anyDict as? Int64 {
             self.int64 = a
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.int64 = Int64(String(s[r]))
             } else {
@@ -669,10 +687,10 @@ class JSONableInt64: JSONable {
 class JSONableFloat: JSONable {
     internal var float: Float?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableFloat {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableFloat {
         if let a = anyDict as? Float {
             self.float = a
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.float = Float(String(s[r]))
             } else {
@@ -700,10 +718,10 @@ class JSONableFloat: JSONable {
 class JSONableDouble: JSONable {
     internal var double: Double?
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableDouble {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableDouble {
         if let a = anyDict as? Double {
             self.double = a
-        } else if let s = jsonString {
+        } else if let s = jsonString?.string {
             if let r = jsonRange {
                 self.double = Double(String(s[r]))
             } else {
@@ -729,7 +747,7 @@ class JSONableDouble: JSONable {
 }
 
 class JSONableArray<T: JSONable>: JSONable {
-    private var jsonString: String?
+    private var jsonString: StringBox?
     private var jsonRange: Range<String.Index>?
     private var jsonRanges: [Range<String.Index>]?
     private var initialCount: Int = 0
@@ -749,11 +767,11 @@ class JSONableArray<T: JSONable>: JSONable {
                     self.realArray = []
                     for i in a {
                         if let c = self.creationFunction {
-                            if let t = c(nil, &JSONable.NIL_JSON_STRING, nil, nil, i) as? T {
+                            if let t = c(nil, nil, nil, nil, i) as? T {
                                 self.realArray?.append(t)
                             }
                         } else {
-                            if let t = T().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, i) as? T {
+                            if let t = T().initAttributes(nil, nil, nil, nil, i) as? T {
                                 self.realArray?.append(t)
                             }
                         }
@@ -800,12 +818,12 @@ class JSONableArray<T: JSONable>: JSONable {
                 //self.realArray = []
                 for i in a {
                     if let c = self.creationFunction {
-                        if let t = c(nil, &JSONable.NIL_JSON_STRING, nil, nil, i) as? T {
+                        if let t = c(nil, nil, nil, nil, i) as? T {
                             function(t)
                             //self.realArray?.append(t)
                         }
                     } else {
-                        if let t = T().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, i) as? T {
+                        if let t = T().initAttributes(nil, nil, nil, nil, i) as? T {
                             function(t)
                             //self.realArray?.append(t)
                         }
@@ -850,25 +868,25 @@ class JSONableArray<T: JSONable>: JSONable {
         }
     }
     
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableArray<T> {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableArray<T> {
         if let a = anyDict as? [String:Any], let _ = a["total"] as? Int {
             let _ = a.map {
                 key, value in
                 if "total".elementsEqual(key) {
-                    self.partialCount = JSONableInt().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, value)
+                    self.partialCount = JSONableInt().initAttributes(nil, nil, nil, nil, value)
                 } else {
-                    self.partialList = JSONableArray<T>().initAttributes(attributeName, &JSONable.NIL_JSON_STRING, nil, nil, value)
+                    self.partialList = JSONableArray<T>().initAttributes(attributeName, nil, nil, nil, value)
                 }
             }
         } else if let a = anyDict as? [Any] {
             self.rawArray = a
             self.initialCount = a.count
-        } else if let s = jsonString {
+        } else if let s = jsonString, let string = s.string {
             self.jsonString = s
             if let r = jsonRange {
                 self.jsonRange = r
             } else {
-                self.jsonRange = s.startIndex ..< s.endIndex
+                self.jsonRange = string.startIndex ..< string.endIndex
             }
             self.initialCount = self.parseJson()
         }
@@ -889,25 +907,25 @@ class JSONableArray<T: JSONable>: JSONable {
     }
     
     private func parseJson(_ andInstantiate: Bool = false) -> Int {
-        if let range = self.jsonRange, var json = self.jsonString {
+        if let range = self.jsonRange, let json = self.jsonString, let s = json.string {
             if self.jsonRanges == nil {
-                self.jsonRanges = JSONable.getRanges(inString: &json, inRange: (json.index(range.lowerBound, offsetBy: 1) ..< json.index(range.upperBound, offsetBy: -1)))
+                self.jsonRanges = JSONable.getRanges(inString: json, inRange: (s.index(range.lowerBound, offsetBy: 1) ..< s.index(range.upperBound, offsetBy: -1)))
             }
             if let ranges = self.jsonRanges {
                 if andInstantiate && self.realArray == nil {
                     self.realArray = []
                     if ranges.count == 4, let s = self.jsonString,
-                        let ss = JSONable.getString(fromJson: String(s[ranges[0]])), "total".elementsEqual(ss) {
-                        self.partialCount = JSONableInt().initAttributes(nil, &self.jsonString, ranges[1], nil, nil)
-                        self.partialList = JSONableArray<T>().initAttributes(nil, &self.jsonString, ranges[3], nil, nil)
+                        let ss = JSONable.getString(fromJson: s, andRange: ranges[0]), "total".elementsEqual(ss) {
+                        self.partialCount = JSONableInt().initAttributes(nil, self.jsonString, ranges[1], nil, nil)
+                        self.partialList = JSONableArray<T>().initAttributes(nil, self.jsonString, ranges[3], nil, nil)
                     } else {
                         for r in ranges {
                             if let c = self.creationFunction {
-                                if let t = c(nil, &self.jsonString, r, nil, nil) as? T {
+                                if let t = c(nil, self.jsonString, r, nil, nil) as? T {
                                     self.realArray?.append(t)
                                 }
                             } else {
-                                if let t = T().initAttributes(nil, &self.jsonString, r, nil, nil) as? T {
+                                if let t = T().initAttributes(nil, self.jsonString, r, nil, nil) as? T {
                                     self.realArray?.append(t)
                                 }
                             }
@@ -933,7 +951,7 @@ class JSONableArray<T: JSONable>: JSONable {
                     sep = ","
                 }
             }
-        } else if let st = self.jsonString, let r = self.jsonRange {
+        } else if let st = self.jsonString?.string, let r = self.jsonRange {
             return String(st[r])
         }
         s += "]"
@@ -1016,7 +1034,7 @@ class Localizable<T: JSONable>: JSONable {
 }
 
 class JSONableNil: JSONable {
-    internal override func initAttributes(_ attributeName: String?, _ jsonString: inout String?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableNil {
+    internal override func initAttributes(_ attributeName: String?, _ jsonString: StringBox?, _ jsonRange: Range<String.Index>?, _ jsonAttributes: [String:JSONPart]?, _ anyDict: Any?) -> JSONableNil {
         return self
     }
     override internal func getAttributeCreationMethod(name: String) -> CreationMethod {

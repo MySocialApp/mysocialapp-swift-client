@@ -108,6 +108,9 @@ public class FluentPhoto {
                         }
                     }
                 } else {
+                    if let error = $0.error {
+                        obs.onError(error)
+                    }
                     obs.onCompleted()
                 }
             }

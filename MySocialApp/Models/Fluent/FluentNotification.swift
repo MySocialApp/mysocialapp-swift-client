@@ -105,9 +105,9 @@ public class FluentNotification {
     }
     
     public func application(didReceiveRemoteNotification userInfo: [AnyHashable: Any]) throws -> Notification? {
-        if var json = userInfo["json"] as? String?, json != nil, let n = Notification().initAttributes(nil, &json, nil, nil, nil) as? Notification {
+        if var json = userInfo["json"] as? String?, json != nil, let n = Notification().initAttributes(nil, StringBox(json), nil, nil, nil) as? Notification {
             return n
-        } else if let n = Notification().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, userInfo) as? Notification {
+        } else if let n = Notification().initAttributes(nil, nil, nil, nil, userInfo) as? Notification {
             return n
         }
         return nil
@@ -131,7 +131,7 @@ public class FluentNotification {
     
     func application(didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) throws -> Notification? {
         if let o = launchOptions?[.remoteNotification], let d = o as? NSDictionary {
-            return Notification().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, d.dictionaryWithValues(forKeys: d.allKeys as! [String])) as? Notification
+            return Notification().initAttributes(nil, nil, nil, nil, d.dictionaryWithValues(forKeys: d.allKeys as! [String])) as? Notification
         }
         return nil
     }

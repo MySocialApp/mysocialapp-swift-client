@@ -74,10 +74,12 @@ public class MySocialApp {
                         }
                         obs.onCompleted()
                     }
-                } else if let error = e.error {
-                    obs.onError(error)
+                } else {
+                    if let error = e.error {
+                        obs.onError(error)
+                    }
+                    obs.onCompleted()
                 }
-                obs.onCompleted()
             }
             return Disposables.create()
             }.observeOn(self.scheduler())

@@ -41,7 +41,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
+                        obs.onNext(O().initAttributes(nil, nil, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -97,7 +97,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
+                        obs.onNext(O().initAttributes(nil, nil, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -151,7 +151,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
+                        obs.onNext(O().initAttributes(nil, nil, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -203,7 +203,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(JSONableArray<O>([O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O]))
+                        obs.onNext(JSONableArray<O>([O().initAttributes(nil, nil, nil, nil, json) as! O]))
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -230,7 +230,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(JSONableArray<O>().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json))
+                        obs.onNext(JSONableArray<O>().initAttributes(nil, nil, nil, nil, json))
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -257,7 +257,7 @@ class RestBase<I:JSONable, O:JSONable> {
                         obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
                     } else {
                         JSONable.currentSession = self.session
-                        obs.onNext(O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! O)
+                        obs.onNext(O().initAttributes(nil, nil, nil, nil, json) as! O)
                     }
                 } else if let status = res.response?.statusCode, status < 300, status >= 200 {
                     // Empty response but status code OK
@@ -362,7 +362,7 @@ class RestBase<I:JSONable, O:JSONable> {
                     let _ = request.responseJSON {
                         res in
                         if let json = res.result.value {
-                            var o = O().initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as? O
+                            var o = O().initAttributes(nil, nil, nil, nil, json) as? O
                             if let status = res.response?.statusCode, status >= 400 {
                                 if o == nil {
                                     o = O()
@@ -499,10 +499,9 @@ public class MySocialAppException: JSONable, Error {
     public static func fromResponse(responseCode: Int?, json: Any? = nil, string: String? = nil) -> MySocialAppException {
         var e = MySocialAppException()
         if let _ = json {
-            e = e.initAttributes(nil, &JSONable.NIL_JSON_STRING, nil, nil, json) as! MySocialAppException
+            e = e.initAttributes(nil, nil, nil, nil, json) as! MySocialAppException
         } else if string != nil {
-            var s = string
-            e = e.initAttributes(nil, &s, nil, nil, nil) as! MySocialAppException
+            e = e.initAttributes(nil, StringBox(string), nil, nil, nil) as! MySocialAppException
         }
         if let r = responseCode {
             e.setIntAttribute(withName: "status", r)
