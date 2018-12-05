@@ -1,0 +1,11 @@
+framework module MySocialApp {
+  umbrella header "MySocialApp.h"
+
+  export *
+  module * { export * }
+}
+
+module MySocialApp.Swift {
+    header "MySocialApp-Swift.h"
+    requires objc
+}

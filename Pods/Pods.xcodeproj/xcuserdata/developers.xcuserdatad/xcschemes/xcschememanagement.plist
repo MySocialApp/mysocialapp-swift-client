@@ -25,15 +25,12 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
-		<key>Pods-MySocialAppTestAppTests.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
 		<key>Pods-MySocialAppTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>5</integer>
 		</dict>
 		<key>RxBlocking.xcscheme</key>
 		<dict>
