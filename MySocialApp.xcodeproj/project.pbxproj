@@ -156,10 +156,45 @@
 		0DEAE0D720BE0CCC00EDE0DC /* RestFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */; };
 		0DEAE0D920BE0D0500EDE0DC /* RestUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */; };
 		0DEAE0DB20BE0D3700EDE0DC /* AuthenticationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */; };
+		9AC9D274030D24010E58270C /* Pods_MySocialAppTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D82772077715D94E562F07A3 /* Pods_MySocialAppTestApp.framework */; };
 		9B22CEBC72007F80399ABB56 /* Pods_MySocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0CF1E4099BF19D6E960120A /* Pods_MySocialApp.framework */; };
+		C901B41321B803F600612EF4 /* MySocialAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C901B41221B803F600612EF4 /* MySocialAppTests.swift */; };
+		C901B41521B803F600612EF4 /* MySocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D97D16C20A57A6A008A82FF /* MySocialApp.framework */; };
+		C901B42221B806FE00612EF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C901B42121B806FE00612EF4 /* AppDelegate.swift */; };
+		C901B42421B806FE00612EF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C901B42321B806FE00612EF4 /* ViewController.swift */; };
+		C901B42721B806FE00612EF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C901B42521B806FE00612EF4 /* Main.storyboard */; };
+		C901B42A21B806FE00612EF4 /* MySocialAppTestApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C901B42821B806FE00612EF4 /* MySocialAppTestApp.xcdatamodeld */; };
+		C901B42C21B806FF00612EF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C901B42B21B806FF00612EF4 /* Assets.xcassets */; };
+		C901B42F21B806FF00612EF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C901B42D21B806FF00612EF4 /* LaunchScreen.storyboard */; };
+		DB1A34ABD249EC0E2E1A70B9 /* Pods_MySocialAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022BEB50BE7C4DF2719A6199 /* Pods_MySocialAppTests.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C901B41621B803F600612EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D97D16320A57A6A008A82FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D97D16B20A57A6A008A82FF;
+			remoteInfo = MySocialApp;
+		};
+		C901B45021B8070600612EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D97D16320A57A6A008A82FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C901B41E21B806FE00612EF4;
+			remoteInfo = MySocialAppTestApp;
+		};
+		C901B45221B807DE00612EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D97D16320A57A6A008A82FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D97D16B20A57A6A008A82FF;
+			remoteInfo = MySocialApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		022BEB50BE7C4DF2719A6199 /* Pods_MySocialAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D0C380020E2DBA100BC520F /* RestJSONable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestJSONable.swift; sourceTree = "<group>"; };
 		0D620D3720ACF15800165A43 /* FluentAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentAccount.swift; sourceTree = "<group>"; };
 		0D620D3920ACF4C400165A43 /* FluentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentFeed.swift; sourceTree = "<group>"; };
@@ -311,8 +346,27 @@
 		0DEAE0D620BE0CCC00EDE0DC /* RestFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestFriendRequest.swift; sourceTree = "<group>"; };
 		0DEAE0D820BE0D0500EDE0DC /* RestUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUser.swift; sourceTree = "<group>"; };
 		0DEAE0DA20BE0D3700EDE0DC /* AuthenticationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationToken.swift; sourceTree = "<group>"; };
+		11814A6A8B692C3530BFC06E /* Pods_MySocialAppTestAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialAppTestAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A5E73B6E5955D6A18E04E5 /* Pods-MySocialApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.debug.xcconfig"; sourceTree = "<group>"; };
+		69BEEC360EF16D27CEB94802 /* Pods-MySocialAppTestAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTestAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTestAppTests/Pods-MySocialAppTestAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A626C00777C3EF59155AD757 /* Pods-MySocialAppTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTestApp/Pods-MySocialAppTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		A76F0CC97470FA8BC8E7770E /* Pods-MySocialAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AFAABDF3FC3FA3E4A4AF42F7 /* Pods-MySocialAppTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTestApp/Pods-MySocialAppTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		C0CF1E4099BF19D6E960120A /* Pods_MySocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5A4758243D5FBA7BBAF667E /* Pods-MySocialAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		C901B41021B803F600612EF4 /* MySocialAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySocialAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C901B41221B803F600612EF4 /* MySocialAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySocialAppTests.swift; sourceTree = "<group>"; };
+		C901B41421B803F600612EF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C901B41F21B806FE00612EF4 /* MySocialAppTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySocialAppTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C901B42121B806FE00612EF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C901B42321B806FE00612EF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C901B42621B806FE00612EF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C901B42921B806FE00612EF4 /* MySocialAppTestApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MySocialAppTestApp.xcdatamodel; sourceTree = "<group>"; };
+		C901B42B21B806FF00612EF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C901B42E21B806FF00612EF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C901B43021B806FF00612EF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D575DDF82618D22AE0DC40E4 /* Pods-MySocialAppTestAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialAppTestAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialAppTestAppTests/Pods-MySocialAppTestAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		D82772077715D94E562F07A3 /* Pods_MySocialAppTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MySocialAppTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFCF2100FDF8FDE2AE3717E1 /* Pods-MySocialApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySocialApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MySocialApp/Pods-MySocialApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -325,6 +379,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C901B40D21B803F600612EF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C901B41521B803F600612EF4 /* MySocialApp.framework in Frameworks */,
+				DB1A34ABD249EC0E2E1A70B9 /* Pods_MySocialAppTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C901B41C21B806FE00612EF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AC9D274030D24010E58270C /* Pods_MySocialAppTestApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -332,6 +403,9 @@
 			isa = PBXGroup;
 			children = (
 				C0CF1E4099BF19D6E960120A /* Pods_MySocialApp.framework */,
+				D82772077715D94E562F07A3 /* Pods_MySocialAppTestApp.framework */,
+				11814A6A8B692C3530BFC06E /* Pods_MySocialAppTestAppTests.framework */,
+				022BEB50BE7C4DF2719A6199 /* Pods_MySocialAppTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -357,6 +431,8 @@
 			isa = PBXGroup;
 			children = (
 				0D97D16E20A57A6A008A82FF /* MySocialApp */,
+				C901B41121B803F600612EF4 /* MySocialAppTests */,
+				C901B42021B806FE00612EF4 /* MySocialAppTestApp */,
 				0D97D16D20A57A6A008A82FF /* Products */,
 				348364A9B9B29352C165206E /* Pods */,
 				02258222490EBFF3B7E8E169 /* Frameworks */,
@@ -367,6 +443,8 @@
 			isa = PBXGroup;
 			children = (
 				0D97D16C20A57A6A008A82FF /* MySocialApp.framework */,
+				C901B41021B803F600612EF4 /* MySocialAppTests.xctest */,
+				C901B41F21B806FE00612EF4 /* MySocialAppTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -556,8 +634,37 @@
 			children = (
 				11A5E73B6E5955D6A18E04E5 /* Pods-MySocialApp.debug.xcconfig */,
 				FFCF2100FDF8FDE2AE3717E1 /* Pods-MySocialApp.release.xcconfig */,
+				A626C00777C3EF59155AD757 /* Pods-MySocialAppTestApp.debug.xcconfig */,
+				AFAABDF3FC3FA3E4A4AF42F7 /* Pods-MySocialAppTestApp.release.xcconfig */,
+				69BEEC360EF16D27CEB94802 /* Pods-MySocialAppTestAppTests.debug.xcconfig */,
+				D575DDF82618D22AE0DC40E4 /* Pods-MySocialAppTestAppTests.release.xcconfig */,
+				A76F0CC97470FA8BC8E7770E /* Pods-MySocialAppTests.debug.xcconfig */,
+				C5A4758243D5FBA7BBAF667E /* Pods-MySocialAppTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C901B41121B803F600612EF4 /* MySocialAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				C901B41221B803F600612EF4 /* MySocialAppTests.swift */,
+				C901B41421B803F600612EF4 /* Info.plist */,
+			);
+			path = MySocialAppTests;
+			sourceTree = "<group>";
+		};
+		C901B42021B806FE00612EF4 /* MySocialAppTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				C901B42121B806FE00612EF4 /* AppDelegate.swift */,
+				C901B42321B806FE00612EF4 /* ViewController.swift */,
+				C901B42521B806FE00612EF4 /* Main.storyboard */,
+				C901B42B21B806FF00612EF4 /* Assets.xcassets */,
+				C901B42D21B806FF00612EF4 /* LaunchScreen.storyboard */,
+				C901B43021B806FF00612EF4 /* Info.plist */,
+				C901B42821B806FE00612EF4 /* MySocialAppTestApp.xcdatamodeld */,
+			);
+			path = MySocialAppTestApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,19 +700,67 @@
 			productReference = 0D97D16C20A57A6A008A82FF /* MySocialApp.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		C901B40F21B803F600612EF4 /* MySocialAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C901B41A21B803F600612EF4 /* Build configuration list for PBXNativeTarget "MySocialAppTests" */;
+			buildPhases = (
+				008A3F79C2191275299EAF87 /* [CP] Check Pods Manifest.lock */,
+				C901B40C21B803F600612EF4 /* Sources */,
+				C901B40D21B803F600612EF4 /* Frameworks */,
+				C901B40E21B803F600612EF4 /* Resources */,
+				068841C6D3C8B8CD76C45A09 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C901B41721B803F600612EF4 /* PBXTargetDependency */,
+				C901B45121B8070600612EF4 /* PBXTargetDependency */,
+			);
+			name = MySocialAppTests;
+			productName = MySocialAppTests;
+			productReference = C901B41021B803F600612EF4 /* MySocialAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C901B41E21B806FE00612EF4 /* MySocialAppTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C901B44721B8070000612EF4 /* Build configuration list for PBXNativeTarget "MySocialAppTestApp" */;
+			buildPhases = (
+				DA35A0774232207FD7685814 /* [CP] Check Pods Manifest.lock */,
+				C901B41B21B806FE00612EF4 /* Sources */,
+				C901B41C21B806FE00612EF4 /* Frameworks */,
+				C901B41D21B806FE00612EF4 /* Resources */,
+				E9577422FDD73F8DE2666A3D /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C901B45321B807DE00612EF4 /* PBXTargetDependency */,
+			);
+			name = MySocialAppTestApp;
+			productName = MySocialAppTestApp;
+			productReference = C901B41F21B806FE00612EF4 /* MySocialAppTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		0D97D16320A57A6A008A82FF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = 4Tech;
 				TargetAttributes = {
 					0D97D16B20A57A6A008A82FF = {
 						CreatedOnToolsVersion = 9.3;
 						LastSwiftMigration = 0930;
+					};
+					C901B40F21B803F600612EF4 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = C901B41E21B806FE00612EF4;
+					};
+					C901B41E21B806FE00612EF4 = {
+						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
@@ -615,6 +770,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0D97D16220A57A6A008A82FF;
 			productRefGroup = 0D97D16D20A57A6A008A82FF /* Products */;
@@ -622,6 +778,8 @@
 			projectRoot = "";
 			targets = (
 				0D97D16B20A57A6A008A82FF /* MySocialApp */,
+				C901B40F21B803F600612EF4 /* MySocialAppTests */,
+				C901B41E21B806FE00612EF4 /* MySocialAppTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -634,9 +792,76 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C901B40E21B803F600612EF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C901B41D21B806FE00612EF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C901B42F21B806FF00612EF4 /* LaunchScreen.storyboard in Resources */,
+				C901B42C21B806FF00612EF4 /* Assets.xcassets in Resources */,
+				C901B42721B806FE00612EF4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		008A3F79C2191275299EAF87 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MySocialAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		068841C6D3C8B8CD76C45A09 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTests/Pods-MySocialAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		ACAA8BAF88B5C915E8315073 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -657,6 +882,56 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA35A0774232207FD7685814 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MySocialAppTestApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9577422FDD73F8DE2666A3D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTestApp/Pods-MySocialAppTestApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MySocialAppTestApp/Pods-MySocialAppTestApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -817,7 +1092,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C901B40C21B803F600612EF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C901B41321B803F600612EF4 /* MySocialAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C901B41B21B806FE00612EF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C901B42421B806FE00612EF4 /* ViewController.swift in Sources */,
+				C901B42221B806FE00612EF4 /* AppDelegate.swift in Sources */,
+				C901B42A21B806FE00612EF4 /* MySocialAppTestApp.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C901B41721B803F600612EF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D97D16B20A57A6A008A82FF /* MySocialApp */;
+			targetProxy = C901B41621B803F600612EF4 /* PBXContainerItemProxy */;
+		};
+		C901B45121B8070600612EF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C901B41E21B806FE00612EF4 /* MySocialAppTestApp */;
+			targetProxy = C901B45021B8070600612EF4 /* PBXContainerItemProxy */;
+		};
+		C901B45321B807DE00612EF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D97D16B20A57A6A008A82FF /* MySocialApp */;
+			targetProxy = C901B45221B807DE00612EF4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C901B42521B806FE00612EF4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C901B42621B806FE00612EF4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C901B42D21B806FF00612EF4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C901B42E21B806FF00612EF4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0D97D17E20A57A6A008A82FF /* Debug */ = {
@@ -995,6 +1325,96 @@
 			};
 			name = Release;
 		};
+		C901B41821B803F600612EF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A76F0CC97470FA8BC8E7770E /* Pods-MySocialAppTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9BSXY77HTN;
+				INFOPLIST_FILE = MySocialAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycoachsport.MySocialAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MySocialAppTestApp.app/MySocialAppTestApp";
+			};
+			name = Debug;
+		};
+		C901B41921B803F600612EF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5A4758243D5FBA7BBAF667E /* Pods-MySocialAppTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9BSXY77HTN;
+				INFOPLIST_FILE = MySocialAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycoachsport.MySocialAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MySocialAppTestApp.app/MySocialAppTestApp";
+			};
+			name = Release;
+		};
+		C901B44821B8070000612EF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A626C00777C3EF59155AD757 /* Pods-MySocialAppTestApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9BSXY77HTN;
+				INFOPLIST_FILE = MySocialAppTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycoachsport.MySocialAppTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C901B44921B8070000612EF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFAABDF3FC3FA3E4A4AF42F7 /* Pods-MySocialAppTestApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9BSXY77HTN;
+				INFOPLIST_FILE = MySocialAppTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycoachsport.MySocialAppTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1016,7 +1436,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		C901B41A21B803F600612EF4 /* Build configuration list for PBXNativeTarget "MySocialAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C901B41821B803F600612EF4 /* Debug */,
+				C901B41921B803F600612EF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C901B44721B8070000612EF4 /* Build configuration list for PBXNativeTarget "MySocialAppTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C901B44821B8070000612EF4 /* Debug */,
+				C901B44921B8070000612EF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C901B42821B806FE00612EF4 /* MySocialAppTestApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C901B42921B806FE00612EF4 /* MySocialAppTestApp.xcdatamodel */,
+			);
+			currentVersion = C901B42921B806FE00612EF4 /* MySocialAppTestApp.xcdatamodel */;
+			path = MySocialAppTestApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0D97D16320A57A6A008A82FF /* Project object */;
 }

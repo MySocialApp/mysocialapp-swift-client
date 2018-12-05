@@ -12,4 +12,11 @@ target 'MySocialApp' do
   pod 'RxBlocking'
   pod 'Alamofire'
 
+  target 'MySocialAppTestApp' do
+      inherit! :search_paths
+  end
+
+  target 'MySocialAppTests' do
+      inherit! :search_paths
+  end
 end
