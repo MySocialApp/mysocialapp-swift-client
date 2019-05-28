@@ -246,7 +246,34 @@ class RestBase<I:JSONable, O:JSONable> {
         }.observeOn(self.scheduler())
         .subscribeOn(self.scheduler())
     }
-    
+
+    func postForList(_ resourceURL: String, input: AnyObject?, params: [String:AnyObject] = [:]) -> Observable<JSONableArray<O>> {
+        return Observable.create {
+            obs in
+            self.postRequest(StringUtils.safeTrim(self.resourceURLhandler(resourceURL)), dict: input, parameters: params).responseJSON {
+                res in
+                if let json = res.result.value {
+                    if let status = res.response?.statusCode, status >= 400 {
+                        obs.onError(MySocialAppException.fromResponse(responseCode: status, json: json))
+                    } else {
+                        JSONable.currentSession = self.session
+                        obs.onNext(JSONableArray<O>().initAttributes(nil, nil, nil, nil, json))
+                    }
+                } else if let status = res.response?.statusCode, status < 300, status >= 200 {
+                    // Empty response but status code OK
+                    JSONable.currentSession = self.session
+                    obs.onNext(JSONableArray<O>())
+                } else {
+                    obs.onCompleted()
+                }
+            }
+            
+            return Disposables.create()
+            
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
+    }
+
     func update(_ resourceURL: String, input: I) -> Observable<O> {
         return Observable.create {
             obs in

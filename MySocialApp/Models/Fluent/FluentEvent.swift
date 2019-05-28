@@ -122,7 +122,7 @@ public class FluentEvent {
                             if let _ = photo {
                                 e.profileImage = nil
                                 if let i = e.profileCoverImage {
-                                    self.session.clientService.photo.postPhoto(i, forModel: e, forCover: false) {
+                                    self.session.clientService.photo.postPhoto(i, forModel: e, forCover: true) {
                                         photo in
                                         if let _ = photo {
                                             e.profileCoverImage = nil

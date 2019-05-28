@@ -3,14 +3,16 @@ import RxSwift
 
 class RestFeed: RestBase<Feed, Feed> {
     
-    func list(_ page: Int, size: Int = 10, forUser: User? = nil, forGroup: Group? = nil, forEvent: Event? = nil, forRide: Ride? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
+    func list(_ page: Int, size: Int = 10, forAlgorithm: AnyObject? = nil, forUser: User? = nil, forGroup: Group? = nil, forEvent: Event? = nil, forRide: Ride? = nil, withParams: [String:AnyObject]? = nil) -> Observable<JSONableArray<Feed>> {
         var params: [String:AnyObject] = ["page": String(page) as AnyObject, "size": String(size) as AnyObject]
         if let p = withParams {
             for k in p.keys {
                 params[k] = p[k]
             }
         }
-        if let id = forUser?.id {
+        if let algorithm = forAlgorithm {
+            return super.postForList("/feed", input: algorithm, params: params)
+        } else if let id = forUser?.id {
             return super.list("/user/\(id)/wall", params: params)
         } else if let id = forGroup?.id {
             return super.list("/group/\(id)/wall", params: params)

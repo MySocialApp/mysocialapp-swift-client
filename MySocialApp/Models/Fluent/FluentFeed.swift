@@ -14,14 +14,14 @@ public class FluentFeed {
         return self.session.clientConfiguration.scheduler
     }
 
-    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0) {
+    private func stream(_ page: Int, _ to: Int, _ obs: AnyObserver<Feed>, offset: Int = 0, forAlgorithm: AnyObject? = nil) {
         guard offset < FluentFeed.PAGE_SIZE else {
-            self.stream(page+1, to, obs, offset: offset - FluentFeed.PAGE_SIZE)
+            self.stream(page+1, to, obs, offset: offset - FluentFeed.PAGE_SIZE, forAlgorithm: forAlgorithm)
             return
         }
         let size = min(FluentFeed.PAGE_SIZE,to - (page * FluentFeed.PAGE_SIZE))
         if size > 0 {
-            let _ = session.clientService.feed.list(page, size: size).subscribe {
+            let _ = session.clientService.feed.list(page, size: size, forAlgorithm: forAlgorithm).subscribe {
                 e in
                 if let e = e.element?.array {
                     for i in offset..<e.count {
@@ -30,7 +30,7 @@ public class FluentFeed {
                     if e.count < FluentFeed.PAGE_SIZE {
                         obs.onCompleted()
                     } else {
-                        self.stream(page + 1, to, obs)
+                        self.stream(page + 1, to, obs, forAlgorithm: forAlgorithm)
                     }
                 } else if let error = e.error {
                     obs.onError(error)
@@ -44,19 +44,19 @@ public class FluentFeed {
         }
     }
     
-    public func blockingStream(limit: Int = Int.max) throws -> [Feed] {
-        return try self.list(page: 0, size: limit).toBlocking().toArray()
+    public func blockingStream(limit: Int = Int.max, forAlgorithm: AnyObject? = nil) throws -> [Feed] {
+        return try self.list(page: 0, size: limit, forAlgorithm: forAlgorithm).toBlocking().toArray()
     }
     
-    public func stream(limit: Int = Int.max) throws -> Observable<Feed> {
-        return self.list(page: 0, size: limit)
+    public func stream(limit: Int = Int.max, forAlgorithm: AnyObject? = nil) throws -> Observable<Feed> {
+        return self.list(page: 0, size: limit, forAlgorithm: forAlgorithm)
     }
     
-    public func blockingList(page: Int = 0, size: Int = 10) throws -> [Feed] {
-        return try self.list(page: page, size: size).toBlocking().toArray()
+    public func blockingList(page: Int = 0, size: Int = 10, forAlgorithm: AnyObject? = nil) throws -> [Feed] {
+        return try self.list(page: page, size: size, forAlgorithm: forAlgorithm).toBlocking().toArray()
     }
 
-    public func list(page: Int = 0, size: Int = 10) -> Observable<Feed> {
+    public func list(page: Int = 0, size: Int = 10, forAlgorithm: AnyObject? = nil) -> Observable<Feed> {
         return Observable.create {
             obs in
             let to = (page+1) * size
@@ -64,9 +64,9 @@ public class FluentFeed {
                 var offset = page*size
                 let page = offset / FluentFeed.PAGE_SIZE
                 offset -= page * FluentFeed.PAGE_SIZE
-                self.stream(page, to, obs, offset: offset)
+                self.stream(page, to, obs, offset: offset, forAlgorithm: forAlgorithm)
             } else {
-                self.stream(page, to, obs)
+                self.stream(page, to, obs, forAlgorithm: forAlgorithm)
             }
             return Disposables.create()
             }.observeOn(self.scheduler())

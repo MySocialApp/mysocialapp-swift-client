@@ -8,5 +8,5 @@ public enum EventStatus: String {
     case NoResponse = "NO_RESPONSE"
     case NotAvailable = "NOT_AVAILABLE"
     case HasCancelled = "HAS_CANCELLED"
-    case HasCancelledAfterHavingConfirmed = "HAS_CONFIRMED_AFTER_HAVING_CONFIRMED"
+    case HasCancelledAfterHavingConfirmed = "HAS_CANCELLED_AFTER_HAVING_CONFIRMED"
 }
