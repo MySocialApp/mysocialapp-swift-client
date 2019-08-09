@@ -29,4 +29,14 @@ class RestConversation: RestBase<Conversation, Conversation> {
     func delete(_ id: Int64) -> Observable<Bool> {
         return super.delete("/conversation/\(id)", params: [:])
     }
+    
+    func silent(_ id: Int64, _ enabled: Bool) -> Observable<Void> {
+        if enabled {
+            return super.postVoid("/conversation/\(id)/silent", input: nil)
+        } else {
+            return super.delete("/conversation/\(id)/silent").map {
+                _ in
+            }
+        }
+    }
 }

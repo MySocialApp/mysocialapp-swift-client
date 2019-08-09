@@ -17,6 +17,9 @@ public class Conversation: Base {
         get { return (self.getAttributeInstance("members") as! JSONableArray<User>?)?.array }
         set(members) { self.setArrayAttribute(withName: "members", members) }
     }
+    public var silent: Bool? {
+        get { return (self.getAttributeInstance("silent") as! JSONableBool?)?.bool }
+    }
     
     internal override func getAttributeCreationMethod(name: String) -> CreationMethod {
         switch name {
@@ -26,6 +29,8 @@ public class Conversation: Base {
             return ConversationMessages().initAttributes
         case "members":
             return JSONableArray<User>().initAttributes
+        case "silent":
+            return JSONableBool().initAttributes
         default:
             return super.getAttributeCreationMethod(name: name)
         }
@@ -161,6 +166,25 @@ public class Conversation: Base {
     
     public func quit() -> Observable<Bool> {
         return self.delete()
+    }
+    
+    public func makeSilent(silent: Bool) -> Observable<Conversation> {
+        if let s = session {
+            if let id = self.id {
+                return s.clientService.conversation.silent(id, silent).map {
+                    _ in
+                    return self
+                }
+            }
+        }
+        return Observable.create {
+            obs in
+            let e = MySocialAppException()
+            e.setStringAttribute(withName: "message", "No session associated with this entity")
+            obs.onError(e)
+            return Disposables.create()
+            }.observeOn(self.scheduler())
+            .subscribeOn(self.scheduler())
     }
     
     public class Builder {
